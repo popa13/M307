@@ -1,5 +1,5 @@
 # A note to the viewer
-You will find all the resources that I created while teaching Linear Algebra and Differential Equations (M307) at the University of Hawai'i at Manoa. You can see below a screenshot of the home page of the website I created for the class. The website can be accessed through this link: [https://mathopo.ca/courses-website/math-241/math-241](https://mathopo.ca/courses-website/math-307/math-307).
+You will find all the resources that I created while teaching Linear Algebra and Differential Equations (M307) at the University of Hawai'i at Manoa. You can see below a screenshot of the home page of the website I created for the class. The website can be accessed through this link: [https://mathopo.ca/courses-website/math-307/math-307](https://mathopo.ca/courses-website/math-307/math-307).
 
 ![Home page](M307-homepage.png)
 
