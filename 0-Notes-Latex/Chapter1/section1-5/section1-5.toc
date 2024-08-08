@@ -1,0 +1,11 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{Origin of the Determinant}{2}{section*.1}%
+\contentsline {section}{Definition}{3}{section*.2}%
+\contentsline {subsection}{2 by 2 matrices}{3}{subsection*.3}%
+\contentsline {subsection}{3 by 3 matrices}{4}{subsection*.4}%
+\contentsline {subsection}{For General Matrices}{6}{subsection*.5}%
+\contentsline {subsection}{Determinant from any row or column}{7}{subsection*.6}%
+\contentsline {section}{Important Properties of Determinants}{8}{section*.7}%
+\contentsline {subsection}{When there too many zeros...}{8}{subsection*.8}%
+\contentsline {subsection}{When the type matters!}{9}{subsection*.9}%
+\contentsline {subsection}{When Operations matter!}{10}{subsection*.10}%

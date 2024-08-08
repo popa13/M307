@@ -1,0 +1,310 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{environ}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[colorlinks = true, linkcolor = black]{hyperref}
+\usepackage{xparse}
+\usepackage{enumerate}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{multicol}
+
+\newcommand{\spaceP}{\vspace*{0.5cm}}
+
+%% Redefining sections
+\newcommand{\sectionformat}[1]{%
+    \begin{tikzpicture}[baseline=(title.base)]
+        \node[rectangle, draw] (title) {#1};
+    \end{tikzpicture}
+    
+    \noindent\hrulefill
+}
+
+% default values copied from titlesec documentation page 23
+% parameters of \titleformat command are explained on page 4
+\titleformat%
+    {\section}% <command> is the sectioning command to be redefined, i. e., \part, \chapter, \section, \subsection, \subsubsection, \paragraph or \subparagraph.
+    {\normalfont\large\scshape}% <format>
+    {}% <label> the number
+    {0em}% <sep> length. horizontal separation between label and title body
+    {\centering\sectionformat}% code preceding the title body  (title body is taken as argument)
+
+%% Set counters for sections to none
+\setcounter{secnumdepth}{0}
+
+%% Set the footer/headers
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{2pt}
+\lfoot{P.-O. Paris{\'e}}
+\cfoot{MATH 307}
+\rfoot{Page \thepage}
+
+%% Defining example environment
+\newcounter{example}[section]
+\NewEnviron{example}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{red}{Example~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+% Theorem environment
+\NewEnviron{theorem}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{blue}{Theorem~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+%% Commands for matrix of dimensions m x n
+%\newcommand{\matMN}[1]{%
+%	\begin{bmatrix}
+%	#1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+%	#1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+%	#1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+%	\vdots & \vdots & \vdots & \ddots & \vdots \\
+%	#1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+%	\end{bmatrix}		
+%	}
+	
+\NewDocumentCommand{\matMN}{mg}{%
+	\IfNoValueTF{#2}
+		{%
+		  \begin{bmatrix}
+		   #1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+	       #1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+		   #1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+		   \end{bmatrix}	%
+		}
+		{%
+		   \begin{bmatrix}
+		   #1_{11} + #2_{11} & #1_{12} + #2_{12} & \cdots & #1_{1n} + #2_{2n} \\
+		   #1_{21} + #2_{21} & #1_{22} + #2_{22} & \cdots & #1_{2n} + #2_{2n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} + #2_{m1} & #1_{m2} + #2_{m2} & \cdots & #1_{mn} + #2_{mn}
+		   \end{bmatrix}
+		}%
+}
+
+%%%%
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+\vspace*{2.5cm}
+
+{\Huge \textsc{Math 307}}
+
+\vspace*{2cm}
+
+{\LARGE \textsc{Chapter 1}} 
+
+\vspace*{0.75cm}
+
+\noindent\textsc{Section 1.4: Special Matrices and Additional Properties}
+
+\vspace*{0.75cm}
+
+\tableofcontents
+
+\vfill
+
+\noindent \textsc{Created by: Pierre-Olivier Paris{\'e}} \\
+\textsc{Summer 2022}
+\end{center}
+
+\newpage
+
+\section{Diagonal Matrices}
+A diagonal matrix is a square matrix whose off diagonal entries are zero.
+
+	\begin{itemize}
+	\item \underline{Remark}: We denote a diagonal matrix by $\mathrm{diag}\,  (d_1 , d_2 , \ldots , d_n )$.
+	\end{itemize}
+	
+	\begin{example}
+	Give some examples of diagonal matrices.
+	\end{example}
+	
+	\vfill
+	
+	\begin{example}
+	Suppose $A = \mathrm{diag} (1, 2, -4, 3, 5 )$ and $B = \mathrm{diag} (-1 , 2, 0, 4, 3)$.
+	\begin{multicols}{3}
+		\begin{enumerate}[1)]
+		\item Is $A$ invertible?
+		\item Is $A + B$ invertible?
+		\item Is $AB$ invertible?
+		\end{enumerate}
+	\end{multicols}
+	\end{example}
+	
+	\vfill
+	
+	\newpage
+	
+	\phantom{2}
+	
+	\vfill
+	
+	\noindent\underline{General Facts}:
+	Suppose $A$ and $B$ are diagonal matrices
+		\begin{align*}
+		A = \mathrm{diag}\, (a_1 , a_2 , \ldots , a_n ) \quad \text{ and } \quad B = \mathrm{diag}\, (b_1 , b_2 , \ldots , b_n ) .
+		\end{align*}
+	\begin{itemize}
+	\item $A + B = \mathrm{diag} \, (a_1 + b_1 , a_2 + b_2 , \ldots , a_n + b_n )$.
+	\item $AB = \mathrm{diag} \, (a_1 b_1 , a_2 b_2 , \ldots , a_n b_n )$.
+	\item $A$ is invertible if and only if $a_i \neq 0$ for each $i$. In this case, we have 
+		$$
+		A^{-1} = \mathrm{diag}\, ( 1/a_1 , 1/a_2 , \ldots , 1/a_n ).
+		$$
+	\end{itemize}	
+	
+\newpage
+	
+\section{Triangular Matrices}
+
+	\begin{itemize}
+	\item \underline{Upper Triangular}: Square matrices whose entries below the diagonal are zero.
+	\item \underline{Lower Triangular}: Square matrices whose entries above the diagonal are zero.
+	\end{itemize}
+	
+	\begin{example}
+	Give an example of an upper triangular matrix and an example of a lower triangular matrix.
+	\end{example}
+	
+
+\newpage
+
+\noindent\underline{General Facts}:
+		\begin{itemize}
+		\item If $A$ and $B$ are both upper triangular, then so is $A + B$; similarly if $A$ and $B$ are both lower triangular, then so is $A + B$.
+		\item If $A$ and $B$ are both upper triangular, then so is $AB$; similarly if $A$ and $B$ are both lower triangular, then so is $AB$.
+		\item $A$ is invertible if and only if each of the diagonal entries of $A$ is nonzero.
+		\end{itemize}
+
+
+	\begin{example}
+	Let $A$ and $B$ be the two following $3 \times 3$ matrices:
+		\begin{align*}
+		A = \begin{bmatrix}
+		1 & 2 & 3 \\
+		0 & 4 & 5 \\
+		0 & 0 & 7
+		\end{bmatrix}
+		\quad \text{ and } \quad
+		B = \begin{bmatrix}
+		-1 & 4 & 1 \\
+		0 & -1 & 2 \\
+		0 & 0 & 0 
+		\end{bmatrix} .
+		\end{align*}
+	\begin{multicols}{3}
+		\begin{enumerate}
+		\item Is $A$ invertible?
+		\item Is $B$ invertible?
+		\item Is $AB$ upper or lower triangular matrix?
+		\end{enumerate}
+	\end{multicols}
+	\end{example}
+	
+\newpage
+	
+\section{Symmetric Matrices}
+
+\begin{itemize}
+\item \underline{Transpose}: The transpose of a matrix $A$ of dimensions $m \times n$, denoted $A^{\top}$, is the matrix obtained by interchanging the rows and columns of $A$.
+\item \underline{Symmetric}: A matrix $A$ is said to be symmetric if $A = A^{\top}$.
+\end{itemize}
+
+\begin{example}
+Let $A$ and $B$ be the following matrices.
+	\begin{align*}
+	A = \begin{bmatrix}
+	1 & 2 & 3 \\
+	2 & 3 & 4 \\
+	3 & 4 & 5 
+	\end{bmatrix}
+	\quad \text{and} \quad
+	B = \begin{bmatrix}
+	1 & 2 & 3 \\ 4 & 5 & 6
+	\end{bmatrix} .
+	\end{align*}
+	\begin{enumerate}
+	\item Find $B^\top$.
+	\item Is $A$ symmetric?
+	\end{enumerate}
+\end{example}
+
+\vfill
+
+
+\noindent\underline{General facts about transpose}:
+	\begin{itemize}
+	\begin{multicols}{3}
+	\item $(A^\top)^\top = A$.
+	\item $(A + B)^\top = A^\top + B^\top$.
+	\item $(cA)^\top = c A^\top$.
+	\item $(AB)^\top = B^\top A^\top$.
+	\item $(A^T)^{-1} = (A^{-1})^\top$.
+	\item[\phantom{\textbullet}] \phantom{2}
+	\end{multicols}
+	\end{itemize}
+
+
+\noindent\underline{General Facts about symmetric}:
+Suppose $A$ and $B$ are matrices of the same size.
+	\begin{itemize}
+	\item If $A$ and $B$ are symmetric matrices, then so is $A + B$.
+	\item If $A$ is symmetric, then $A$ is a square matrix and $cA$ is symmetric for any scalar $c$.
+	\item $A^\top A$ and $A A^\top$ are symmetric matrices.
+	\item If $A$ is an invertible symmetric matrix, then $A^{-1}$ is a symmetric matrix.
+	\end{itemize}
+
+\newpage
+
+	\begin{example}
+	Is the matrix
+		\begin{align*}
+		A = \begin{bmatrix}
+		1 & 0 & 4 \\
+		-4 & 0 & 6 \\
+		2 & 0 & -10
+		\end{bmatrix}
+		\end{align*}
+	invertible?
+	\end{example}
+	
+	\vfill
+	
+	\noindent\underline{Remarks}: 
+		\begin{itemize}
+		\item Using row operations on the transposed matrix is equivalent to applying column operations to the original matrix.
+		\item So, in general, what we learned to do with the rows of a matrix can also be done with the columns of a matrix.
+		\item Taking column operations will be important when we will find the row space and column space of a matrix.
+		\end{itemize}
+\end{document}

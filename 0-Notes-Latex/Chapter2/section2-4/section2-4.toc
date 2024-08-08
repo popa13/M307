@@ -1,0 +1,4 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{What is the Dimension of a Vector Space?}{2}{section*.1}%
+\contentsline {subsection}{Definition}{2}{subsection*.2}%
+\contentsline {subsection}{Basic Facts on Basis and Dimension}{3}{subsection*.3}%

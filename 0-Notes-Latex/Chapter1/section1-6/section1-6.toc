@@ -1,0 +1,10 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{Determinants and Algebraic Operations}{2}{section*.1}%
+\contentsline {subsection}{Invertibility}{2}{subsection*.2}%
+\contentsline {subsection}{Matrix Multiplication}{3}{subsection*.3}%
+\contentsline {subsection}{Transpose}{3}{subsection*.4}%
+\contentsline {section}{Ajoint of a Matrix}{4}{section*.5}%
+\contentsline {subsection}{Matrix of Cofactors}{4}{subsection*.6}%
+\contentsline {subsection}{Definition of the Adjoint}{5}{subsection*.7}%
+\contentsline {subsection}{Another Way to Find the Inverse}{5}{subsection*.8}%
+\contentsline {section}{Cramer's Rule}{6}{section*.9}%

@@ -1,0 +1,7 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{Similar Matrices}{2}{section*.1}%
+\contentsline {subsection}{Motivation}{2}{subsection*.2}%
+\contentsline {subsection}{Definition}{5}{subsection*.3}%
+\contentsline {section}{Jordan Canonical Form}{9}{section*.4}%
+\contentsline {subsection}{Jordan blocks}{9}{subsection*.5}%
+\contentsline {subsection}{Reduction to Jordan Blocks}{10}{subsection*.6}%

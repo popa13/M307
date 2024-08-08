@@ -1,0 +1,8 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{Linear Independence}{2}{section*.1}%
+\contentsline {subsection}{Definition}{2}{subsection*.2}%
+\contentsline {subsection}{Dependence and Linear Combination}{4}{subsection*.3}%
+\contentsline {section}{What is a Basis?}{5}{section*.4}%
+\contentsline {subsection}{Definition}{5}{subsection*.5}%
+\contentsline {subsection}{Basis for Matrices and Polynomials}{6}{subsection*.6}%
+\contentsline {subsection}{Coordinates relative to a basis}{8}{subsection*.7}%

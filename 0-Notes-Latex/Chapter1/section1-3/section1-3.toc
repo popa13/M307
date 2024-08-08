@@ -1,0 +1,13 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{What is an Inverse?}{2}{section*.1}%
+\contentsline {subsection}{For Real Numbers}{2}{subsection*.2}%
+\contentsline {subsection}{For Matrices}{2}{subsection*.3}%
+\contentsline {subsection}{Properties of Inverses}{3}{subsection*.4}%
+\contentsline {section}{How do we find the inverse?}{4}{section*.5}%
+\contentsline {subsection}{Little Warm-up}{4}{subsection*.6}%
+\contentsline {subsection}{Systematic method with Augmented Matrices}{5}{subsection*.7}%
+\contentsline {subsection}{Inverses to Solve Systems}{8}{subsection*.8}%
+\contentsline {section}{Elementary Matrices}{9}{section*.9}%
+\contentsline {subsection}{Three types}{9}{subsection*.10}%
+\contentsline {subsection}{Some mysteries Unraveled!}{10}{subsection*.11}%
+\contentsline {subsection}{Inverses of elementary matrices}{12}{subsection*.12}%

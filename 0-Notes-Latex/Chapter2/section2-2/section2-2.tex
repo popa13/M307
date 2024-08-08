@@ -1,0 +1,357 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{environ}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[colorlinks = true, linkcolor = black]{hyperref}
+\usepackage{xparse}
+\usepackage{enumerate}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{multicol}
+\usepackage[indent=0pt]{parskip}
+
+\newcommand{\spaceP}{\vspace*{0.5cm}}
+\newcommand{\Span}{\mathrm{Span}\,}
+
+%% Redefining sections
+\newcommand{\sectionformat}[1]{%
+    \begin{tikzpicture}[baseline=(title.base)]
+        \node[rectangle, draw] (title) {#1};
+    \end{tikzpicture}
+    
+    \noindent\hrulefill
+}
+
+% default values copied from titlesec documentation page 23
+% parameters of \titleformat command are explained on page 4
+\titleformat%
+    {\section}% <command> is the sectioning command to be redefined, i. e., \part, \chapter, \section, \subsection, \subsubsection, \paragraph or \subparagraph.
+    {\normalfont\large\scshape}% <format>
+    {}% <label> the number
+    {0em}% <sep> length. horizontal separation between label and title body
+    {\centering\sectionformat}% code preceding the title body  (title body is taken as argument)
+
+%% Set counters for sections to none
+\setcounter{secnumdepth}{0}
+
+%% Set the footer/headers
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{2pt}
+\lfoot{P.-O. Paris{\'e}}
+\cfoot{MATH 307}
+\rfoot{Page \thepage}
+
+%% Defining example environment
+\newcounter{example}[section]
+\NewEnviron{example}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{red}{Example~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+% Theorem environment
+\NewEnviron{theorem}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{blue}{Theorem~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+%% Commands for matrix of dimensions m x n
+%\newcommand{\matMN}[1]{%
+%	\begin{bmatrix}
+%	#1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+%	#1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+%	#1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+%	\vdots & \vdots & \vdots & \ddots & \vdots \\
+%	#1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+%	\end{bmatrix}		
+%	}
+	
+\NewDocumentCommand{\matMN}{mg}{%
+	\IfNoValueTF{#2}
+		{%
+		  \begin{bmatrix}
+		   #1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+	       #1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+		   #1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+		   \end{bmatrix}	%
+		}
+		{%
+		   \begin{bmatrix}
+		   #1_{11} + #2_{11} & #1_{12} + #2_{12} & \cdots & #1_{1n} + #2_{2n} \\
+		   #1_{21} + #2_{21} & #1_{22} + #2_{22} & \cdots & #1_{2n} + #2_{2n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} + #2_{m1} & #1_{m2} + #2_{m2} & \cdots & #1_{mn} + #2_{mn}
+		   \end{bmatrix}
+		}%
+}
+
+%%%%
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+\vspace*{2.5cm}
+
+{\Huge \textsc{Math 307}}
+
+\vspace*{2cm}
+
+{\LARGE \textsc{Chapter 2}} 
+
+\vspace*{0.75cm}
+
+\noindent\textsc{Section 2.2: Subspaces and Spanning Sets}
+
+\vspace*{0.75cm}
+
+\tableofcontents
+
+\vfill
+
+\noindent \textsc{Created by: Pierre-Olivier Paris{\'e}} \\
+\textsc{Summer 2022}
+\end{center}
+
+\newpage
+
+\section{What Is a Subspace}
+
+	\subsection{Definition}
+
+	In loose terms, a \textbf{subspace} is simply a vector space inside another vector space. Precisely, a subspace is a subset $W$ of another vector space $V$ such that $W$ is itself a vector space under the same addition and scalar multiplication operations of $V$ restricted to $W$.
+	
+	The next result tells us that we only need to verify if the operations are closed.
+	
+	\vspace*{18pt}
+	
+	\begin{theorem}
+	Let $W$ be a nonempty subset of a vector space $V$. Then $W$ is a subspace of $V$ if and only if for all vectors $u$ and $w$ in $W$ and for all scalar $c$, we have 
+		\begin{itemize}
+		\item $u + w$ is in $W$;
+		\item $c u$ is in $W$.
+		\end{itemize}
+	\end{theorem}
+	
+	\vspace*{18pt}
+	
+	\begin{example}
+	Let $W$ be the set of all column vectors of the form
+		\begin{align*}
+		\begin{bmatrix}
+		x \\ y \\ 0
+		\end{bmatrix} .
+		\end{align*}
+	Show that $W$ is a subspace of the vector space of all column vectors.
+	\end{example}
+	
+	\vfill
+	
+	\begin{example}
+	Do the set of vectors of the form
+		\begin{align*}
+		\begin{bmatrix}
+		x \\ 1
+		\end{bmatrix}
+		\end{align*}
+	forms a subspace of $\mathbb{R}^2$?
+	\end{example}
+	
+	\vfill
+	
+	\newpage
+	
+	\begin{example}
+	Do the set of vectors of the form
+		\begin{align*}
+		\begin{bmatrix}
+		x \\ y \\ x - 2y
+		\end{bmatrix}
+		\end{align*}
+	forms a subspace of $\mathbb{R}^3$?
+	\end{example}
+	
+
+	\newpage
+	
+	%\subsection{Subspaces Generated By a Set of Solutions}
+	
+	%\begin{theorem}
+	%If $A$ is an $m \times n$ matrix such that the system of linear equations $AX = O_{m \times 1}$ has at least one solution, then the set of solutions to $AX = O_{m \times 1}$ is a subspace of $\mathbb{R}^n$.
+	%\end{theorem}
+	
+	%\vspace*{18pt}
+	
+	%\noindent It is instructive to verify the last theorem. We will prove it.
+	
+	%\vspace*{8pt}
+	
+	%\noindent\underline{\textbf{Proof.}}
+	
+	%\newpage
+	
+	\subsection{Important Examples: Set of Polynomials}
+	Let $n$ be a nonnegative integer and let $P_{n}$ denote the set of polynomials of degree less than or equal to $n$ on $(a, b)$; that is the set of expressions $p(x)$ of the form
+		\begin{align*}
+		p(x) = a_kx^k + a_{k-1}x^{k-1} + \cdots + a_1 x + a_0 
+		\end{align*}
+	for $k$ an integer such that $k \leq n$.
+	
+	\begin{example}
+	Let $P_2$ denote the set of polynomials of degree less than or equal to $2$ on $(a, b )$; that is the set of expressions $p(x)$ of the form
+		\begin{align*}
+		p(x) = ax^2 + bx + c .
+		\end{align*}
+	Show that $P_2$ is a subspace of the vector space of functions $F (a, b)$.
+	\end{example}
+	
+	\vfill
+	
+	\underline{Fact}:
+	Let $P$ denote the set of all polynomials on $(a, b)$. This means $P$ is the set of expressions $p(x)$ of the form
+		\begin{align*}
+		p(x) = a_n x^n + a_{n-1}x^{n-1} + \cdots + a_1 x + a_0 .
+		\end{align*}
+	Show that $P$ is a subspace of the vector space of functions $F(a, b)$.
+	
+	
+	%\begin{example}
+	%The set of differentiable functions on $(a, b)$ denoted by $D (a, b)$ is a nonempty subspace of the vector space $F(a, b)$. This comes from Calculus I because we know that
+	%	\begin{itemize}
+	%	\item The sum of two differentiable functions is differentiable;
+	%	\item A constant multiple of a differentiable function is differentiable.
+	%	\end{itemize}
+	%\end{example}
+	
+	%\vspace*{18pt}
+	
+	%\begin{example}
+	%For each positive integer $n$, denote by $C^n (a, b)$ the set of all functions that have continuous $n$-th derivative on $(a, b)$. Then,
+	%	\begin{itemize}
+	%	\item $C^{n + 1} (a, b)$ is a subspace of $C^n (a, b)$;
+	%	\item $C^n (a, b)$ is a subspace of $D (a, b)$.
+	%	\item $C^n (a, b)$ is a subspace of $F (a, b)$.
+	%	\end{itemize}
+	%\end{example}
+	
+	\newpage
+	
+\section{What does Span mean?}
+
+	\subsection{Linear Combinations}
+	
+	Given a bunch of vectors $v_1$, $v_2$, $\ldots$, $v_n$ in a vector space $V$, a \textbf{linear combination} of these vectors is
+		\begin{align*}
+		c_1 v_1 + c_2 v_2 + \cdots + c_n v_n
+		\end{align*}
+	for some scalars $c_1$, $c_2$, $\ldots$, $c_n$.
+	
+	\vspace*{18pt}
+	
+	\begin{example}
+	Is the polynomial $v(x) = 2x^2 + x + 1$ a linear combination of the polynomials $v_1 (x) = x^2 + 1$, $v_2 (x) = x^2 - 1$, $v_3 (x) = x + 1$?
+	\end{example}
+	
+	\newpage
+	
+	\subsection{Spanning set}
+	
+	The set of all linear combinations of vectors $v_1$, $v_2$, $\ldots$, $v_n$ of $V$ is called the \textbf{spanning set of} $\mathbf{v_1}$\textbf{,} $\mathbf{v_2}$\textbf{,} $\mathbf{\ldots}$\textbf{,} $\mathbf{v_n}$.
+	
+	\vspace*{12pt}
+	
+	\noindent The notation for the spanning set of the subspace of $V$ generated by the vectors $v_1$, $v_2$, $\ldots$, $v_n$ is
+		\begin{align*}
+		\Span \{ v_1 , v_2 , \ldots , v_n \} .
+		\end{align*}
+	
+	\vspace*{16pt}
+	
+	\begin{example}
+	Is the vector
+		\begin{align*}
+		\begin{bmatrix}
+		2 \\ -5 \\ 1 \\ 10
+		\end{bmatrix}
+		\text{ in the }
+		\Span \left\lbrace 
+		\begin{bmatrix}
+		1 \\ -1 \\ 2 \\ 3
+		\end{bmatrix} , 
+		\begin{bmatrix}
+		1 \\ -2 \\ -1 \\ 2
+		\end{bmatrix}
+		, 
+		\begin{bmatrix}
+		-1 \\ 0 \\ 1 \\ 3
+		\end{bmatrix}
+		\right\rbrace \text{ ?}
+		\end{align*}
+	\end{example}
+	
+	\newpage
+	
+	\subsection{Spanning a whole vector space}
+	
+	We say that the vectors $v_1$, $v_2$, $\ldots$, $v_n$ of a vector space $V$ span $V$ if
+		\begin{align*}
+		\Span \{ v_1 , v_2 , \ldots , v_n \} = V .
+		\end{align*}
+	In other words, each vector in $V$ is a linear combination of the vectors $v_1$, $v_2$, $\ldots$, $v_n$.
+	
+	\vspace*{18pt}
+	
+	\begin{example}
+	Do
+		\begin{align*}
+		v_1 = \begin{bmatrix}
+		1 \\ -2
+		\end{bmatrix} ,
+		v_2 = \begin{bmatrix}
+		2 \\ -4
+		\end{bmatrix}
+		\end{align*}
+	span $\mathbb{R}^2$?
+	\end{example}
+	
+	\newpage
+	
+	\begin{example}
+	Let $v_1(x) = x^2 + x - 3$, $v_2 (x) = x - 5$, $v_3 (x) = 3$, and $v_4 (x) = x + 1$.
+		\begin{enumerate}
+		\item Do $v_1$, $v_2$, $v_3$ span $P_2$?
+		\item Do $v_2$, $v_3$, $v_4$ span $P_1$?
+		\item Do $v_1$, $v_2$, $v_3$ span $P_3$?
+		\end{enumerate}
+	\end{example}
+	
+	\newpage
+	
+	\phantom{2}
+
+\end{document}

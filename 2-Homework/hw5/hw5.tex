@@ -1,0 +1,420 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{lmodern}
+
+\usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{multicol}
+
+\usepackage{comment}
+\usepackage{url}
+\usepackage{calc}
+\usepackage{subcaption}
+
+\usepackage{array}
+\usepackage{blkarray,booktabs, bigstrut}
+
+\pgfplotsset{compat=1.16}
+
+% MATH commands
+\newcommand{\ga}{\left\langle}
+\newcommand{\da}{\right\rangle}
+\newcommand{\oa}{\left\lbrace}
+\newcommand{\fa}{\right\rbrace}
+\newcommand{\oc}{\left[}
+\newcommand{\fc}{\right]}
+\newcommand{\op}{\left(}
+\newcommand{\fp}{\right)}
+
+\newcommand{\bi}{\mathbf{i}}
+\newcommand{\bj}{\mathbf{j}}
+\newcommand{\bk}{\mathbf{k}}
+\newcommand{\bF}{\mathbf{F}}
+
+\newcommand{\mR}{\mathbb{R}}
+
+\newcommand{\ra}{\rightarrow}
+\newcommand{\Ra}{\Rightarrow}
+
+\newcommand{\sech}{\mathrm{sech}\,}
+\newcommand{\csch}{\mathrm{csch}\,}
+\newcommand{\curl}{\mathrm{curl}\,}
+\newcommand{\dive}{\mathrm{div}\,}
+
+\newcommand{\ve}{\varepsilon}
+\newcommand{\spc}{\vspace*{0.5cm}}
+
+\DeclareMathOperator{\Ran}{Ran}
+\DeclareMathOperator{\Dom}{Dom}
+
+\newcommand{\exo}[2]{\noindent\textcolor{red}{\fbox{\textbf{Section {#1}, Problem {#2}}}}\\}
+
+\begin{document}
+	\noindent \hrulefill \\
+	MATH-307 \hfill Pierre-Olivier Paris{\'e}\\
+	Homework 5 Solutions \hfill Summer 2022\\\vspace*{-0.7cm}
+	
+	\noindent\hrulefill
+	
+	\spc
+	
+	\exo{2.4}{14}
+	\\
+	We verify first that the vectors span $\mR^3$ and then find the RREF of the matrix:
+		\begin{align*}
+		\left[\begin{matrix}0 & 1 & 2 & 4\\-2 & -1 & 0 & -2\\1 & 0 & -1 & -1\end{matrix}\right] \sim
+		\left[\begin{matrix}1 & 0 & -1 & -1\\0 & 1 & 2 & 4\\0 & 0 & 0 & 0\end{matrix}\right]
+		\end{align*}
+	We see that the main ones (or pivot) are in the first column and the first column. Therefore, this means the first and second vector are linearly independent. We have to discard the last two vectors and the remaining ones form a basis for the spanning set of the four vectors.
+	
+	\newpage
+	
+	\exo{5.1}{2}
+	\\
+	There are two conditions to show:
+		\begin{itemize}
+		\item $T(u + v) = T(u) + T(v)$. Let $u = \begin{bmatrix} x_1 & y_1 \end{bmatrix}^\top$ and $v = \begin{bmatrix} x_2 & y_2 \end{bmatrix}^\top$ be two arbitrary $2 \times 1$ column vectors. Then we have
+			\begin{align*}
+			T (u + v) = T \left( \begin{bmatrix}
+			x_1 + x_2 \\ y_1 + y_2
+			\end{bmatrix} \right) = \begin{bmatrix}
+			x_1 + x_2 + 1 \\ y_1 + y_2 + 2 \\ x_1 + x_2 - y_1 - y_2
+			\end{bmatrix} .
+			\end{align*}
+		However, we have
+			\begin{align*}
+			T(u) = \begin{bmatrix}
+			x_1 + 1 \\ y_1 + 2 \\ x_1 - y_1
+			\end{bmatrix} \quad \text{ and } \quad T(v) = \begin{bmatrix}
+			x_2 + 1 \\ y_2 + 2 \\ x_2 - y_2
+			\end{bmatrix} .
+			\end{align*}
+		Therefore, we have
+			\begin{align*}
+			T(u) + T(v) = \begin{bmatrix}
+			x_1 + x_2 + 2 \\ y_1 + y_2 + 4 \\ x_1 + x_2 - y_1 - y_2
+			\end{bmatrix} \neq T(u + v).
+			\end{align*}
+		We can therefore say that $T$ is not a linear transformation.
+		\end{itemize}
+		
+	\newpage
+	
+	\exo{5.1}{6}
+	\\
+	There are two conditions to check:
+		\begin{itemize}
+		\item $T(u + v) = T(u) + T(v)$. Let $u = a_1 x + b_1$ and $v = a_2 x + b_2$ be two arbitrary polynomials in $P_1$. Then we have
+			\begin{align*}
+			T(u + v) = T((a_1 + a_2) x + (b_1 + b_2)) &= (a_1 + a_2)x^2 / 2 + (b_1 + b_2) x \\
+			&= a_1 x^2/2 + a_2x^2 / 2 + b_1x + b_2 x
+			\end{align*}
+		We also have
+			\begin{align*}
+			T(u) = a_1 x^2 /2 + b_1 \quad \text{ and } \quad T(v) = a_2 x^2 + b_2
+			\end{align*}
+		and therefore, we have
+			\begin{align*}
+			T(u) + T(v) = a_1 x^2/2 + a_2 x^2 /2 + b_1 + b_2 = T(u + v) .
+			\end{align*}
+		The first condition is satisfied.
+		\item $T(cu) = cT(u)$. Let $c$ be a number. Then
+			\begin{align*}
+			T(cu) = T(cax + cb) = (ca)x^2/2 + cb = c (ax^2/2 + b) = cT(u) .
+			\end{align*}
+		\end{itemize}
+	The two properties are satisfied, therefore, $T$ is a linear transformation.
+	
+	\newpage
+	
+	\exo{5.1}{12}
+	\\
+	There are two conditions to check:
+		\begin{itemize}
+		\item $T(u + v) = T(u) + T(v)$. Let 
+			\begin{align*}
+			u = \begin{bmatrix}
+			a & b \\ c & d 
+			\end{bmatrix} \quad \text{ and } \quad v = \begin{bmatrix}
+			e & f \\ g & h
+			\end{bmatrix} .
+			\end{align*}
+		Then we have
+			\begin{align*}
+			T(u + v) = \begin{vmatrix}
+			a + e & b + f \\ c + g & d + h
+			\end{vmatrix} = (a + e) (d + h) - (b + f) (c + g)
+			\end{align*}
+		We also have
+			\begin{align*}
+			T(u) + T(v) = \begin{vmatrix}
+			a & b \\ c & d
+			\end{vmatrix} + \begin{vmatrix}
+			e & f \\ g & h
+			\end{vmatrix} = ad - bc + eh - fg .
+			\end{align*}
+		If we develop the first expression and compare it with the second expression, we see that
+			\begin{align}
+			ah + ed - bg - fc = 0 \label{Eq:DeterminantCondition}
+			\end{align}
+		Let $a = h = e = d = b = g = 0$ and $f = 1$ and $c = 1$. These conditions define the following matrices
+			\begin{align*}
+			u = \begin{bmatrix}
+			0 & 0 \\ 1 & 0
+			\end{bmatrix} \quad \text{ and } \quad v = \begin{bmatrix}
+			0 & 1 \\ 0 & 0 
+			\end{bmatrix}
+			\end{align*}
+		and we see that Equation \eqref{Eq:DeterminantCondition} is not satisfied and therefore $T (u + v) \neq T(u) + T(v)$.
+		\end{itemize}
+	
+	We conclude that $T$ is not a linear transformation.
+	
+	\newpage
+	
+	\exo{5.1}{16}
+	\\
+	The matrix representing the linear transformation is 
+		\begin{align*}
+		A = \begin{bmatrix}
+		2 & 1 & -1 \\
+		-3 & 1 & -4 \\
+		5 & 2 & -5
+		\end{bmatrix} .
+		\end{align*}
+		
+	\newpage
+	
+	\exo{5.1}{20a)}
+	\\
+	We can write the vector
+		\begin{align*}
+		\begin{bmatrix}
+		2 \\ 1 \\ -4
+		\end{bmatrix}
+		\end{align*}
+	as 
+		\begin{align*}
+		(5/2) \begin{bmatrix}
+		1 \\ -1 \\ 0
+		\end{bmatrix} - (1/2) \begin{bmatrix}
+		1 \\ 0 \\ 1
+		\end{bmatrix} + (7/2) \begin{bmatrix}
+		0 \\ 1 \\ -1
+		\end{bmatrix} .
+		\end{align*}
+	Therefore, since $T$ is a linear transformation, we obtain
+		\begin{align*}
+		T \left( \begin{bmatrix}
+		2 \\ 1 \\ -4
+		\end{bmatrix} \right) &= (5/2) T \left( \begin{bmatrix}
+		1 \\ -1 \\ 0
+		\end{bmatrix} \right) - (1/2) T \left( \begin{bmatrix}
+		1 \\ 0 \\ 1
+		\end{bmatrix} \right) + (7/2) T \left( \begin{bmatrix}
+		0 \\ 1 \\ -1
+		\end{bmatrix} \right) \\
+		&= (5/2) \begin{bmatrix}
+		1 \\ 0 \\ -1 \\ 0
+		\end{bmatrix} - (1/2) \begin{bmatrix}
+		2 \\ 1 \\ 0 \\ 0
+		\end{bmatrix} + (7/2) \begin{bmatrix}
+		1 \\ 0 \\ 0 \\ -1
+		\end{bmatrix} \\
+		&= \left[\begin{matrix}5\\- 1/2 \\- 5/2 \\- 7/ 2
+		\end{matrix}\right] .
+		\end{align*}
+		
+	\newpage
+	
+	\exo{5.1}{22a)}
+	\\
+	We can write the vector
+		\begin{align*}
+		\begin{bmatrix}
+		1 \\ 0 \\ 0
+		\end{bmatrix}
+		\end{align*}
+	as the linear combination
+		\begin{align*}
+		(2/3) \begin{bmatrix}
+		1 \\ 1 \\ 0
+		\end{bmatrix} + (1/3) \begin{bmatrix}
+		1 \\ -1 \\ 1
+		\end{bmatrix} - (1/3) \begin{bmatrix}
+		0 \\ 1 \\ 1
+		\end{bmatrix} .
+		\end{align*}
+	Therefore, since $T$ is a linear transformation, we obtain
+		\begin{align*}
+		T \left( \begin{bmatrix}
+		1 \\ 0 \\ 0
+		\end{bmatrix} \right) &= (2/3) T \left( \begin{bmatrix}
+		1 \\ 1 \\ 0
+		\end{bmatrix} \right) + (1/3) T \left( \begin{bmatrix}
+		1 \\ -1 \\ 1
+		\end{bmatrix} \right) - (1/3) T \left( \begin{bmatrix}
+		0 \\ 1 \\ 1
+		\end{bmatrix} \right) \\
+		&= (2/3) (x^2 + x) + (1/3) (x^2 - x + 1) - (1/3) (x + 1) \\
+		&= x^2 
+		\end{align*}
+		
+	\newpage
+	
+	\exo{5.1}{24}
+	\\
+	We start with the kernel of the transformation. We have to find all $3 \times 1$ column vectors $v$ such that $T(v) = 0$. We can rewrite $T(v) = 0$ as the following system of linear equations:
+		\begin{align*}
+		\left\lbrace \begin{matrix}
+		2x + y - z = 0 \\
+		-3x + y - 4z = 0 \\
+		5x + 2y - 5z = 0
+		\end{matrix} \right. .
+		\end{align*}
+	We solve this system by using the Gaussian-Elimination method:
+		\begin{align*}
+		\left[\begin{matrix}2 & 1 & -1 & 0\\-3 & 1 & -4 & 0\\5 & 2 & -5 & 0\end{matrix}\right] \sim \left[\begin{matrix}1 & 0 & 0 & 0\\0 & 1 & 0 & 0\\0 & 0 & 1 & 0\end{matrix}\right] .
+		\end{align*}
+	Therefore, we see that $x = y = z = 0$ is the only solution. This implies that 
+		\begin{align*}
+		\ker (T) = \left\lbrace \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix} \right\rbrace .
+		\end{align*}
+	There is no basis for $\ker (T)$ because the vector $0$ is not linearly independent.
+		
+	Let's turn our attention to the range of the transformation $T$. Since $T$ is in fact given by the matrix
+		\begin{align*}
+		A = \begin{bmatrix}
+		2 & 1 & -1 \\
+		-3 & 1 & -4 \\
+		5 & 2 & -5
+		\end{bmatrix} , 
+		\end{align*}
+	the range of $T$ is given by the column space of $A$. To find basis for $\mathrm{range} (T)$, we find the RREF of $A$:
+		\begin{align*}
+		A \sim \begin{bmatrix}
+		1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1
+		\end{bmatrix} .
+		\end{align*}
+	So, the columns of $A$ form a basis for the range space of $T$.
+	
+	\newpage
+	
+	\exo{5.3}{2}
+	\begin{enumerate}[label=\alph*)]
+	\item We have
+		\begin{align*}
+		T \left( \begin{bmatrix}
+		1 \\ 0
+		\end{bmatrix} \right) = \begin{bmatrix}
+		5 \\ -6
+		\end{bmatrix} \quad \text{ and } \quad T \left( \begin{bmatrix}
+		0 \\ 1
+		\end{bmatrix} \right) = \begin{bmatrix}
+		3 \\ -4
+		\end{bmatrix} .
+		\end{align*}
+	Therefore, we obtain
+		\begin{align*}
+		[T]_{\alpha}^\alpha = \begin{bmatrix}
+		5 & 3 \\
+		-6 & -4 
+		\end{bmatrix} .
+		\end{align*}
+	\item We have
+		\begin{align*}
+		\begin{bmatrix}
+		2 \\ 1
+		\end{bmatrix} = (2) \begin{bmatrix}
+		1 \\ 0
+		\end{bmatrix} + (1) \begin{bmatrix}
+		0 \\ 1
+		\end{bmatrix}
+		\end{align*}
+	and
+		\begin{align*}
+		\begin{bmatrix}
+		1 \\ 1
+		\end{bmatrix} = (1) \begin{bmatrix}
+		1 \\ 0
+		\end{bmatrix} + (1) \begin{bmatrix}
+		0 \\ 1
+		\end{bmatrix} .
+		\end{align*}
+	Therefore, we have
+		\begin{align*}
+		P = \begin{bmatrix}
+		2 & 1 \\ 1 & 1
+		\end{bmatrix} .
+		\end{align*}
+	\item The change of basis from $\beta$ to $\alpha$ is given by $P^{-1}$. You can use any method to find the inverse of $P$. With Python, we obtain immediately
+		\begin{align*}
+		P^{-1} = \left[\begin{matrix}1 & -1\\-1 & 2\end{matrix}\right] .
+		\end{align*}
+	\item There are two ways of finding $[T]_{\beta}^\beta$. Using the definition of $[T]_{\beta}^\beta$ or using the identity $[T]_{\beta}^\beta = P^{-1} [T]_{\alpha}^\alpha P$. We will use the second method. We therefore have
+		\begin{align*}
+		[T]^\beta_\beta = \left[\begin{matrix}1 & -1\\-1 & 2\end{matrix}\right]
+\left[\begin{matrix}5 & 3\\-6 & -4\end{matrix}\right]
+\left[\begin{matrix}2 & 1\\1 & 1\end{matrix}\right] =
+\left[\begin{matrix}29 & 18\\-45 & -28\end{matrix}\right] .
+		\end{align*}
+	\item Using the matrix of change of basis $P^{-1}$, we get
+		\begin{align*}
+		[v]_{\beta} = [I]_\alpha^\beta [v]_{\alpha} = P^{-1} v = \left[\begin{matrix}1 & -1\\-1 & 2\end{matrix}\right]
+\left[\begin{matrix}5\\-4\end{matrix}\right] =
+\left[\begin{matrix}9\\-13\end{matrix}\right] .
+		\end{align*}
+	\item Now, using $[T]_{\beta}^\beta$, we obtain
+		\begin{align*}
+		[T(v)]_\beta = \left[\begin{matrix}29 & 18\\-45 & -28\end{matrix}\right]
+\left[\begin{matrix}9\\-13\end{matrix}\right] =
+\left[\begin{matrix}27\\-41\end{matrix}\right] .
+		\end{align*}
+	\item From part f), we have
+		\begin{align*}
+		T(v) = (27) \begin{bmatrix} 2 \\ 1 \end{bmatrix} + (-41) \begin{bmatrix}
+		1 \\ 1
+		\end{bmatrix} = \begin{bmatrix}
+		13 \\ -14
+		\end{bmatrix} .
+		\end{align*}
+	\end{enumerate}
+	
+	\newpage
+	
+	\exo{5.3}{9}
+	\begin{enumerate}[label=\alph*)]
+	\item According to the hypothesis, we find
+		\begin{align*}
+		[T]_{\alpha}^\alpha = \begin{bmatrix}
+		1 & 0 & -1 \\
+		-1 & 1 & 0 \\
+		0 & -1 & 1
+		\end{bmatrix} .
+		\end{align*}
+	\item We have $[v]_{\alpha} = \begin{bmatrix} 1 & -2 & 3 \end{bmatrix}^{\top}$. Therefore, we obtain
+		\begin{align*}
+		[T(v)]_\alpha = [T]_\alpha^\alpha [v]_\alpha = \begin{bmatrix}
+		1 & 0 & -1 \\
+		-1 & 1 & 0 \\
+		0 & -1 & 1
+		\end{bmatrix} \begin{bmatrix}
+		1 \\ -2 \\ 3
+		\end{bmatrix} = 
+		\begin{bmatrix}
+		-2 \\ -3 \\ 5
+		\end{bmatrix} .
+		\end{align*}
+	\item From b), we have
+		\begin{align*}
+		T(v) = (-2) v_1 - 3 v_2 + 5 v_3 .
+		\end{align*}
+	\end{enumerate}
+	
+\end{document}

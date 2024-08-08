@@ -1,0 +1,450 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{environ}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[colorlinks = true, linkcolor = black]{hyperref}
+\usepackage{xparse}
+\usepackage{enumerate}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{multicol}
+\usepackage[indent=0pt]{parskip}
+
+\newcommand{\spaceP}{\vspace*{0.5cm}}
+\newcommand{\Span}{\mathrm{Span}\,}
+\newcommand{\range}{\mathrm{range}\,}
+
+%% Redefining sections
+\newcommand{\sectionformat}[1]{%
+    \begin{tikzpicture}[baseline=(title.base)]
+        \node[rectangle, draw] (title) {#1};
+    \end{tikzpicture}
+    
+    \noindent\hrulefill
+}
+
+% default values copied from titlesec documentation page 23
+% parameters of \titleformat command are explained on page 4
+\titleformat%
+    {\section}% <command> is the sectioning command to be redefined, i. e., \part, \chapter, \section, \subsection, \subsubsection, \paragraph or \subparagraph.
+    {\normalfont\large\scshape}% <format>
+    {}% <label> the number
+    {0em}% <sep> length. horizontal separation between label and title body
+    {\centering\sectionformat}% code preceding the title body  (title body is taken as argument)
+
+%% Set counters for sections to none
+\setcounter{secnumdepth}{0}
+
+%% Set the footer/headers
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{2pt}
+\lfoot{P.-O. Paris{\'e}}
+\cfoot{MATH 307}
+\rfoot{Page \thepage}
+
+%% Defining example environment
+\newcounter{example}[section]
+\NewEnviron{example}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{red}{Example~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+% Theorem environment
+\NewEnviron{theorem}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{blue}{Theorem~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+%% Commands for matrix of dimensions m x n
+%\newcommand{\matMN}[1]{%
+%	\begin{bmatrix}
+%	#1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+%	#1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+%	#1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+%	\vdots & \vdots & \vdots & \ddots & \vdots \\
+%	#1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+%	\end{bmatrix}		
+%	}
+	
+\NewDocumentCommand{\matMN}{mg}{%
+	\IfNoValueTF{#2}
+		{%
+		  \begin{bmatrix}
+		   #1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+	       #1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+		   #1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+		   \end{bmatrix}	%
+		}
+		{%
+		   \begin{bmatrix}
+		   #1_{11} + #2_{11} & #1_{12} + #2_{12} & \cdots & #1_{1n} + #2_{2n} \\
+		   #1_{21} + #2_{21} & #1_{22} + #2_{22} & \cdots & #1_{2n} + #2_{2n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} + #2_{m1} & #1_{m2} + #2_{m2} & \cdots & #1_{mn} + #2_{mn}
+		   \end{bmatrix}
+		}%
+}
+
+%%%%
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+\vspace*{2.5cm}
+
+{\Huge \textsc{Math 307}}
+
+\vspace*{2cm}
+
+{\LARGE \textsc{Chapter 6}} 
+
+\vspace*{0.75cm}
+
+\noindent\textsc{Section 6.1: The Theory of Systems of Linear Differential Equations}
+
+\vspace*{0.75cm}
+
+\tableofcontents
+
+\vfill
+
+\noindent \textsc{Created by: Pierre-Olivier Paris{\'e}} \\
+\textsc{Summer 2022}
+\end{center}
+
+\newpage
+
+\section{Mixing Problems}
+
+\begin{example}
+Consider two tanks each with volume $100$ gallons. The two tanks are connected together by two pipes. The first tank initially contains a well-mixed solution of $5$lb salt in $50$gal water. The second tank initially contains $100$ gal salt-free water. 
+
+A pipe from tank 1 to tank 2 allows the solution in tank 1 to enter tank 2 at a rate of $5$ gal/min. A second pipe from tank 2 to tank 1 allows the solution from tank 2 to enter tank 1 at a rate of $5$ gal/min.
+
+Assume that the salt mixture in each tank is well-stirred. Find a model describing the quantity of salt in each tank.
+\end{example}
+
+\newpage
+
+\section{Definitions}
+
+\subsection{System of ODEs}
+A \textbf{system of $n$ first order linear differential equations} (system of $n$ ODEs for short) is a vector-equation:
+	\begin{align*}
+	Y' = AY + G
+	\end{align*}
+where
+	\begin{itemize}
+	\item $Y$ is an $n \times 1$ vector of unknown functions:
+		\begin{align*}
+		Y (x) = \begin{bmatrix}
+		y_1 (x) \\ y_2 (x) \\ \vdots \\ y_n (x)
+		\end{bmatrix} .
+		\end{align*}
+	\item $Y'$ is the $n \times 1$ vector of derivatives of the unknown functions:
+		\begin{align*}
+		Y' (x) = \begin{bmatrix}
+		y_1'(x) \\ y_2' (x) \\ \vdots \\ y_n'(x)
+		\end{bmatrix} .
+		\end{align*}
+	\item $A$ is an $n \times n$ matrix of functions:
+		\begin{align*}
+		A = \begin{bmatrix}
+		a_{11}(x) & a_{12} (x) & \cdots & a_{1n} (x) \\
+		a_{21} (x) & a_{22} (x) & \cdots & a_{2n} (x) \\
+		\vdots & \vdots & \ddots & \vdots \\
+		a_{n1} (x) & a_{n2} (x) & \cdots & a_{nn} (x)
+		\end{bmatrix} .
+		\end{align*}
+	\item $G$ is an $n \times 1$ column vector of functions:
+		\begin{align*}
+		G (x) = \begin{bmatrix}
+		g_1(x) \\ g_2 (x) \\ \vdots \\ g_n (x)
+		\end{bmatrix} .
+		\end{align*}
+	\end{itemize}
+	
+If we add the additional conditions $Y (x_0) = B$ for some real number $x_0$ and an $n \times 1$ column vector $B$, the system of ODEs is called an \textbf{initial value problem}.
+	
+\subsection{Homogeneous and Non-homogeneous}
+	\begin{itemize}
+	\item If $G (x) = 0$ for every $x$, the system of ODEs is called \textbf{homogeneous}.
+	\item if $G(x)$ is not zero, then the system of ODEs is called \textbf{non-homogeneous}.
+	\end{itemize}
+	
+\newpage
+
+\begin{example}
+Consider the following system of ODEs:
+	\begin{align*}
+	Y' = \begin{bmatrix}
+	4 & -1 \\ 2 & 1
+	\end{bmatrix} Y .
+	\end{align*}
+	\begin{enumerate}
+	\item Is this a homogeneous or non-homogeneous system of ODEs?
+	\item Show that
+		\begin{align*}
+		Y (x) = \begin{bmatrix}
+		e^{2x} + e^{3x} \\ 2e^{2x} + e^{3x}
+		\end{bmatrix}
+		\end{align*}
+	is a solution to the system.
+	\end{enumerate}
+\end{example}
+
+\vfill
+
+\begin{example}
+Consider the following initial value problem:
+	\begin{align*}
+	Y' = \begin{bmatrix}
+	4 & -1 \\ 2 & 1
+	\end{bmatrix} Y  \quad \text{ and } \quad Y(0) = \begin{bmatrix}
+	3 \\ 5
+	\end{bmatrix}
+	\end{align*}
+Show that
+	\begin{align*}
+	Y (x) = \begin{bmatrix}
+	2e^{2x} + e^{3x} \\ 4e^{2x} + e^{3x}
+	\end{bmatrix}
+	\end{align*}
+is a solution to the initial value problem.
+\end{example}
+
+\vfill
+
+\newpage
+	
+\section{Do Solutions to a System of ODEs Exist?}
+
+	\subsection{Existence and Uniqueness Theorem}
+	Consider the initial value problem
+		\begin{align}
+		Y' = AY + G \quad \text{ and } \quad Y(x_0) = B . \tag{$\star$} \label{Eq:IVPSysODEs}
+		\end{align}
+	If all the entries $a_{ij} (x)$ of $A$ and all the entries $g_i (x)$ of $G$ are continuous functions, then the initial value problem \eqref{Eq:IVPSysODEs} has a unique solution.
+	
+	\subsection{Solutions as a Subspace}
+	\begin{example}
+	Consider the following system of ODEs:
+		\begin{align*}
+		Y' = \begin{bmatrix}
+	4 & -1 \\ 2 & 1
+	\end{bmatrix} Y .
+		\end{align*}
+	If the general solution to the system is
+		\begin{align*}
+		Y (x) = \begin{bmatrix}
+		c_1 e^{2x} + c_2 e^{3x} \\ 2c_1 e^{2x} + c_2 e^{3x}
+		\end{bmatrix},
+		\end{align*}
+	describe the structure of the set of solutions.
+	\end{example}
+	
+	\vfill
+	
+	\underline{Fact}: The set of solutions to a homogeneous system of $n$ ODEs $Y' = A(x) Y$ form a vector space of dimension $n$.
+	
+	\newpage
+	
+	\subsection{Nomenclature}
+		\begin{itemize}
+		\item A set of $n$ linearly independent solutions $Y_1$, $Y_2$, $\ldots$, $Y_n$ to a homogeneous system of $n$ ODEs is called a \textbf{fundamental set of solutions}.
+		\item A \textbf{general solution}, denoted by $Y_H$, to a homogeneous system of $n$ ODEs with fundamental set of solutions $Y_1$, $Y_2$, $\ldots$, $Y_n$ is a linear combination of $Y_1$, $Y_2$, $\ldots$, $Y_n$, that is
+			\begin{align*}
+			Y_H = c_1 Y_1 + c_2 Y_2 + \cdots + c_n Y_n .
+			\end{align*}
+		\item The \textbf{matrix of fundamental solutions}, denoted by $M$, is the matrix $M$ form by the vector functions $Y_1$, $Y_2$, $\ldots$, $Y_n$ in the fundamental set of solutions:
+			\begin{align*}
+			M = \begin{bmatrix}
+			Y_1 & Y_2 & \cdots & Y_n
+			\end{bmatrix} = \begin{bmatrix}
+			y_{11} & y_{12} & \cdots & y_{1n} \\
+			y_{21} & y_{22} & \cdots & y_{2n} \\
+			\vdots & \vdots & \ddots & \vdots \\
+			y_{n1} & y_{n2} & \cdots & y_{nn}
+			\end{bmatrix} .
+			\end{align*}
+		\end{itemize}
+		
+	\vspace*{3cm}
+	
+	\subsection{Non-homogeneous Systems}
+	Solutions to non-homogeneous systems and homogeneous system are related by one thing:
+		\begin{itemize}
+		\item A \textbf{particular solution} to a system $Y' = AY + G$, denoted by $Y_P$, is a specific solution to the system.
+		\end{itemize}
+		
+	Therefore, every solution $Y$ to the system $Y' = AY + G$ has the form
+		\begin{align*}
+		Y = Y_H + Y_P = c_1 Y_1 + c_2 Y_2 + \cdots + c_n Y_n + Y_P = MC + Y_P
+		\end{align*}
+	where
+		\begin{itemize}
+		\item $Y_H$ is the general solution to the system $Y' = AY$.
+		\item $Y_P$ is a particular solution to the system $Y' = AY + B$.
+		\end{itemize}
+		
+	
+	\newpage
+	
+	\section{Wronkian}
+	
+	\subsection{Definition}
+	Given $n$ column vector functions
+		\begin{align*}
+		Y_1 (x) = \begin{bmatrix}
+		y_{11} (x) \\ y_{21} (x) \\ \vdots \\ y_{n1} (x)
+		\end{bmatrix} , \quad Y_2 (x) = \begin{bmatrix}
+		y_{21} (x) \\ y_{22} (x) \\ \vdots \\ y_{n2} (x)
+		\end{bmatrix} , \quad \cdots , \quad
+		Y_n (x) = \begin{bmatrix}
+		y_{n1} (x) \\ y_{n2} (x) \\ \vdots \\ y_{nn} (x)
+		\end{bmatrix}
+		\end{align*}
+	then the \textbf{Wronkian} of $Y_1$, $Y_2$, $\ldots$, $Y_n$ is defined as
+		\begin{align*}
+		w (Y_1 (x), Y_2 (x), \cdots , Y_n (x)) := \begin{vmatrix}
+		y_{11} (x) & y_{12} (x) & \cdots & y_{1n} (x) \\
+		y_{21} (x) & y_{22} (x) & \cdots & y_{2n} (x) \\
+		\vdots & \vdots & \ddots & \vdots \\
+		y_{n1} (x) & y_{n2} (x) & \cdots & y_{nn} (x) 
+		\end{vmatrix} .
+		\end{align*}
+		
+	\begin{example}\label{Ex:WronkianCalc}
+	Let $Y_1$ and $Y_2$ be the vector functions
+		\begin{align*}
+		Y_1 (x) = \begin{bmatrix}
+		e^{2x} \\ 2e^{2x}
+		\end{bmatrix} \quad \text{ and } \quad
+		Y_2 (x) = \begin{bmatrix}
+		e^{3x} \\ e^{3x}
+		\end{bmatrix} .
+		\end{align*}
+	Compute $w (Y_1 (x), Y_2 (x))$.
+	\end{example}
+	
+	
+	\newpage
+	
+	\subsection{Linear Independence of Vector Functions}
+	
+	\begin{example}
+	Show that the vector functions in Example \ref{Ex:WronkianCalc} are linearly independent.
+	\end{example}
+	
+	\newpage
+	
+	\phantom{2}
+	
+	\vfill
+	
+	\underline{Main Important Fact:}
+	
+	Given a list $Y_1$, $Y_2$, $\cdots$, $Y_n$ of vector functions, if $w (Y_1 (x) , Y_2 (x) , \ldots , Y_n (x)) \neq 0$ for some $x$, then $Y_1$, $Y_2$, $\cdots$, $Y_n$ are linearly independent.
+	
+	\vspace*{14pt}
+	
+	\underline{Other Facts}:
+		\begin{itemize}
+		\item If $Y_1$, $Y_2$, $\ldots$, $Y_n$ are linearly dependent, then $w (Y_1 (x) , Y_2 (x) , \ldots , Y_n (x)) = 0$ for any $x$.
+		\item If $Y_1$, $Y_2$, $\ldots$, $Y_n$ are solutions to $Y' = AY$ and if $w (Y_1(x) , Y_2(x) , \ldots , Y_n (x)) = 0$ for some $x$, then $Y_1$, $Y_2$, $\ldots$, $Y_n$ are linearly dependent.
+		\item If $Y_1$, $Y_2$, $\ldots$, $Y_n$ is a fundamental set of solutions to $Y' = AY$, then 
+		$$
+		w(Y_1(x) , Y_2 (x) , \ldots , Y_n (x) ) \neq 0
+		$$
+	for every $x$.
+		\end{itemize}
+		
+\newpage
+
+\section{Solving Diagonal Systems}
+Our investigations in the next chapter will focus mainly on system of $n$ ODEs with constant coefficients. This means:
+	\begin{center}
+	The entries of the matrix $A$ in the equation $Y' = AY + G$ are constants.
+	\end{center}
+	
+We begin with the case of a diagonal matrix $A$.
+
+\vspace*{14pt}
+
+	\begin{example}
+	Solve the system
+		\begin{align*}
+		Y' = \begin{bmatrix}
+		3 & 0 \\ 0 & -1
+		\end{bmatrix} Y .
+		\end{align*}
+	\end{example}
+	
+\newpage
+
+The general solution to a homogeneous system $Y' = AX$ where $A$ is a diagonal matrix
+	\begin{align*}
+	A = \begin{bmatrix}
+	d_1 & 0 & \cdots & 0 \\
+	0 & d_2 & \cdots & 0 \\
+	\vdots & \vdots & \ddots & \vdots \\
+	0 & 0 & \cdots & d_n
+	\end{bmatrix}
+	\end{align*} 
+is given by
+	\begin{align*}
+	Y_H = \begin{bmatrix}
+	e^{d_1x} & 0 & \cdots & 0 \\
+	0 & e^{d_2x} & \cdots & 0 \\
+	\vdots & \vdots & \ddots & \vdots \\
+	0 & 0 & \cdots & e^{d_n x}
+	\end{bmatrix} \begin{bmatrix}
+	c_1 \\ c_2 \\ \vdots \\ c_n
+	\end{bmatrix} = \begin{bmatrix}
+	c_1 e^{d_1 x} \\ c_2 e^{d_2x} \\ \vdots \\ c_n e^{d_n x}
+	\end{bmatrix} .
+	\end{align*}
+	
+	\begin{example}
+	Solve the initial value problem
+		\begin{align*}
+		Y' = \begin{bmatrix} 
+		-3 & 0 & 0 & 0 \\
+		0 & -2 & 0 & 0 \\
+		0 & 0 & 2 & 0 \\
+		0 & 0 & 0 & 5 
+		\end{bmatrix} Y \quad \text{ and } \quad 
+		Y (0) = \begin{bmatrix}
+		2 \\ 1 \\ -1 \\ 0
+		\end{bmatrix} .
+		\end{align*}
+	\end{example}
+	
+\end{document}

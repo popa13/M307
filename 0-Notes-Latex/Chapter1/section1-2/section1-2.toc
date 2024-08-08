@@ -1,0 +1,12 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{What are Matrices?}{2}{section*.1}%
+\contentsline {subsection}{Definition}{2}{subsection*.2}%
+\contentsline {subsection}{Some Types of Matrices}{2}{subsection*.3}%
+\contentsline {section}{Arithmetic with Matrices}{3}{section*.4}%
+\contentsline {subsection}{Equality}{3}{subsection*.5}%
+\contentsline {subsection}{Addition}{3}{subsection*.6}%
+\contentsline {subsection}{Scalar Multiplication}{4}{subsection*.7}%
+\contentsline {subsection}{Matrix Multiplication}{5}{subsection*.8}%
+\contentsline {section}{Connection with System of Linear Equations}{10}{section*.9}%
+\contentsline {subsection}{Augmented Matrix Notation}{10}{subsection*.10}%
+\contentsline {subsection}{Rewriting a System in Matrix form}{10}{subsection*.11}%

@@ -1,0 +1,364 @@
+\documentclass[addpoints, 12pt]{exam}%, answers]
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{lmodern}
+\usepackage{arydshln}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{enumitem}
+
+\usepackage{amsmath, amsthm, amsfonts, amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows,calc,patterns}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage{url}
+\usepackage{multicol}
+\usepackage{thmtools}
+\usepackage{wrapfig}
+
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{pifont}
+
+% MATH commands
+\newcommand{\bC}{\mathbb{C}}
+\newcommand{\bR}{\mathbb{R}}
+\newcommand{\bN}{\mathbb{N}}
+\newcommand{\bZ}{\mathbb{Z}}
+\newcommand{\bT}{\mathbb{T}}
+\newcommand{\bD}{\mathbb{D}}
+
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cH}{\mathcal{H}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cJ}{\mathcal{J}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cF}{\mathcal{F}}
+
+\newcommand{\fK}{\mathfrak{K}}
+\newcommand{\fM}{\mathfrak{M}}
+
+\newcommand{\ga}{\left\langle}
+\newcommand{\da}{\right\rangle}
+\newcommand{\oa}{\left\lbrace}
+\newcommand{\fa}{\right\rbrace}
+\newcommand{\oc}{\left[}
+\newcommand{\fc}{\right]}
+\newcommand{\op}{\left(}
+\newcommand{\fp}{\right)}
+
+\newcommand{\ra}{\rightarrow}
+\newcommand{\Ra}{\Rightarrow}
+
+\renewcommand{\Re}{\mathrm{Re}\,}
+\renewcommand{\Im}{\mathrm{Im}\,}
+\newcommand{\Arg}{\mathrm{Arg}\,}
+\newcommand{\Arctan}{\mathrm{Arctan}\,}
+\newcommand{\sech}{\mathrm{sech}\,}
+\newcommand{\csch}{\mathrm{csch}\,}
+\newcommand{\Log}{\mathrm{Log}\,}
+\newcommand{\cis}{\mathrm{cis}\,}
+
+\newcommand{\ran}{\mathrm{ran}\,}
+\newcommand{\bi}{\mathbf{i}}
+\newcommand{\Sp}{\mathrm{span}\,}
+\newcommand{\Inv}{\mathrm{Inv}\,}
+\newcommand\smallO{
+  \mathchoice
+    {{\scriptstyle\mathcal{O}}}% \displaystyle
+    {{\scriptstyle\mathcal{O}}}% \textstyle
+    {{\scriptscriptstyle\mathcal{O}}}% \scriptstyle
+    {\scalebox{.7}{$\scriptscriptstyle\mathcal{O}$}}%\scriptscriptstyle
+  }
+\newcommand{\HOL}{\mathrm{Hol}}
+\newcommand{\cl}{\mathrm{clos}}
+\newcommand{\ve}{\varepsilon}
+
+\DeclareMathOperator{\dom}{dom}
+
+%%%%%% Définitions Theorems and al.
+%\declaretheoremstyle[preheadhook = {\vskip0.2cm}, mdframed = {linewidth = 2pt, backgroundcolor = yellow}]{myThmstyle}
+%\declaretheoremstyle[preheadhook = {\vskip0.2cm}, postfoothook = {\vskip0.2cm}, mdframed = {linewidth = 1.5pt, backgroundcolor=green}]{myDefstyle}
+%\declaretheoremstyle[bodyfont = \normalfont , spaceabove = 0.1cm , spacebelow = 0.25cm, qed = $\blacktriangle$]{myRemstyle}
+
+%\declaretheorem[ style = myThmstyle, name=Th\'eor\`eme]{theorem}
+%\declaretheorem[style =myThmstyle, name=Proposition]{proposition}
+%\declaretheorem[style = myThmstyle, name = Corollaire]{corollary}
+%\declaretheorem[style = myThmstyle, name = Lemme]{lemma}
+%\declaretheorem[style = myThmstyle, name = Conjecture]{conjecture}
+
+%\declaretheorem[style = myDefstyle, name = D\'efinition]{definition}
+
+%\declaretheorem[style = myRemstyle, name = Remarque]{remark}
+%\declaretheorem[style = myRemstyle, name = Remarques]{remarks}
+
+\newtheorem{theorem}{Théorème}
+\newtheorem{corollary}{Corollaire}
+\newtheorem{lemma}{Lemme}
+\newtheorem{proposition}{Proposition}
+\newtheorem{conjecture}{Conjecture}
+
+\theoremstyle{definition}
+
+\newtheorem{definition}{Définition}[section]
+\newtheorem{example}{Exemple}[section]
+\newtheorem{remark}{\textcolor{red}{Remarque}}[section]
+\newtheorem{exer}{\textbf{Exercice}}[section]
+
+
+\tikzstyle{myboxT} = [draw=black, fill=black!0,line width = 1pt,
+    rectangle, rounded corners = 0pt, inner sep=8pt, inner ysep=8pt]
+
+\begin{document}
+	\noindent \hrulefill \\
+	\noindent MATH-307 \hfill Created by Pierre-O. Paris{\'e}\\
+	Midterm 02 \hfill Summer 2022\\\vspace*{-0.7cm}
+
+\noindent\hrulefill
+	
+\vspace*{1cm}
+
+\noindent\makebox[\textwidth]{\textbf{Last name:}\enspace \hrulefill}
+\makebox[\textwidth]{\textbf{First name:}\enspace\hrulefill}
+
+\vspace*{1cm}
+\begin{center}
+\gradetable[h][questions]
+\end{center}
+\vspace*{1cm}
+
+{\bf Instructions:} Make sure to write your complete name on your copy. You must answer all the questions below and write your answers directly on the questionnaire. At the end of the 80 minutes, return your copy. 
+
+No devices such as a smart phone, cell phone, laptop, or tablet can be used during the exam. You are not allowed to use the lecture notes or the textbook. You may bring one 2-sided cheat sheet of handwriting notes. You may use a digital calculator (no graphical calculators or symbolic calculators will be allowed).
+
+You must show ALL your work to have full credit. An answer without justification is worth no point.
+
+\vspace*{2cm}
+\noindent May the Force be with you! \hfill Pierre-Olivier Parisé
+
+\vfill
+
+\noindent\textbf{Your Signature:} \hrulefill
+
+\vspace*{1cm}
+
+\begin{center}
+\begin{minipage}{0.29\textwidth}
+\begin{Huge}
+\textsc{University of Hawai'i}
+\end{Huge}
+\end{minipage}
+\begin{minipage}{0.12\textwidth}
+\includegraphics[scale=0.05]{../../../../manoaseal_transparent.png}
+\end{minipage}
+\end{center}
+
+\qformat{\rule{0.3\textwidth}{.4pt} \begin{large}{\textsc{Question}} \thequestion \end{large} \hspace*{0.2cm} \hrulefill \hspace*{0.1cm} \textbf{(\totalpoints\hspace*{0.1cm} pts)}}
+
+\vspace*{0.5cm}
+
+\newpage
+
+\begin{questions}
+
+\question
+Answer the following questions
+
+	\begin{parts}
+	\part[10]
+	Is $v = \begin{bmatrix} -4 \\ 3 \end{bmatrix}$ in the $\Sp \left\lbrace \begin{bmatrix} 3 \\ -3 \end{bmatrix} , \begin{bmatrix}
+	-4 \\ 4
+	\end{bmatrix} , \begin{bmatrix} 2 \\ 2 \end{bmatrix} \right\rbrace$?
+	\part[10]
+	Are the vectors $x^2 + x + 2$, $x^2 + 2x + 1$, $2x^2 + 5x + 1$ linearly dependent or linearly independent?
+	\end{parts}
+	
+\newpage
+
+\question
+
+Let $\alpha$ be the list of vectors
+	\begin{align*}
+	\begin{bmatrix}
+	1 \\ 3 \\ -1
+	\end{bmatrix} , \begin{bmatrix}
+	0 \\ -1 \\ 2
+	\end{bmatrix} , \begin{bmatrix}
+	2 \\ 1 \\ 3
+	\end{bmatrix}. 
+	\end{align*}
+In addition, suppose that $T: \bR^3 \ra P_2$ is a linear transformation such that
+	\begin{align*}
+	T \left( \begin{bmatrix} 1 \\ 3 \\ -1 \end{bmatrix} \right) = x + 1 , \quad T \left( \begin{bmatrix} 0 \\ -1 \\ 2 \end{bmatrix} \right) = x^2 + 2 \quad \text{ and } \quad T \left( \begin{bmatrix} 2 \\ 1 \\ 3 \end{bmatrix} \right) = 2x .
+	\end{align*}
+
+	\begin{parts}
+	\pointformat{(\hspace*{0.5cm}/ \thepoints)}
+	\pointname{}
+	\part[5]
+	Show that $\alpha$ is a basis of $\bR^3$.
+	\part[10]
+	Find the coordinates vector $[v]_\alpha$ if $v = \begin{bmatrix} 1 \\ 2 \\ -1 \end{bmatrix}$.
+	\part[5]
+	Find $T \left( \begin{bmatrix} 1 \\ 2 \\ -1 \end{bmatrix} \right)$.
+	\end{parts}
+	
+	\newpage
+	
+\question
+
+Let $\alpha$ and $\beta$ be the following bases of $\bR^3$:
+	\begin{align*}
+	\alpha = \left\lbrace v_1 = \begin{bmatrix} 1 \\ 3 \\ -1 \end{bmatrix} , \, v_2 = \begin{bmatrix} 0 \\ -1 \\ 2 \end{bmatrix} , \, v_3 = \begin{bmatrix} 2 \\ 1 \\ 3 \end{bmatrix} \right\rbrace , \quad \beta = \left\lbrace w_1 = \begin{bmatrix} 1 \\ -1 \\ 0 \end{bmatrix} , \, w_2 = \begin{bmatrix} 1 \\ 0 \\ 1 \end{bmatrix} , \, w_3 = \begin{bmatrix} 0 \\ 1 \\ -1 \end{bmatrix} \right\rbrace .
+	\end{align*}
+Suppose that the coordinates vectors of $v_1$, $v_2$, $v_3$ with respect to the basis $\beta$ are
+	\begin{align*}
+	[v_1]_{\beta} = \left[\begin{matrix}-9/5 \\-3\\ 7/5\end{matrix}\right] , \quad 
+	[v_2]_\beta = \left[\begin{matrix}-3/5 \\-1\\ 4/5\end{matrix}\right] , \quad 
+	[v_3]_\beta = \left[\begin{matrix}2/5 \\0\\- 1/5 \end{matrix}\right] .
+	\end{align*}
+Suppose also that the coordinates vectors of $w_1$, $w_2$, $w_3$ with respect to the basis $\alpha$ are
+	\begin{align*}
+	[w_1]_\alpha = \left[\begin{matrix} - 1/2 \\\ 3/2 \\ 5/2 \end{matrix}\right] , \quad
+	[w_2]_{\alpha} = \left[\begin{matrix} -1/2 \\ 1/2 \\- 3/2 \end{matrix}\right] , \quad
+	[w_3]_{\alpha} = \left[\begin{matrix}-1\\3\\0\end{matrix}\right] .
+	\end{align*}
+	
+	\begin{parts}
+	\pointformat{(\hspace*{0.5cm}/ \thepoints)}
+	\pointname{}
+	\part[5]
+	Find the matrix of\footnote{Recall that the linear transformation $I$ is defined by $I (v) = v$ for any $3 \times 1$ column vector $v$, that is
+	\begin{align*}
+	I \left( \begin{bmatrix}
+	x \\ y \\ z
+	\end{bmatrix} \right) = \begin{bmatrix}
+	x \\ y \\ z
+	\end{bmatrix} .
+	\end{align*}	 }
+	$I$ with respect to $\alpha$ and $\beta$, that is $[I]_\alpha^\beta$.
+	\part[5]
+	What does $[I]_{\alpha}^\beta$ represents in this context?
+	\part[5]
+	Find the matrix of $I$ with respect to $\beta$ and $\alpha$, that is $[I]_{\beta}^\alpha$.
+	\part[5]
+	What does $[I]_{\beta}^\alpha$ represents in this context?
+	\end{parts}
+	
+\newpage
+
+\question
+Let $\alpha$ be the standard basis of $\bR^3$ and let $\beta$ be the following basis of $\bR^3$:
+	\begin{align*}
+	\beta = \left\lbrace \begin{bmatrix} 1 \\ 1 \\ 1 \end{bmatrix} , \, \begin{bmatrix}
+	-2 \\ 3 \\ 2
+	\end{bmatrix} , \, \begin{bmatrix} 0 \\ 1 \\ 1 \end{bmatrix} \right\rbrace .
+	\end{align*}
+Suppose that the change of basis from $\alpha$ to $\beta$ is
+	\begin{align*}
+	P = \begin{bmatrix}
+	1 & -2 & 0 \\
+	1 & 3 & 1 \\
+	1 & 2 & 1
+	\end{bmatrix} \quad \text{ with } \quad P^{-1} = \left[\begin{matrix}1 & 2 & -2\\0 & 1 & -1\\-1 & -4 & 5\end{matrix}\right] .
+	\end{align*}
+
+	\begin{parts}
+	\pointformat{(\hspace*{0.5cm}/ \thepoints)}
+	\pointname{}
+	\part[10]
+	If $T : \bR^3 \ra \bR^3$ is a linear transformation such that
+		\begin{align*}
+		[T]_{\alpha}^\alpha = \begin{bmatrix}
+		1 & 2 & 0 \\ 2 & 0 & 1 \\ 0 & 3 & 4
+		\end{bmatrix} .
+		\end{align*}
+	Find $[T]_{\beta}^\beta$.
+	\part[10]
+	Find $[T(v)]_\beta$ if $[v]_\alpha = \begin{bmatrix}
+		1 \\ 2 \\ 3
+		\end{bmatrix}$.
+	\end{parts}
+
+\newpage
+	
+\question
+
+Answer the following.
+
+	\begin{parts}
+	\pointformat{(\hspace*{0.5cm}/ \thepoints)}
+	\pointname{}
+	
+	\part[5] 
+	Let $T : P_2 \ra P_3$ be the function defined by
+		\begin{align*}
+		T (ax^2 + bx + c) = x (ax^2 + bx + c) .
+		\end{align*}
+	Show that $T$ is a linear transformation.
+	\part[5]
+	Suppose that $v$ is a vector in the kernel of a linear transformation $T : V \ra W$. Let $u$ be a vector in $V$. Show that $T (u + v) = T(u)$.
+	\end{parts}
+	
+\newpage
+
+\question
+Answer the following statements with \textbf{True} or \textbf{False}. Write your answer on the horizontal line at the end of each statement. Justify your answer in the white space underneath each statement.
+
+	\begin{parts}
+	\pointformat{(\hspace*{0.5cm}/ \thepoints)}
+	\pointname{}
+	%\pointsinrightmargin
+	
+	\part[2]
+	If $T : V \ra W$ is a linear transformation with $\dim (V) = 5$ and $\dim (\ker (T)) = 1$, then the rank of $T$ is $4$.
+	\begin{solution}[\stretch{1}]
+	
+	\end{solution}
+	\answerline[False]
+	
+	\part[2]
+	The set of polynomials $P$ is finite dimensional.
+	\begin{solution}[\stretch{1}]
+	
+	\end{solution}
+	\answerline[False]
+	
+	\part[2]
+	If $\dim (V) = 5$ and $v_1$, $v_2$, $v_3$ are linearly independent, then $v_1$, $v_2$, $v_3$ forms a basis for $V$.
+	\begin{solution}[\stretch{1}]
+	
+	\end{solution}
+	\answerline[True]
+	
+	\part[2]
+	If $T \left( \begin{bmatrix} x \\ y \end{bmatrix} \right) = \begin{bmatrix} 2x \\ 2x + 2y \end{bmatrix}$, then $(2T) \left( \begin{bmatrix} x \\ y \end{bmatrix} \right) = \begin{bmatrix} 4x \\ 2x + 2y \end{bmatrix}$.
+	\begin{solution}[\stretch{1}]
+	
+	\end{solution}
+	\answerline[False]
+	
+	\part[2]
+	The transformation $T : D (a, b) \ra \bR$ defined by $T (f) = \int_a^b f'(x) \, dx$ is a linear transformation.
+	\begin{solution}[\stretch{1}]
+	
+	\end{solution}
+	\answerline[True]
+	
+	\end{parts}
+
+
+
+\end{questions}
+
+\end{document}

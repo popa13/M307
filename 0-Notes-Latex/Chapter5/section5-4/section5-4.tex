@@ -1,0 +1,339 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{environ}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[colorlinks = true, linkcolor = black]{hyperref}
+\usepackage{xparse}
+\usepackage{enumerate}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{multicol}
+\usepackage[indent=0pt]{parskip}
+
+\newcommand{\spaceP}{\vspace*{0.5cm}}
+\newcommand{\Span}{\mathrm{Span}\,}
+\newcommand{\range}{\mathrm{range}\,}
+
+%% Redefining sections
+\newcommand{\sectionformat}[1]{%
+    \begin{tikzpicture}[baseline=(title.base)]
+        \node[rectangle, draw] (title) {#1};
+    \end{tikzpicture}
+    
+    \noindent\hrulefill
+}
+
+% default values copied from titlesec documentation page 23
+% parameters of \titleformat command are explained on page 4
+\titleformat%
+    {\section}% <command> is the sectioning command to be redefined, i. e., \part, \chapter, \section, \subsection, \subsubsection, \paragraph or \subparagraph.
+    {\normalfont\large\scshape}% <format>
+    {}% <label> the number
+    {0em}% <sep> length. horizontal separation between label and title body
+    {\centering\sectionformat}% code preceding the title body  (title body is taken as argument)
+
+%% Set counters for sections to none
+\setcounter{secnumdepth}{0}
+
+%% Set the footer/headers
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{2pt}
+\lfoot{P.-O. Paris{\'e}}
+\cfoot{MATH 307}
+\rfoot{Page \thepage}
+
+%% Defining example environment
+\newcounter{example}[section]
+\NewEnviron{example}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{red}{Example~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+% Theorem environment
+\NewEnviron{theorem}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{blue}{Theorem~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+%% Commands for matrix of dimensions m x n
+%\newcommand{\matMN}[1]{%
+%	\begin{bmatrix}
+%	#1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+%	#1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+%	#1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+%	\vdots & \vdots & \vdots & \ddots & \vdots \\
+%	#1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+%	\end{bmatrix}		
+%	}
+	
+\NewDocumentCommand{\matMN}{mg}{%
+	\IfNoValueTF{#2}
+		{%
+		  \begin{bmatrix}
+		   #1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+	       #1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+		   #1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+		   \end{bmatrix}	%
+		}
+		{%
+		   \begin{bmatrix}
+		   #1_{11} + #2_{11} & #1_{12} + #2_{12} & \cdots & #1_{1n} + #2_{2n} \\
+		   #1_{21} + #2_{21} & #1_{22} + #2_{22} & \cdots & #1_{2n} + #2_{2n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} + #2_{m1} & #1_{m2} + #2_{m2} & \cdots & #1_{mn} + #2_{mn}
+		   \end{bmatrix}
+		}%
+}
+
+%%%%
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+\vspace*{2.5cm}
+
+{\Huge \textsc{Math 307}}
+
+\vspace*{2cm}
+
+{\LARGE \textsc{Chapter 5}} 
+
+\vspace*{0.75cm}
+
+\noindent\textsc{Section 5.4: Eigenvalues and Eigenvectors of Matrices}
+
+\vspace*{0.75cm}
+
+\tableofcontents
+
+\vfill
+
+\noindent \textsc{Created by: Pierre-Olivier Paris{\'e}} \\
+\textsc{Summer 2022}
+\end{center}
+
+\newpage
+
+	\section{What is an Eigenvalue and an Eigenvector?}
+	
+	\subsection{Example: Markov Processes}
+	
+	A market research company has predicted the future market share proportion of three compagnies $A$, $B$, and $C$. The future market is determined by a transition matrix $P$:
+		\begin{align*}
+		\left[\begin{matrix}0.8 & 0.03 & 0.2\\0.1 & 0.95 & 0.05\\0.1 & 0.02 & 0.75\end{matrix}\right]
+		\end{align*}
+	We have the following interpretation of each row of $P$:
+		\begin{itemize}
+		\item the first column of $P$ represents the share of Company $A$ that will pass to Company $A$, Company $B$, and Company $C$ respectively after a month.
+		\item the second column of $P$ represents the share of Company $B$ that will pass to Company $A$, Company $B$ and Company $C$ respectively after a month.
+		\item the third column of $P$ represents the share of Company $C$ that will pass to Company $A$, Company $B$ and Company $C$.
+		\end{itemize}
+		
+	\begin{example}
+	If the initial market for the three companies is represented by $s_0 = \begin{bmatrix} 30 & 15 & 55 \end{bmatrix}$, that is, Company $A$ has $30\%$ share, Company $B$ has $15\%$ share, and Company $C$ has $55\%$ share. Calculate the predicted market 
+		\begin{enumerate}
+		\item after $1$ month, that is $s_1$.
+		\item after $2$ month, that is $s_2$.
+		\item Using Python, find $s_5$ up to $s_{40}$.
+		\end{enumerate}
+	\end{example}
+
+	\vfill
+	
+	\underline{Remark}: After a period of time, the market share seems to stabilize. In fact, there are tools to compute this asymptotic values: eigenvalues and eigenvectors!
+	
+	\newpage
+	
+	\subsection{Definition}
+	Let $A$ be an $n \times n$ matrix.
+		
+		\begin{itemize}
+		\item An \textbf{eigenvalue} of $A$ is a scalar $\lambda$ such that there is a nonzero column vector $v$ in $\mathbb{R}^n$ so that
+			\begin{align*}
+			Av = \lambda v .
+			\end{align*}
+		\item The nonzero vector $v$ is called an \textbf{eigenvector} of $A$ associated to the eigenvalue $\lambda$.
+		\end{itemize}
+		
+	\begin{example}
+	Verify that the vector $v = \begin{bmatrix} -1 & 1 \end{bmatrix}^\top$ is an eigenvector of the matrix
+		\begin{align*}
+		A = \begin{bmatrix}
+		1 & -3 \\ -2 & 2 
+		\end{bmatrix} .
+		\end{align*}
+	\end{example}
+	
+	\newpage
+	
+	\subsection{Method to Find Eigenvalues}
+	If $v$ is a $n \times 1$ column vector and $A$ is an $n \times n$ matrix, then the equation
+		\begin{align*}
+		Av = \lambda v
+		\end{align*}
+	for some scalar $\lambda$ can be rewritten as
+		\begin{align*}
+		(\lambda I - A) v = 0 .
+		\end{align*}
+	There are two cases to consider:
+		\begin{itemize}
+		\item If the matrix $\lambda I - A$ is invertible, then the only solution is $v = 0$. This is not valid because an eigenvector should not be zero.
+		\item If the matrix $\lambda I - A$ is not invertible, then the system has non-trivial solutions. In particular, this means that $\det (\lambda I - A) = 0$.
+		\end{itemize}
+		
+	\vspace*{16pt}
+		
+	\underline{Characteristic Equation}: The eigenvalues are obtained from solving the characteristic equation of the matrix $A$ given by
+		\begin{align*}
+		\det (\lambda I - A ) = 0 .
+		\end{align*}
+		
+	\begin{example}
+	Find the eigenvalues of the matrix
+		\begin{align*}
+		A = \begin{bmatrix}
+		1 & -3 \\ -2 & 2
+		\end{bmatrix} .
+		\end{align*}
+	\end{example}
+	
+	\vfill
+	
+	\underline{Remark}: The expression $\det (\lambda I - A)$ is also called the characteristic polynomial (a polynomial of degree $n$ in the variable $\lambda$).
+	
+	\newpage
+	
+	\begin{example}
+	Find the eigenvectors of the matrix
+		\begin{align*}
+		A = \begin{bmatrix}
+		1 & -3 \\ -2 & 2
+		\end{bmatrix} .
+		\end{align*}
+	\end{example}
+	
+	\vfill
+	
+	\underline{Remark}: When $\lambda$ is an eigenvalue of $A$, then the steps to find the eigenvectors associated to $\lambda$ are the following:
+		\begin{enumerate}
+		\item Form the matrix $\lambda I - A$.
+		\item Find a basis for the nullspace of $\lambda I - A$, or equivalently find all non-trivial solutions to the system $(\lambda I - A) v = 0$ where $v = \begin{bmatrix} v_1 & v_2 & \cdots & v_n \end{bmatrix}^{\top}$.
+		\end{enumerate}
+	
+	\underline{Terminology}:
+		\begin{itemize}
+		\item The set of eigenvectors associated to an eigenvalue $\lambda$ is called the eigenspace and is denoted by $E_\lambda$.
+		\item We call $\dim (E_{\lambda})$ the \textbf{geometric multiplicity} of $\lambda$. 
+		\item The \textbf{algebraic multiplicity} of $\lambda$ is the number of times the factor $(x - \lambda )$ appears in the characteristic polynomial.
+		\end{itemize}
+		
+	\newpage
+	
+	\begin{example}
+	Find the eigenvalues and bases for the eigenspace associated to each eigenvalues of the matrix
+		\begin{align*}
+		A = \begin{bmatrix}
+		2 & -1 & 3 \\
+		0 & -1 & 0 \\
+		0 & 0 & -1
+		\end{bmatrix} .
+		\end{align*}
+	\end{example}
+	
+	\vfill
+	
+	\underline{Fact}: If $\lambda$ and $\mu$ are two different eigenvalues for a matrix $A$ and if $v$ and $w$ are two eigenvectors associated to the eigenvalues $\lambda$ and $\mu$ respectively, then $v$ and $w$ are linearly independent.
+	
+	\newpage
+	
+	\section{When the Eigenvalues are Complex Numbers}
+		
+		\begin{example}
+		Find the eigenvalues of the matrix
+			\begin{align*}
+			A = \begin{bmatrix}
+			0 & -1 \\ 1 & 0
+			\end{bmatrix}.
+			\end{align*}
+		\end{example}
+		
+		\vfill
+	
+		\subsection{Complex numbers}
+		We define $i = \sqrt{-1}$ such that $i^2 = -1$. A complex number $z$ is
+			\begin{align*}
+			z = a + b i .
+			\end{align*}
+			
+		\underline{Arithmetic Operations}:
+			\begin{itemize}
+			\item Equality: $a + bi = c + di$ if $a = c$ and $b = d$.
+			\item Addition: $(a + bi) + (c + di) = (a + c) + (b + d) i$.
+			\item Multiplication: Like multiplying two polynomials
+				\begin{align*}
+				(a + bi) (c + di) = 
+				\end{align*}
+			\item Conjugate: $\overline{a + bi} = a - bi$.
+			\end{itemize}
+		
+		\newpage
+		
+		
+		\subsection{Complex Eigenvalues}
+		To deal with the complex eigenvalues, we have to consider vectors with complex entries. 
+		
+		All the definitions associated to matrix addition, scalar multiplication, matrix multiplication, and the determinant of a matrix are all the same: Instead of using the addition and multiplication of the real numbers, we use the addition and multiplication of complex numbers.
+		
+		\vspace*{14pt}
+		
+		\begin{example}
+		Find the eigenvalues and eigenvectors of
+			\begin{align*}
+			A = \begin{bmatrix}
+			1 & -1 \\ 1 & 1
+			\end{bmatrix} .
+			\end{align*}
+		\end{example}
+		
+		\newpage
+		
+		\phantom{2}
+		
+		\vfill
+		
+		\underline{Fact}: Let $A$ be an $n \times n$ matrix with real numbers as entries. Suppose
+			\begin{itemize}
+			\item $\lambda$ is an eigenvalue of $A$;
+			\item $v_1$, $v_2$, $\ldots$, $v_k$ are basis of the eigenspace $E_{\lambda}$, then $\overline{\lambda}$ is also an eigenvalue of $A$ and $\overline{v}_1$, $\overline{v}_2$, $\ldots$, $\overline{v}_k$ form a basis for the eigenspace $E_{\overline{\lambda}}$.
+			\end{itemize}
+			
+		If $v$ is a column vector, the notation $\overline{v}$ means we are taking the conjugate of each component of $v$.
+			
+\end{document}

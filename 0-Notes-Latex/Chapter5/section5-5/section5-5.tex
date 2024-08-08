@@ -1,0 +1,369 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{environ}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[colorlinks = true, linkcolor = black]{hyperref}
+\usepackage{xparse}
+\usepackage{enumerate}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{multicol}
+\usepackage[indent=0pt]{parskip}
+
+\newcommand{\spaceP}{\vspace*{0.5cm}}
+\newcommand{\Span}{\mathrm{Span}\,}
+\newcommand{\range}{\mathrm{range}\,}
+
+%% Redefining sections
+\newcommand{\sectionformat}[1]{%
+    \begin{tikzpicture}[baseline=(title.base)]
+        \node[rectangle, draw] (title) {#1};
+    \end{tikzpicture}
+    
+    \noindent\hrulefill
+}
+
+% default values copied from titlesec documentation page 23
+% parameters of \titleformat command are explained on page 4
+\titleformat%
+    {\section}% <command> is the sectioning command to be redefined, i. e., \part, \chapter, \section, \subsection, \subsubsection, \paragraph or \subparagraph.
+    {\normalfont\large\scshape}% <format>
+    {}% <label> the number
+    {0em}% <sep> length. horizontal separation between label and title body
+    {\centering\sectionformat}% code preceding the title body  (title body is taken as argument)
+
+%% Set counters for sections to none
+\setcounter{secnumdepth}{0}
+
+%% Set the footer/headers
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{2pt}
+\lfoot{P.-O. Paris{\'e}}
+\cfoot{MATH 307}
+\rfoot{Page \thepage}
+
+%% Defining example environment
+\newcounter{example}[section]
+\NewEnviron{example}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{red}{Example~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+% Theorem environment
+\NewEnviron{theorem}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{blue}{Theorem~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+%% Commands for matrix of dimensions m x n
+%\newcommand{\matMN}[1]{%
+%	\begin{bmatrix}
+%	#1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+%	#1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+%	#1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+%	\vdots & \vdots & \vdots & \ddots & \vdots \\
+%	#1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+%	\end{bmatrix}		
+%	}
+	
+\NewDocumentCommand{\matMN}{mg}{%
+	\IfNoValueTF{#2}
+		{%
+		  \begin{bmatrix}
+		   #1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+	       #1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+		   #1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+		   \end{bmatrix}	%
+		}
+		{%
+		   \begin{bmatrix}
+		   #1_{11} + #2_{11} & #1_{12} + #2_{12} & \cdots & #1_{1n} + #2_{2n} \\
+		   #1_{21} + #2_{21} & #1_{22} + #2_{22} & \cdots & #1_{2n} + #2_{2n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} + #2_{m1} & #1_{m2} + #2_{m2} & \cdots & #1_{mn} + #2_{mn}
+		   \end{bmatrix}
+		}%
+}
+
+%%%%
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+\vspace*{2.5cm}
+
+{\Huge \textsc{Math 307}}
+
+\vspace*{2cm}
+
+{\LARGE \textsc{Chapter 5}} 
+
+\vspace*{0.75cm}
+
+\noindent\textsc{Section 5.5: Similar Matrices, Diagonalization, and Jordan Canonical Form}
+
+\vspace*{0.75cm}
+
+\tableofcontents
+
+\vfill
+
+\noindent \textsc{Created by: Pierre-Olivier Paris{\'e}} \\
+\textsc{Summer 2022}
+\end{center}
+
+\newpage
+
+\section{Similar Matrices}
+
+	\subsection{Motivation}
+	\begin{example}
+	Let $A$ be the $3 \times 3$ matrix
+		\begin{align*}
+		A = \begin{bmatrix}
+		2 & 0 & 0 \\ 0 & 3 & 0 \\ 0 & 0 & 4 
+		\end{bmatrix} .
+		\end{align*}
+	Then, (a) compute $A^5$ (b) find the eigenvalues of $A$ (c) find a basis for each eigenspace.
+	\end{example}
+	
+	\vfill
+	
+	\underline{Remarks}
+	\begin{itemize}
+	\item It is pretty easy to deal with diagonal matrices.
+	\item Our goal is to try to transform a general matrix into a diagonal matrix.
+	\end{itemize}
+	
+	\newpage
+	
+	\begin{example}\label{Ex:Diagonalization}
+	Let $A$ be the following $3 \times 3$ matrix
+		\begin{align*}
+		A = \begin{bmatrix}
+		6 & -4 & -2 \\
+		1 & 2 & -1 \\
+		1 & 0 & 1 
+		\end{bmatrix} .
+		\end{align*}
+	Find (a) the eigenvalues of $A$ (b) a basis for each eigenspace (c) compute $A^5$.
+	\end{example}
+	
+	\newpage
+	
+	\phantom{2}
+	
+	\newpage
+	
+	\subsection{Definition}
+	\underline{Diagonalizable Matrices}:
+	
+	An $n \times n$ matrix $A$ is \textit{diagonalizable} if there is a matrix $D$ and an invertible matrix $P$ such that
+		\begin{align*}
+		A = P^{-1} D P
+		\end{align*}
+		
+	\underline{Facts}:
+	\begin{itemize}
+	\item Let $A$ be an $n \times n$ matrix.
+	\item Let $\lambda_1$, $\lambda_2$, $\ldots$, $\lambda_k$ be the eigenvalues of $A$.
+	\item Let $E_{\lambda_1}$, $E_{\lambda_2}$, $\ldots$, $E_{\lambda_k}$ be the eigenspaces associated to each eigenvalue.
+	\end{itemize}
+	If $\dim (E_{\lambda_1}) + \dim (E_{\lambda_2}) + \cdots + \dim (E_{\lambda_k}) = n$, then $A$ is diagonalizable.
+		
+	\begin{example}
+	Is the matrix from Example \ref{Ex:Diagonalization} diagonalizable?
+	\end{example}
+	
+	\newpage
+	
+	\begin{example}
+	Is the matrix
+		\begin{align*}
+		A = \begin{bmatrix}
+		1 & -2 & -6 \\ -2 & 2 & -5 \\ 2 & 1 & 8
+		\end{bmatrix}
+		\end{align*}
+	diagonalizable? If so, determine the invertible matrix $P$ such that $P^{-1} A P$ is a diagonal matrix.
+	\end{example}
+	
+	\newpage
+	
+	\begin{example}
+	Is the matrix
+		\begin{align*}
+		A = \begin{bmatrix}
+		1 & -1 \\ 1 & 1
+		\end{bmatrix}
+		\end{align*}
+	diagonalizable? If so, determine the invertible matrix $P$ such that $P^{-1} A P$ is a diagonal matrix.
+	\end{example}
+	
+	
+	\newpage
+	
+	\underline{In general:}
+	
+	An $n \times n$ matrix $A$ is \textit{similar} to an $n \times n$ matrix $B$ if there is an invertible $n \times n$ matrix $P$ such that
+		\begin{align*}
+		B = P^{-1} A P .
+		\end{align*}
+		
+	\underline{Notation}: $A \sim B$ means that $A$ is similar to $B$.
+		
+	\underline{Facts}:
+		\begin{itemize}
+		\item If $A$ is similar to $B$ and $B$ is similar to $C$, then $A$ is similar to $C$.
+		\item If $P$ is the change of bases matrix from $\alpha$ to $\beta$ and $T$ is a linear transformation, then $[T]_\beta^\beta = P^{-1} [T]_{\alpha}^\alpha P$. So $[T]_{\beta}^\beta \sim [T]_{\alpha}^\alpha$.
+		\end{itemize}
+		
+	\vspace*{24pt}
+	
+	\underline{Question}:
+	
+	For non-diagonalizable matrices, can we reduce them to a simple form? 
+	
+	In other words, can we find a matrix $B$, as simple as possible, such that $B \sim A$? 
+	
+	Answer: Yes! We will replace the diagonal form by the Jordan canonical form.
+	
+\newpage
+
+\section{Jordan Canonical Form}
+	
+	\subsection{Jordan blocks}
+	A Jordan block is a square matrix $A$ taking the following shape:
+		\begin{align*}
+		A = \begin{bmatrix}
+		\mu & 1 & 0 & \cdots & 0 & 0\\
+		0 & \mu & 1 & \cdots & 0 & 0\\
+		\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+		0 & 0 & 0 & \cdots & \mu & 1 \\
+		0 & 0 & 0 & \cdots & 0 & \mu
+		\end{bmatrix} .
+		\end{align*}
+		
+	Why are these type of matrices important?
+		
+	\begin{example}
+	Let $A$ be the matrix
+		\begin{align*}
+		A = \begin{bmatrix}
+		\mu & 1 & 0 \\
+		0 & \mu & 1 \\
+		0 & 0 & \mu
+		\end{bmatrix}.
+		\end{align*}
+	(a) Compute $\det (\lambda I - A)$. (b) Find the dimension of the eigenspaces.
+	\end{example}
+	
+	\vfill
+	
+	\underline{Remark}: 
+	\begin{itemize}
+	\item a $n \times n$ Jordan block associated to a number $\mu$ has only one eigenvalue.
+	\item The algebraic multiplicity of this eigenvalue is necessarily equal to $n$.
+	\item We always have $\dim (E_{\mu}) = 1$ for an $n \times n$ Jordan block.
+	\item Jordan blocks are the building blocks for the set of matrices that can't be diagonalizable.
+	\end{itemize}
+	
+	\newpage
+	
+	\subsection{Reduction to Jordan Blocks}
+	
+	\begin{example}
+	We know that the matrix
+		\begin{align*}
+		A = \begin{bmatrix}
+		1 & -2 & -6 \\ -2 & 2 & -5 \\ 2 & 1 & 8
+		\end{bmatrix}
+		\end{align*}
+	is not diagonalizable. Find a matrix $B$, not necessarily a diagonal matrix, such that $A$ is similar to $B$.
+	\end{example}
+	
+	\newpage
+	
+	\underline{General Procedure}: Suppose $A$ is an $n \times n$ matrix.
+	\begin{itemize}
+	\item Express $\det (\lambda I - A )$ as
+		\begin{align*}
+		\det (\lambda I - A) = (\lambda - \lambda_1)^{m_1} (\lambda - \lambda_2 )^{m_2} \cdots (\lambda - \lambda_k)^{m_k}
+		\end{align*}
+	where $m_1$ is the multiplicity of $\lambda_1$, $m_2$ is the multiplicity of $\lambda_2$, $\ldots$, $m_k$ is the multiplicity of $\lambda_k$.
+	\item For each $\lambda_j$, write
+		\begin{align*}
+		A_{j} = \begin{bmatrix}
+		J_{m_{j-1} + 1} & 0 & \cdots & 0 \\
+		0 & J_{m_{j - 1} + 2} & \cdots & 0 \\
+		\vdots & \vdots & \ddots & \vdots \\
+		0 & 0 & \cdots & J_{m_j}
+		\end{bmatrix} .
+		\end{align*}
+	where each $J_p$, for $p = m_{j-1} + 1, \ldots m_j$, is a Jordan block
+		\begin{align*}
+		J_p = \begin{bmatrix}
+		\lambda_j & 1 & 0 & \cdots & 0 & 0 \\
+		0 & \lambda_j & 1 & \cdots & 0 & 0 \\
+		\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+		0 & 0 & 0 & \cdots & \lambda_j & 1 \\
+		0 & 0 & 0 & \cdots & 0 & \lambda_j
+		\end{bmatrix} .
+		\end{align*}
+	\item Then the Jordan Canonical Form (JCF) is
+		\begin{align*}
+		B = \begin{bmatrix}
+		A_1 & 0 & 0 & \cdots & 0 \\
+		0 & A_2 & 0 & \cdots & 0 \\
+		0 & 0 & A_3 & \cdots & 0 \\
+		\vdots & \vdots & \vdots & \ddots  & \vdots \\
+		0 & 0 & 0 & \cdots & A_k
+		\end{bmatrix}
+		\end{align*}
+	\item The invertible matrix $P$ such that $B = P^{-1} A P$ is more complicated to find. In theory, the method to find $P$ uses the notion of a \textbf{generalized eigenvector}. In our situation, we will use Python to find this matrix $P$. 
+	\end{itemize}
+	
+	If you want to know more on the generalized eigenvectors and the Jordan Canonical Form, I suggest to take a look at the following references:
+	\begin{itemize}
+	\item A more math article: \textit{Down With Determinants!} by Sheldon Axler, \url{https://www.maa.org/sites/default/files/pdf/awards/Axler-Ford-1996.pdf}.
+	\item A Youtube video: \url{https://www.youtube.com/watch?v=GVixvieNnyc}.
+	\end{itemize}
+	
+	\newpage
+	
+	\begin{example}
+	Let $A$ be an $7 \times 7$ matrix with the following eigenvalues:
+		\begin{align*}
+		\{ 1, 1, 1, 1, 2, 2, 3 \} .
+		\end{align*}
+	Give the possible Jordan canonical form $B$ of the matrix $A$.
+	\end{example}
+
+
+\end{document}

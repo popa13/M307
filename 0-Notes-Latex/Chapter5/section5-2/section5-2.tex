@@ -1,0 +1,203 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{environ}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[colorlinks = true, linkcolor = black]{hyperref}
+\usepackage{xparse}
+\usepackage{enumerate}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{multicol}
+\usepackage[indent=0pt]{parskip}
+
+\newcommand{\spaceP}{\vspace*{0.5cm}}
+\newcommand{\Span}{\mathrm{Span}\,}
+\newcommand{\range}{\mathrm{range}\,}
+
+%% Redefining sections
+\newcommand{\sectionformat}[1]{%
+    \begin{tikzpicture}[baseline=(title.base)]
+        \node[rectangle, draw] (title) {#1};
+    \end{tikzpicture}
+    
+    \noindent\hrulefill
+}
+
+% default values copied from titlesec documentation page 23
+% parameters of \titleformat command are explained on page 4
+\titleformat%
+    {\section}% <command> is the sectioning command to be redefined, i. e., \part, \chapter, \section, \subsection, \subsubsection, \paragraph or \subparagraph.
+    {\normalfont\large\scshape}% <format>
+    {}% <label> the number
+    {0em}% <sep> length. horizontal separation between label and title body
+    {\centering\sectionformat}% code preceding the title body  (title body is taken as argument)
+
+%% Set counters for sections to none
+\setcounter{secnumdepth}{0}
+
+%% Set the footer/headers
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{2pt}
+\lfoot{P.-O. Paris{\'e}}
+\cfoot{MATH 307}
+\rfoot{Page \thepage}
+
+%% Defining example environment
+\newcounter{example}[section]
+\NewEnviron{example}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{red}{Example~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+% Theorem environment
+\NewEnviron{theorem}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{blue}{Theorem~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+%% Commands for matrix of dimensions m x n
+%\newcommand{\matMN}[1]{%
+%	\begin{bmatrix}
+%	#1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+%	#1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+%	#1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+%	\vdots & \vdots & \vdots & \ddots & \vdots \\
+%	#1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+%	\end{bmatrix}		
+%	}
+	
+\NewDocumentCommand{\matMN}{mg}{%
+	\IfNoValueTF{#2}
+		{%
+		  \begin{bmatrix}
+		   #1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+	       #1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+		   #1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+		   \end{bmatrix}	%
+		}
+		{%
+		   \begin{bmatrix}
+		   #1_{11} + #2_{11} & #1_{12} + #2_{12} & \cdots & #1_{1n} + #2_{2n} \\
+		   #1_{21} + #2_{21} & #1_{22} + #2_{22} & \cdots & #1_{2n} + #2_{2n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} + #2_{m1} & #1_{m2} + #2_{m2} & \cdots & #1_{mn} + #2_{mn}
+		   \end{bmatrix}
+		}%
+}
+
+%%%%
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+\vspace*{2.5cm}
+
+{\Huge \textsc{Math 307}}
+
+\vspace*{2cm}
+
+{\LARGE \textsc{Chapter 5}} 
+
+\vspace*{0.75cm}
+
+\noindent\textsc{Section 5.2: The Algebra of Linear Transformations}
+
+\vspace*{0.75cm}
+
+\tableofcontents
+
+\vfill
+
+\noindent \textsc{Created by: Pierre-Olivier Paris{\'e}} \\
+\textsc{Summer 2022}
+\end{center}
+
+\newpage
+
+\section{Operations on Linear Transformations}
+
+	\subsection{Addition}
+	If $T : V \rightarrow W$ and $S : V \rightarrow W$ are two linear transformations, then their sum $T + S$ is the new linear transformation defined by
+		\begin{align*}
+		(T + S) (v) = T(v) + S(v) \quad v \text{ in } V .
+		\end{align*}
+		
+	\begin{example}\label{Ex:AdditionOperators}
+	Let $T$ and $S$ be the following linear transformations:
+		\begin{align*}
+		T \left( \begin{bmatrix}
+		x \\ y
+		\end{bmatrix} \right) = \begin{bmatrix}
+		2x - y \\ x + 2y
+		\end{bmatrix}
+		\quad \text{ and } \quad
+		S \left( \begin{bmatrix}
+		x \\ y
+		\end{bmatrix} \right) = \begin{bmatrix}
+		x + 3y \\ x - y
+		\end{bmatrix} .
+		\end{align*}
+	Find $T + S$.
+	\end{example}
+	
+	\vfill
+	
+	\subsection{Scalar Multiplication}
+	If $T : V \rightarrow W$ is a linear transformation and $c$ is a real number, then the function $cT$ is the linear transformation defined by
+		\begin{align*}
+		(cT) (v) = c T(v) \quad v \text{ in } V .
+		\end{align*}
+		
+	\begin{example}
+	With $T$ and $S$ as in the previous example, find $S + 4T$.
+	\end{example}
+	
+	\vfill
+	
+	Let $B (V, W)$ be the set of all linear transformations $T : V \rightarrow W$.
+	
+	\begin{theorem}
+	The set $B(V, W)$ equipped with the addition and scalar multiplication is a vector space.
+	\end{theorem}
+	
+	\newpage
+	
+	\subsection{Composition or Multiplication of Operators}
+	If $T : V \rightarrow W$ and $S : W \rightarrow U$ are two linear transformations, then the composite $ST : V \rightarrow U$ is the linear transformation defined by
+		\begin{align*}
+		ST (v) = S (T(v)) \quad v \text{ in } V .
+		\end{align*}
+		
+	\begin{example}
+	Find $ST$ with $S$ and $T$ as in example \ref{Ex:AdditionOperators}.
+	\end{example}	
+	
+
+\end{document}

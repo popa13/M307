@@ -1,0 +1,383 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{lmodern}
+
+\usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{multicol}
+
+\usepackage{comment}
+\usepackage{url}
+\usepackage{calc}
+\usepackage{subcaption}
+
+\usepackage{array}
+\usepackage{blkarray,booktabs, bigstrut}
+
+\pgfplotsset{compat=1.16}
+
+% MATH commands
+\newcommand{\ga}{\left\langle}
+\newcommand{\da}{\right\rangle}
+\newcommand{\oa}{\left\lbrace}
+\newcommand{\fa}{\right\rbrace}
+\newcommand{\oc}{\left[}
+\newcommand{\fc}{\right]}
+\newcommand{\op}{\left(}
+\newcommand{\fp}{\right)}
+
+\newcommand{\bi}{\mathbf{i}}
+\newcommand{\bj}{\mathbf{j}}
+\newcommand{\bk}{\mathbf{k}}
+\newcommand{\bF}{\mathbf{F}}
+
+\newcommand{\ra}{\rightarrow}
+\newcommand{\Ra}{\Rightarrow}
+
+\newcommand{\sech}{\mathrm{sech}\,}
+\newcommand{\csch}{\mathrm{csch}\,}
+\newcommand{\curl}{\mathrm{curl}\,}
+\newcommand{\dive}{\mathrm{div}\,}
+
+\newcommand{\ve}{\varepsilon}
+\newcommand{\spc}{\vspace*{0.5cm}}
+
+\DeclareMathOperator{\Ran}{Ran}
+\DeclareMathOperator{\Dom}{Dom}
+
+\newcommand{\exo}[2]{\noindent\textcolor{red}{\fbox{\textbf{Section {#1}, Problem {#2}}}}\\}
+
+\begin{document}
+	\noindent \hrulefill \\
+	MATH-307 \hfill Pierre-Olivier Paris{\'e}\\
+	Homework 4 Solutions \hfill Summer 2022\\\vspace*{-0.7cm}
+	
+	\noindent\hrulefill
+	
+	\spc
+	
+	\exo{2.1}{4}
+	
+	\begin{enumerate}
+	\item[a)] We have to verify if the addition and scalar multiplication satisfy the properties of a vector space.
+		\begin{itemize}
+		\item The addition is commutative:
+			\begin{align*}
+			(x_1 , y_1 , z_1 ) + (x_2 , y_2 , z_2) = (x_1 + x_2 , y_1 + y_2 , z_1 + z_2) = (x_2, y_2 , z_2) + (x_1 , y_1 , z_1 ) .
+			\end{align*}
+		\item The addition is associative:
+			\begin{align*}
+			\left[ (x_1, y_1 , z_1 ) + (x_2 , y_2 , z_2) \right] + (x_3 , y_3 , z_3) &= (x_1 + x_2 , y_1 + y_2 , z_1 + z_2 ) + (x_3 , y_3 , z_3 ) \\
+			&= (x_1 + x_2 + x_3 , y_1 + y_2 + y_3 , z_1 + z_2 + z_3 ) \\
+			&= (x_1 , y_1 , z_1) + (x_2 + x_3 , y_2 + y_3 , z_2 + z_3) \\
+			&= (x_1 , y_1 , z_1 ) + \left[ (x_2 , y_2 , z_2 ) + (x_3 , y_3 , z_3 ) \right] .
+			\end{align*}
+		\item Let $0 = (0, 0, 0)$. Then we have
+			\begin{align*}
+			(x_1, y_1 , z_1) + 0 = (x_1 + 0 , y_1 + 0 , z_1 + 0 ) = (x_1 , y_1 , z_1) .
+			\end{align*}
+		\item Let $-(x_1, y_1 , z_1) = (-x_1 , -y_1 , -z_1)$, then we have
+			\begin{align*}
+			(x_1 , y_1 , z_1) + \left[ -(x_1, y_1,z_1) \right] = (x_1 - x_1, y_1 - y_1 , z_1 - z_1 ) = (0, 0, 0) = 0 .
+			\end{align*}
+		\item The scalar multiplication is distributive over the addition:
+			\begin{align*}
+			c \cdot \left[ (x_1 , y_1 , z_1 ) + (x_2 , y_2 , z_2) \right] &= c \cdot (x_1 + x_2 , y_1 + y_2 , z_1 + z_2 ) \\
+			&= (c (x_1 + x_2) , y_1 + y_2 , c(z_1 + z_2) ) \\
+			&= (c x_1 + c x_2 , y_1 + y_2 , cz_1 + cz_2 ) \\
+			&= (cx_1, y_1 , cz_1) + (cx_2 , y_2 , cz_2) \\
+			&= c \cdot (x_1 , y_1 , z_1) + c \cdot (x_2 , y_2 , z_2) .
+			\end{align*}
+		\item The scalar multiplication is associative on the addition of the scalars:
+			\begin{align*}
+			(c + d) \cdot (x_1, y_1 , z_1) &= ( (c+d) x_1, y_1, (c+d) z_1) \\
+			&= (cx_1 + dx_1, y_1, cz_1 + dz_1) . 
+			\end{align*}
+		However, by definition, we have
+			\begin{align*}
+			c \cdot (x_1 , y_1 + z_1) + d \cdot (x_1 , y_1 , z_1) = ( c x_1 + d x_1, y_1 + y_1 , c z_1 + d z_1 ) 
+			\end{align*}
+		which is not equal to $(cx_1 + dx_1, y_1 , cz_1 , dz_1)$. The sixth property is not satisfied.
+		\end{itemize}
+	Thus, the addition and the scalar multiplication don't make the set of triplets $(x_1, y_1, z_1)$ into a vector space.
+	\item[b)] We have to verify if the addition and scalar multiplication satisfy the properties of a vector space.
+		\begin{itemize}
+		\item The addition is commutative:
+			\begin{align*}
+			(x_1 , y_1 , z_1 ) + (x_2 , y_2 , z_2) = (z_1 + z_2 , y_1 + y_2 , x_1 + x_2) &=  (z_2 + z_1 , y_2 + y_1 , x_2 + x_1) \\
+			&= (x_2, y_2 , z_2) + (x_1 , y_1 , z_1 ) .
+			\end{align*}
+		\item The addition is not associative associative:
+			\begin{align*}
+			\left[ (x_1, y_1 , z_1 ) + (x_2 , y_2 , z_2) \right] + (x_3 , y_3 , z_3) &= (z_1 + z_2 , y_1 + y_2 , x_1 + x_2 ) + (x_3 , y_3, z_3) \\
+			&= (x_1 + x_2 + z_3 , y_1 + y_2 + y_3 , z_1 + z_2 + x_3 )
+			\end{align*}
+		and
+			\begin{align*}
+			(x_1 , y_1 , z_1) + \left[ (x_2 , y_2 , z_2) + (x_3 , y_3 , z_3) \right] &= (x_1  ,y_1 , z_1 ) + (z_2 + z_3 , y_2 + y_3 , x_2 + x_3) \\
+			&= (z_1 + x_2 + x_3 , y_1 + y_2 + y_3 , x_1 + z_2 + z_3 ) .
+			\end{align*}
+		We therefore see that
+			\begin{align*}
+			\left[ (x_1, y_1 , z_1 ) + (x_2 , y_2 , z_2) \right] + (x_3 , y_3 , z_3)  \neq (x_1 , y_1 , z_1) + \left[ (x_2 , y_2 , z_2) + (x_3 , y_3 , z_3) \right] .
+			\end{align*}
+		\end{itemize}
+		The second property is not satisfied and therefore it is not a vector space.
+	\end{enumerate}
+	
+	\newpage
+	
+	\exo{2.2}{2}
+	
+	\begin{enumerate}
+	\item[a)] There are three conditions to verify:
+		\begin{itemize}
+		\item The set in question is a subset of $\mathbb{R}^3$.
+		\item We have
+			\begin{align*}
+			\begin{bmatrix}
+			x_1 \\ y_1 \\ y_1 - 4x_1
+			\end{bmatrix}
+			+ \begin{bmatrix}
+			x_2 \\ y_2 \\ y_2 - 4 x_2
+			\end{bmatrix} = 
+			\begin{bmatrix}
+			x_1 + x_2 \\ y_1 + y_2 \\ y_1 + y_2 - 4x_1 - 4x_2
+			\end{bmatrix} .
+			\end{align*}
+		Let $x = x_1 + x_2$ and $y = y_1 + y_2$. Then
+			\begin{align*}
+			\begin{bmatrix}
+			x_1 + x_2 \\ y_1 + y_2 \\ y_1 + y_2 - 4x_1 - 4x_2
+			\end{bmatrix} = \begin{bmatrix}
+			x \\ y \\ y - 4x
+			\end{bmatrix}
+			\end{align*}
+		which is exactly the form of the vectors in our set.
+		\item We have
+			\begin{align*}
+			c \cdot \begin{bmatrix}
+			x_1 \\ y_1 \\ y_1 - 4x_1
+			\end{bmatrix} = \begin{bmatrix}
+			c x_1 \\ c y_1 \\ cy_1 - 4c x_1
+			\end{bmatrix} .
+			\end{align*}
+		Let $x = c x_1$ and $y = c y_1$. Then
+			\begin{align*}
+			\begin{bmatrix}
+			c x_1 \\ c y_1 \\ cy_1 - 4c x_1
+			\end{bmatrix} = \begin{bmatrix}
+			x \\ y \\ y - 4x
+			\end{bmatrix}
+			\end{align*}
+		which is exactly the form of the vectors in our set.
+		\end{itemize}
+	We can therefore conclude that the set with the usual addition and scalar multiplication on vectors is a vector space.
+	\item[b)] There are again three conditions to verify:
+		\begin{itemize}
+		\item The set in question is a subset of $\mathbb{R}^3$.
+		\item We have
+			\begin{align*}
+			\begin{bmatrix}
+			y_1 + z_1 + 1 \\ y_1 \\ z_1
+			\end{bmatrix} + \begin{bmatrix}
+			y_2 + z_2 + 1 \\ y_2 \\ z_2
+			\end{bmatrix} = 
+			\begin{bmatrix}
+			y_1 + y_2 + z_1 + z_2 + 2 \\ y_1 + y_2 \\ z_1 + z_2
+			\end{bmatrix} .
+			\end{align*}
+		If we let $y = y_1 + y_2$ and $z = z_1 + z_2$, then
+			\begin{align*}
+			\begin{bmatrix}
+			y_1 + y_2 + z_1 + z_2 + 2 \\ y_1 + y_2 \\ z_1 + z_2
+			\end{bmatrix} = \begin{bmatrix}
+			y + z + 2 \\ y \\ z
+			\end{bmatrix}
+			\end{align*}
+		which is not of the form
+			\begin{align*}
+			\begin{bmatrix}
+			y + z + 1 \\ y \\ z
+			\end{bmatrix} .
+			\end{align*}
+		It should be a $1$, and not a $2$.
+		\end{itemize}
+	\end{enumerate}
+	
+	\newpage
+	
+	\exo{2.2}{4}
+	\begin{enumerate}
+	\item[a)] We have to verify three properties.
+		\begin{itemize}
+		\item The set in question is clearly a subset.
+		\item Let $A = \mathrm{diag}\, (a_1 , a_2)$ and $B = \mathrm{diag}\, (b_1 , b_2)$ be two diagonal matrices, then
+			\begin{align*}
+			A + B = \begin{bmatrix}
+			a_1 & 0 \\ 0 & a_2
+			\end{bmatrix} + \begin{bmatrix}
+			b_1 & 0 \\ 0 & b_2
+			\end{bmatrix} = \begin{bmatrix}
+			a_1 + b_1 & 0 \\ 0 & a_2 + b_2
+			\end{bmatrix} .
+			\end{align*}
+		We therefore see from the last calculations that $A+ B$ is still a diagonal matrix.
+		\item Let $c$ be a real number. We then have
+			\begin{align*}
+			c \cdot A = c \cdot \begin{bmatrix}
+			a_1 & 0 \\ 0 & a_2
+			\end{bmatrix} = \begin{bmatrix}
+			c a_1 & 0 \\ 0 & ca_2
+			\end{bmatrix} .
+			\end{align*}
+		We see again from the calculations that $c \cdot A$ is still a diagonal matrix.
+		\end{itemize}
+	We can therefore conclude that the set of $2 \times 2$ diagonal matrix is a subspace of the $2 \times 2$ matrices. In particular, the set of $2 \times 2$ diagonal matrices with the usual addition and scalar multiplication of matrices is a vector space.
+	\item[b)] The set of $2 \times 2$ matrices with determinant zero is not a subspace of the $2 \times 2$ matrices.
+		\begin{itemize}
+		\item The set in question is a subset of the set of $2 \times 2$ matrices.
+		\item Let $A$ and $B$ be defined as followed:
+			\begin{align*}
+			A = \begin{bmatrix}
+			1 & 2 \\ 0 & 0
+			\end{bmatrix}
+			\quad \text{ and } \quad
+			B = \begin{bmatrix}
+			0 & 0 \\ 3 & 4
+			\end{bmatrix} .
+			\end{align*}
+		A simple calculation gives $\det (A) = 0$ and $\det (B) = 0$. However, we have
+			\begin{align*}
+			A + B = \begin{bmatrix}
+			1 & 2 \\ 3 & 4
+			\end{bmatrix}
+			\end{align*}
+		and therefore $\det (A + B) = -2 \neq 0$.
+		\end{itemize}
+	So, the set of $2 \times 2$ matrices with determinant zero is not a subspace (so not a vector space).
+	\end{enumerate}		
+	
+	
+	\newpage
+	
+	\exo{2.2}{10}
+	\\
+	We have to find constants $c_1$, $c_2$, $c_3$ such that
+		\begin{align*}
+		\begin{bmatrix}
+		-4 \\ 3
+		\end{bmatrix} = 
+		c_1 \begin{bmatrix}
+		3 \\ -3
+		\end{bmatrix} + 
+		c_2 \begin{bmatrix}
+		-4 \\ 4
+		\end{bmatrix} + 
+		c_3 \begin{bmatrix}
+		2 \\ 2
+		\end{bmatrix} .
+		\end{align*}
+	We therefore have to solve the following system of linear equations:
+		\begin{align*}
+		\left\{ 
+		\begin{matrix}
+		3c_1 - 4c_2 + 2c_3 = -4 \\
+		-3c_1 + 4c_2 + 2c_3 = 3 .
+		\end{matrix} \right.
+		\end{align*}
+	We transform this system in its augmented form and we solve it:
+		\begin{align*}
+		\left[\begin{matrix}3 & -4 & 2 & -4\\-3 & 4 & 2 & 3\end{matrix}\right] \sim \left[\begin{matrix}1 & - \frac{4}{3} & 0 & - \frac{7}{6}\\0 & 0 & 1 & - \frac{1}{4}\end{matrix}\right]
+		\end{align*}
+	We obtain $c_1 - (4/3) c_2 = -7/6$ and $c_3 = -1/4$. We let $c_2 = 0$ (because we use it as a free variable) and we therefore obtain $c_1 = -7/6$ and $c_3 = -1/4$. We can conclude that the vector $\begin{bmatrix} -4 & 3 \end{bmatrix}^{\top}$ is the span of the three other vectors and
+		\begin{align*}
+		\begin{bmatrix}
+		-4 \\ 3
+		\end{bmatrix} = (-7/6) \begin{bmatrix}
+		3 \\ -3
+		\end{bmatrix} + (-1/4) \begin{bmatrix}
+		2 \\ 2
+		\end{bmatrix} .
+		\end{align*}
+		
+	\newpage
+	
+	
+	\exo{2.2}{19}
+	\\
+	We put the coefficients (in order: constant term, coefficient of $x$, coefficient of $x^2$) in a matrix (like we are used to form the augmented matrix). We have to see if we can reduce it to the identity matrix:
+		\begin{align*}
+		\begin{bmatrix}
+		-1 & 1 & 0 \\
+		0 & 0 & 1 \\
+		1 & 1 & 1
+		\end{bmatrix} \sim \left[\begin{matrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{matrix}\right] .
+		\end{align*}
+	Since we have the identity matrix, we therefore see that the polynomials in question span $P_2$.
+	
+	\newpage
+	
+	\exo{2.3}{6}
+	\\
+	We put the coefficients in a matrix and see if it reduces to the identity matrix:
+		\begin{align*}
+		\left[\begin{matrix}0 & 1 & 1\\4 & 5 & -3\\-1 & -3 & -1\end{matrix}\right] \sim \left[\begin{matrix}1 & 0 & -2\\0 & 1 & 1\\0 & 0 & 0\end{matrix}\right] .
+		\end{align*}
+	We see that it is not the identity matrix. In fact, we can see from the RREF of the matrix that the first and second vector are independant and the third one is a linear combinaison of the two others. The three vectors are therefore linearly dependent.
+	
+	\newpage
+	
+	\exo{2.3}{14}
+	\\
+	To show that the vectors form a basis, we have to show that there are linearly independent and they span $\mathbb{R}^3$. There is only one important step to do: show that the matrix with the coordinates of the vector is equivalent to the identity matrix. We have
+		\begin{align*}
+		\left[\begin{matrix}2 & 1 & 1\\-1 & 3 & -4\\0 & -1 & -1\end{matrix}\right] \sim \left[\begin{matrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{matrix}\right] .
+		\end{align*}
+	So the vectors for a basis for $\mathbb{R}^3$.
+	
+	\newpage
+	
+	\exo{2.3}{26}
+	\begin{enumerate}
+	\item[a)] The matrix of the coefficients of the polynomials is
+		\begin{align*}
+		\begin{bmatrix}
+		0 & 0 & 1 & 1 \\
+		1 & -1 & 1 & 0 \\
+		0 & 1 & 0 & 0 \\
+		1 & 0 & 0 & 1
+		\end{bmatrix}
+		\end{align*}
+	We augment this matrix with the column of coefficients of the polynomial $v = x^3 + x^2 + x + 1$:
+		\begin{align*}
+		\left[\begin{matrix}0 & 0 & 1 & 1 & 1\\1 & -1 & 1 & 0 & 1\\0 & 1 & 0 & 0 & 1\\1 & 0 & 0 & 1 & 1\end{matrix}\right]
+		\sim
+		\left[\begin{matrix}1 & 0 & 0 & 0 & 1\\0 & 1 & 0 & 0 & 1\\0 & 0 & 1 & 0 & 1\\0 & 0 & 0 & 1 & 0\end{matrix}\right] .
+		\end{align*}
+	We see that that
+		\begin{align*}
+		x^3 + x^2 + x + 1 = 1 (x + x^3) + 1 (-x + x^2) + 1( 1 + x) + 0(1 + x^3)
+		\end{align*}
+	and therefore
+		\begin{align*}
+		[v]_{\gamma} = \begin{bmatrix}
+		1 \\ 1 \\ 1 \\ 0
+		\end{bmatrix} .
+		\end{align*}
+	
+	\item[b)] We have the coordinates with respect to the basis $\gamma$. These coordinates mean
+		\begin{align*}
+		v = -2 (x^3 + x) + 2 (x^2 - x) + 0 (x +1 ) + 1(x^3 + 1) &= -2x^3 - 2x + 2x^2 - 2x + x^3 + 1 \\
+		&= -x^3 + 2x^2 - 4x + 1 .
+		\end{align*}
+	Thus, $v = -x^3 + 2x^2 - 4x + 1$.
+	\end{enumerate}
+	
+\end{document}

@@ -1,0 +1,370 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{environ}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[colorlinks = true, linkcolor = black]{hyperref}
+\usepackage{xparse}
+\usepackage{enumerate}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{multicol}
+
+\newcommand{\spaceP}{\vspace*{0.5cm}}
+
+%% Redefining sections
+\newcommand{\sectionformat}[1]{%
+    \begin{tikzpicture}[baseline=(title.base)]
+        \node[rectangle, draw] (title) {#1};
+    \end{tikzpicture}
+    
+    \noindent\hrulefill
+}
+
+% default values copied from titlesec documentation page 23
+% parameters of \titleformat command are explained on page 4
+\titleformat%
+    {\section}% <command> is the sectioning command to be redefined, i. e., \part, \chapter, \section, \subsection, \subsubsection, \paragraph or \subparagraph.
+    {\normalfont\large\scshape}% <format>
+    {}% <label> the number
+    {0em}% <sep> length. horizontal separation between label and title body
+    {\centering\sectionformat}% code preceding the title body  (title body is taken as argument)
+
+%% Set counters for sections to none
+\setcounter{secnumdepth}{0}
+
+%% Set the footer/headers
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{2pt}
+\lfoot{P.-O. Paris{\'e}}
+\cfoot{MATH 307}
+\rfoot{Page \thepage}
+
+%% Defining example environment
+\newcounter{example}[section]
+\NewEnviron{example}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{red}{Example~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+% Theorem environment
+\NewEnviron{theorem}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{blue}{Theorem~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+%% Commands for matrix of dimensions m x n
+%\newcommand{\matMN}[1]{%
+%	\begin{bmatrix}
+%	#1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+%	#1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+%	#1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+%	\vdots & \vdots & \vdots & \ddots & \vdots \\
+%	#1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+%	\end{bmatrix}		
+%	}
+	
+\NewDocumentCommand{\matMN}{mg}{%
+	\IfNoValueTF{#2}
+		{%
+		  \begin{bmatrix}
+		   #1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+	       #1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+		   #1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+		   \end{bmatrix}	%
+		}
+		{%
+		   \begin{bmatrix}
+		   #1_{11} + #2_{11} & #1_{12} + #2_{12} & \cdots & #1_{1n} + #2_{2n} \\
+		   #1_{21} + #2_{21} & #1_{22} + #2_{22} & \cdots & #1_{2n} + #2_{2n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} + #2_{m1} & #1_{m2} + #2_{m2} & \cdots & #1_{mn} + #2_{mn}
+		   \end{bmatrix}
+		}%
+}
+
+%%%%
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+\vspace*{2.5cm}
+
+{\Huge \textsc{Math 307}}
+
+\vspace*{2cm}
+
+{\LARGE \textsc{Chapter 1}} 
+
+\vspace*{0.75cm}
+
+\noindent\textsc{Section 1.5: Determinants}
+
+\vspace*{0.75cm}
+
+\tableofcontents
+
+\vfill
+
+\noindent \textsc{Created by: Pierre-Olivier Paris{\'e}} \\
+\textsc{Summer 2022}
+\end{center}
+
+\newpage
+
+\section{Origin of the Determinant}
+
+\begin{example}
+Find the equation of the parabola $ax^2 + bx + 1$ passing through the points $(1, 1)$ and $(2, 4)$.
+\end{example}
+
+\vfill
+
+\noindent\underline{Historical Notes}:
+	\begin{itemize}
+	\item Chinese scholars were the first to use determinants to solve systems of linear equations ($3^{\text{rd}}$ century BCE!).
+	\item Cramer (1779) and Bezout (1779 also) used determinant to find a plane curve passing through a set of points, like we did in the previous example.
+	\end{itemize}
+
+\newpage
+
+\section{Definition}
+
+	\subsection{2 by 2 matrices}
+	Given a $2 \times 2$ matrix 
+		\begin{align*}
+		A = \begin{bmatrix}
+		a_{11} & a_{12} \\ a_{21} & a_{22}
+		\end{bmatrix},
+		\end{align*}
+	the determinant of $A$, denoted by $\mathrm{det} \, (A)$ is
+		\begin{align*}
+		\mathrm{det}\, (A) = a_{11} a_{22} - a_{12} a_{21} .
+		\end{align*}
+		
+	\noindent\underline{Remark}: Another notation for the determinant is
+		\begin{align*}
+		\det (A) = \begin{vmatrix}
+		a_{11} & a_{12} \\ a_{21} & a_{22}
+		\end{vmatrix} .
+		\end{align*}
+		
+	\begin{example}
+	Calculate the determinant of the following matrices:
+		\begin{align*}
+		A = \begin{bmatrix}
+		1 & 2 \\ 3 & 4
+		\end{bmatrix}
+		\quad \text{and} \quad B = \begin{bmatrix}
+		-1 & 2 \\ 1 & -2
+		\end{bmatrix} .
+		\end{align*}
+	\end{example}
+	
+	\newpage
+	
+	\subsection{3 by 3 matrices}
+	Let $A$ be a general $3 \times 3$ matrix
+		\begin{align*}
+		A = \begin{bmatrix}
+		a_{11} & a_{12} & a_{13} \\ a_{21} & a_{22} & a_{32} \\
+		a_{31} & a_{32} & a_{33}
+		\end{bmatrix}
+		\end{align*}
+		
+		\begin{itemize}
+		\item \underline{Minor}: The minor of an entry $a_{ij}$ is the matrix $M_{ij}$ obtained from $A$ by removing row $i$ and column $j$.
+		\item \underline{Cofactor}: The cofactor of an entry $a_{ij}$ is the matrix $C_{ij}$ given by
+			\begin{align*}
+			C_{ij} = (-1)^{i + j} \det (M_{ij}) .
+			\end{align*}
+		\end{itemize}
+		
+	\begin{example}
+	Find the minor $M_{11}$, and the cofactor $C_{32}$ of the following matrices:
+	\begin{align*}
+		A = \begin{bmatrix}
+		2 & 3 & -2 \\ -1 & 6 & 3 \\ 4 & -2 & 1
+		\end{bmatrix}
+		\quad \text{and} \quad
+		B = \begin{bmatrix}
+		1 & -2 & 2 \\ 2 & -3 & -1 \\ 1 & -1 & -1
+		\end{bmatrix} .
+		\end{align*}
+	\end{example}
+	
+	\newpage
+	
+	\noindent The determinant of $A$ is given by
+		\begin{align*}
+		\det (A) &= a_{11} \det (M_{11}) - a_{12} \det (M_{12}) + a_{13} \det (M_{13})   \\
+		&=a_{11}
+		\begin{vmatrix}
+		a_{22} & a_{23} \\ a_{32} & a_{33}
+		\end{vmatrix}
+		- a_{12}
+		\begin{vmatrix}
+		a_{21} & a_{23} \\ a_{31} & a_{33}
+		\end{vmatrix}
+		+ a_{13}
+		\begin{vmatrix}
+		a_{12} & a_{22} \\ a_{31} & a_{32}
+		\end{vmatrix} \\
+		& = a_{11} a_{22} a_{33} - a_{11} a_{23} a_{32} - a_{12} a_{21} a_{33} + a_{12} a_{23} a_{32} + a_{13} a_{12}a_{32} - a_{13} a_{22} a_{31} .
+		\end{align*}
+
+	\begin{example}\label{Example:3x3Determinants}
+	Find the determinant of the following matrices:
+		\begin{align*}
+		A = \begin{bmatrix}
+		2 & 3 & -2 \\ -1 & 6 & 3 \\ 4 & -2 & 1
+		\end{bmatrix}
+		\quad \text{and} \quad
+		B = \begin{bmatrix}
+		1 & -2 & 2 \\ 2 & -3 & -1 \\ 1 & -1 & -1
+		\end{bmatrix} .
+		\end{align*}
+	\end{example}
+
+	\newpage
+	
+	\subsection{For General Matrices}
+	The determinant is defined recursively.
+		\begin{enumerate}
+		\item If $A$ is an $2 \times 2$ matrix, then $\det (A) = a_{11} a_{22} - a_{12}a_{21}$.
+		\item If $A$ is an $n \times n$ matrix, then
+			\begin{align*}
+			\det (A) &= a_{11} C_{11} + a_{12} C_{12} + \cdots + a_{1n} C_{1n} \\
+			&= a_{11} \det (M_{11}) - a_{12} \det (M_{12}) + \cdots + (-1)^{1 + n} a_{1n} \det (M_{1n}) .
+			\end{align*}
+		\end{enumerate}
+		
+		\begin{example}\label{Example:4x4Determinant}
+		Compute the determinant of the following matrix:
+			\begin{align*}
+			A = \begin{bmatrix}
+			7 & -3 & 0 & 4 \\
+			0 & 1 & 0 & 3 \\
+			2 & 1 & -2 & -5 \\
+			0 & 4 & 0 & 6
+			\end{bmatrix} .
+			\end{align*}
+		\end{example}
+		
+	\newpage
+	
+	\subsection{Determinant from any row or column}
+	
+	\noindent\underline{Lagrange's Expansion Formula}:
+	If $A$ is an $n \times n$ matrix with $n \geq 2$, then
+		\begin{itemize}
+		\item $\det (A) = \sum_{j = 1}^n a_{ij} C_{ij}$ for any row indexed by $i$.
+		\item $\det (A) = \sum_{i = 1}^n a_{ij} C_{ij}$ for any column indexed by $j$.
+		\end{itemize}
+	
+	\begin{example}
+	Compute again the determinant of the matrix $A$ in Example \ref{Example:3x3Determinants} by
+		\begin{enumerate}
+		\item expanding with respect to another row.
+		\item expanding with respect to one of the column.
+		\end{enumerate}
+	\end{example}
+	
+	\vfill
+	
+	\noindent\underline{Advice}: It would be clever to choose the row or column containing the greatest number of zeros.
+	
+	\newpage
+	
+\section{Important Properties of Determinants}
+
+	\subsection{When there too many zeros...}
+		
+	\begin{example}
+	Find the determinant
+		\begin{align*}
+		A = \begin{vmatrix}
+		1 & 1 & 1 & 0 & 1 & 1 & 1 \\
+		1 & 0 & 0 & 0 & 1 & 0 & 0 \\
+		0 & 1 & -1 & 0 & 1 & 2 & 0 \\
+		-1 & 2 & 3 & 0 & 4 & 2 & -1 \\
+		-2 & 2 & -1 & 0 & 3 & -3 & -1 \\
+		1 & -1 & 1 & 0 & 3 & -2 & -1 \\
+		-2 & -1 & 1 & 0 & -5 & 1 & -6
+		\end{vmatrix}.
+		\end{align*}
+	\end{example}
+	
+	\vfill
+	
+	\noindent\underline{Fact}:
+	If a matrix $A$ has a row or a column of zeros, then $\det (A) = 0$.
+	
+	\newpage
+	
+	\subsection{When the type matters!}
+	
+	\begin{example}
+	Find the determinant
+		\begin{align*}
+		A = \begin{vmatrix}
+		1 & 4 & 10 & 123 \\
+		0 & 2 & 124 & \pi \\
+		0 & 0 & 3 & \sqrt{2} \\
+		0 & 0 & 0 & 4
+		\end{vmatrix} .
+		\end{align*}
+	\end{example}
+	
+	\vfill
+	
+	\noindent\underline{Fact}:
+	The determinant of a triangular (upper or lower) is the product of its diagonal entries.
+	
+	\newpage
+	
+	\subsection{When Operations matter!}
+	
+	When $E$ is an elementary matrix, 
+	
+		\begin{itemize}
+		\item If $E$ switches row $i$ with row $j$, then $\det (E) = -1$.
+		\item If $E$ is obtained from $I$ by multiplying a row by some scalar $c$, then $\det (E) = c$.
+		\item If $E$ is obtained from $I$ by replacing a row of $I$ by itself plus a multiple of another row of $I$, then $\det (E) = 1$.
+		\end{itemize}
+	
+	\noindent This implies the following general facts:
+	Suppose that $A = [a_{ij}]$ is an $n \times n$ matrix with $n \geq 2$.
+		\begin{itemize}
+		\item If $B$ is a matrix obtained from $A$ by interchanging two rows of $A$, then $\det (B) = - \det (A)$.
+		\item If $B$ is a matrix obtained from $A$ by multiplying a row of $A$ by a scalar $c$, then $\det (B) = c \det (A)$.
+		\item If $B$ is a matrix obtained from $A$ by replacing a row of $A$ by itself plus a mlutiple of another row of $A$, then $\det (B) = \det (A)$. 
+		\end{itemize}
+
+\end{document}

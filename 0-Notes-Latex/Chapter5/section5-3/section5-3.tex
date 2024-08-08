@@ -1,0 +1,349 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{environ}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[colorlinks = true, linkcolor = black]{hyperref}
+\usepackage{xparse}
+\usepackage{enumerate}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{multicol}
+\usepackage[indent=0pt]{parskip}
+
+\newcommand{\spaceP}{\vspace*{0.5cm}}
+\newcommand{\Span}{\mathrm{Span}\,}
+\newcommand{\range}{\mathrm{range}\,}
+
+%% Redefining sections
+\newcommand{\sectionformat}[1]{%
+    \begin{tikzpicture}[baseline=(title.base)]
+        \node[rectangle, draw] (title) {#1};
+    \end{tikzpicture}
+    
+    \noindent\hrulefill
+}
+
+% default values copied from titlesec documentation page 23
+% parameters of \titleformat command are explained on page 4
+\titleformat%
+    {\section}% <command> is the sectioning command to be redefined, i. e., \part, \chapter, \section, \subsection, \subsubsection, \paragraph or \subparagraph.
+    {\normalfont\large\scshape}% <format>
+    {}% <label> the number
+    {0em}% <sep> length. horizontal separation between label and title body
+    {\centering\sectionformat}% code preceding the title body  (title body is taken as argument)
+
+%% Set counters for sections to none
+\setcounter{secnumdepth}{0}
+
+%% Set the footer/headers
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{2pt}
+\lfoot{P.-O. Paris{\'e}}
+\cfoot{MATH 307}
+\rfoot{Page \thepage}
+
+%% Defining example environment
+\newcounter{example}[section]
+\NewEnviron{example}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{red}{Example~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+% Theorem environment
+\NewEnviron{theorem}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{blue}{Theorem~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+%% Commands for matrix of dimensions m x n
+%\newcommand{\matMN}[1]{%
+%	\begin{bmatrix}
+%	#1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+%	#1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+%	#1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+%	\vdots & \vdots & \vdots & \ddots & \vdots \\
+%	#1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+%	\end{bmatrix}		
+%	}
+	
+\NewDocumentCommand{\matMN}{mg}{%
+	\IfNoValueTF{#2}
+		{%
+		  \begin{bmatrix}
+		   #1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+	       #1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+		   #1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+		   \end{bmatrix}	%
+		}
+		{%
+		   \begin{bmatrix}
+		   #1_{11} + #2_{11} & #1_{12} + #2_{12} & \cdots & #1_{1n} + #2_{2n} \\
+		   #1_{21} + #2_{21} & #1_{22} + #2_{22} & \cdots & #1_{2n} + #2_{2n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} + #2_{m1} & #1_{m2} + #2_{m2} & \cdots & #1_{mn} + #2_{mn}
+		   \end{bmatrix}
+		}%
+}
+
+%%%%
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+\vspace*{2.5cm}
+
+{\Huge \textsc{Math 307}}
+
+\vspace*{2cm}
+
+{\LARGE \textsc{Chapter 5}} 
+
+\vspace*{0.75cm}
+
+\noindent\textsc{Section 5.3: Matrices For Linear Transformations}
+
+\vspace*{0.75cm}
+
+\tableofcontents
+
+\vfill
+
+\noindent \textsc{Created by: Pierre-Olivier Paris{\'e}} \\
+\textsc{Summer 2022}
+\end{center}
+
+\newpage
+
+\section{Linear Transformation as A Matrix}
+
+	\begin{example}\label{Ex:BasisMatrixOperator}
+	Let $T : \mathbb{R}^3 \rightarrow \mathbb{R}^3$ be the linear transformation
+		\begin{align*}
+		T \left( \begin{bmatrix}
+		x \\ y \\ z
+		\end{bmatrix} \right) = \begin{bmatrix}
+		5x + z \\ 3x + 2y - 3z \\ 5x
+		\end{bmatrix} .
+		\end{align*}
+	Give a matrix representing the linear transformation $T$.
+	\end{example}
+	
+	\newpage
+	
+	\underline{General Process}:
+
+	Suppose $T : V \rightarrow W$ is a linear transformation. 
+	
+	\begin{itemize}
+	\item Let $v_1$, $v_2$, $\ldots$, $v_n$ form a basis $\alpha$ for $V$.
+	\item Let $w_1$, $w_2$, $\ldots$, $w_m$ form a basis $\beta$ for $W$.
+	\end{itemize}
+	
+	Since $T(v_1)$, $T(v_2)$, $\ldots$, $T(v_n)$ belongs to $W$ and $\beta$ is a basis for $W$, we have
+		\begin{align*}
+		T(v_1) &= a_{11} w_1 + a_{21} w_2 + \cdots + a_{m1} w_m \\
+		T(v_2) &= a_{12} w_1 + a_{22} w_2 + \cdots + a_{m2} w_m \\
+		& \phantom{2222222222} \vdots \\
+		T(v_n) &= a_{1n} w_1 + a_{2n} w_2 + \cdots + a_{mn} w_m .
+		\end{align*}
+	
+	We call the \textbf{matrix of $\mathbf{T}$ with respect to the bases $\mathbf{\alpha}$ and $\mathbf{\beta}$} the matrix $[T]_{\alpha}^\beta$ formed from the previous coefficients $a_{11} , a_{22} , \ldots , a_{mn}$:
+		\begin{align*}
+		[T]_{\alpha}^\beta =
+		\begin{bmatrix}
+		a_{11} & a_{12} & \cdots & a_{1n} \\
+		a_{21} & a_{22} & \cdots & a_{2n} \\
+		\vdots & \vdots & \ddots & \vdots \\
+		a_{m1} & a_{m2} & \cdots & a_{mn}
+		\end{bmatrix} .
+		\end{align*}
+	
+	\underline{Remarks}:
+	\begin{itemize}
+	\item With the notation introduced in Chapter 2 on basis, we have
+		\begin{align*}
+		[T]_{\alpha}^\beta = \begin{bmatrix}
+		[T(v_1)]_{\beta} & [T(v_1)]_\beta & \cdots [T(v_n)]_\beta 
+		\end{bmatrix} .
+		\end{align*}
+	\item When $T : V \rightarrow V$ is a linear transformation of $V$ into itself and $\alpha$ is used for both the domain and the codomain, then we simply say \textbf{the matrix of $\mathbf{T}$ with respect to $\mathbf{\alpha}$} and we denote it by $[T]_\alpha^\alpha$.
+	\end{itemize}
+	
+	\newpage
+	
+	\begin{example}\label{Ex:MatrixOfTransfoOtherBasis}
+	Let $T$ be the linear transformation in Example \ref{Ex:BasisMatrixOperator}. Let $\beta$ be the basis given by
+		\begin{align*}
+		\left\lbrace \begin{bmatrix}
+		1 \\ 1 \\ 2
+\end{bmatrix} , \begin{bmatrix}
+1 \\ -1 \\ 1
+\end{bmatrix} , \begin{bmatrix}
+1 \\ 1 \\ 1
+\end{bmatrix} \right\rbrace .
+		\end{align*}
+		Find
+		\begin{enumerate}
+		\item the matrix of $T$ with respect to the standard basis $\alpha$ of $\mathbb{R}^3$.
+		\item the matrix of $T$ with respect to the basis $\beta$.
+		\item $[T]_\alpha^\beta$.
+		\end{enumerate}
+	\end{example}
+	
+	\newpage
+	
+	\phantom{2}
+	
+	\vfill
+	
+	\section{Matrix of the Composition}
+	Let $T : V \rightarrow W$ and $S : W \rightarrow U$ be linear transformations. Suppose that
+		\begin{itemize}
+		\item $\alpha$ is a basis for $V$;
+		\item $\beta$ is a basis for $W$;
+		\item $\gamma$ is a basis for $U$.
+		\end{itemize}
+	Then we have
+		\begin{align*}
+		[ST]_\alpha^\gamma = [S]_{\beta}^\gamma [T]_{\alpha}^\beta .
+		\end{align*}
+	
+	\newpage
+	
+	\section{Matrix and Evaluation of Transformations}
+	
+	Given a transformation $T : V \rightarrow W$, a basis $\alpha$ for $V$ and a basis $\beta$ for $W$, we then have
+		\begin{align*}
+		[T(v)]_{\beta} = [T]_{\alpha}^\beta [v]_\alpha .
+		\end{align*}
+		
+	\underline{Remark}: The last equality means that the vector $T(v)$ is obtained by multiplying the matrix of $T$ with respect to $\alpha$ and $\beta$ by the vector of the coordinates of $v$ in the basis $\alpha$.
+	
+	\vspace*{12pt}
+	
+	\begin{example}
+	Let $T$, $\alpha$ and $\beta$ be as in Example \ref{Ex:MatrixOfTransfoOtherBasis}. 
+		\begin{enumerate}
+		\item Find the coordinate vector of $v = \begin{bmatrix} 1 & 2 & 3 \end{bmatrix}^\top$ with respect to the basis $\alpha$.
+		\item Find coordinate vector of $T(v)$ with respect to the basis $\beta$.
+		\item Use the result in part (b) to find $T(v)$ in the standard basis.
+		\end{enumerate}
+	\end{example}
+	
+	\newpage
+	
+	\section{Change of Basis}
+	
+	\subsection{Matrix of a Change of Basis}
+	
+	\begin{example}\label{Ex:ChangeBasis}
+	Let $\alpha$ be the standard basis for $\mathbb{R}^3$ and let $\beta$ be the basis in Example \ref{Ex:MatrixOfTransfoOtherBasis}. Find a matrix that will send each vector in the basis $\alpha$ to the vectors in the basis $\beta$. 
+	\end{example}
+	
+	\newpage
+	
+	\underline{General Procedure}:
+	
+	Let $\alpha$ and $\beta$ be two bases of $V$:
+		\begin{itemize}
+		\item $\alpha$ be a basis with vectors $v_1$, $v_2$, $\ldots$, $v_n$.
+		\item $\beta$ be a basis with vectors $w_1$, $w_2$, $\ldots$, $w_n$.
+		\end{itemize}
+	Write
+		\begin{align*}
+		w_1 &= p_{11} v_1 + p_{21} v_2 + \cdots + p_{n1} v_n \\
+		w_2 &= p_{12} v_1 + p_{22} v_2 + \cdots + p_{n2} v_n \\
+		& \phantom{22222222222} \vdots \\
+		w_n &= p_{1n} v_1 + p_{2n} v_2 + \cdots + p_{nn} v_n .
+		\end{align*}
+	Then the matrix
+		\begin{align*}
+		P = \begin{bmatrix}
+		p_{11} & p_{12} & \cdots & p_{1n} \\
+		p_{21} & p_{22} & \cdots & p_{2n} \\
+		\vdots & \vdots & \ddots & \vdots \\
+		p_{n1} & p_{n2} & \cdots & p_{nn}
+		\end{bmatrix}
+		\end{align*}
+	is called the \textbf{change of basis matrix from $\mathbf{\alpha}$ to $\mathbf{\beta}$}.
+	
+	\underline{Fact}: 
+	\begin{itemize}
+	\item If we define $I(v) = v$ to be the identity transformation, then in fact $P = [I]_{\beta}^\alpha$. So, $[v]_{\alpha} = P [v]_\beta$.
+	\vfill
+	\item If $P$ is the change of basis matrix from a basis $\alpha$ to a basis $\beta$ of a vector space, then the change of basis from $\beta$ to $\alpha$ is $P^{-1}$. So $P^{-1} = [I]_\alpha^\beta$ and $[v]_\beta = P^{-1} [v]_\alpha$.
+	\end{itemize}
+	
+	\newpage	
+	
+	\subsection{Consequence on the Matrix of a Linear Transformation}
+	
+	\begin{example}
+	Let $\alpha$ be the standard basis and let $\beta$ be the basis in Example \ref{Ex:MatrixOfTransfoOtherBasis}. Suppose that a linear transformation $T$ has the following matrix with respect to $\alpha$:
+		\begin{align*}
+		[T]_{\alpha}^\alpha = \begin{bmatrix}
+		1 & 3 & -1 \\ 2 & -1 & 2 \\ 1 & 3 & -1
+		\end{bmatrix} .
+		\end{align*}
+	Find $[T(v)]_{\beta}$ where $[v]_{\beta} = \begin{bmatrix} 1 & 2 & 3 \end{bmatrix}^\top$. 
+	\end{example}
+	
+	\newpage
+	
+	\phantom{222}
+	
+	\vfill
+	
+	\underline{Facts}:
+	
+	\begin{itemize}
+	\item If $T : V \rightarrow V$ is a linear transformation, $\alpha$ and $\beta$ are bases for $V$, and $P$ is the change of basis matrix from $\alpha$ to $\beta$, then
+		\begin{align*}
+		[T]_\beta^\beta = P^{-1} [T]_\alpha^\alpha P .
+		\end{align*}
+	\item If $T : \mathbb{R}^n \rightarrow \mathbb{R}^m$ is a linear transformation and $A$ is the matrix of $T$ with respect to the standard basis of $\mathbb{R}^n$ and $\mathbb{R}^m$, then
+		\begin{align*}
+		T (X) = A X .
+		\end{align*}
+	\end{itemize}
+	
+\end{document}
+
+
+	
+	\underline{\textbf{Proof}}:
+	
+	\newpage
+	
+	\subsection{Change in the Matrix of a Transformation}
+	Given a linear transformation $T : V \rightarrow W$, two bases $\alpha$ and $\alpha'$ of $V$ and two bases $\beta$ and $\beta'$ of $W$, if $P$ is the change of basis from $\alpha$ to $\alpha'$ and $Q$ is the change of basis from $\beta$ to $\beta'$, then
+		\begin{align*}
+		[T]_{\alpha'}^{\beta'} = Q^{-1} [T]_{\alpha}^\beta P .
+		\end{align*}

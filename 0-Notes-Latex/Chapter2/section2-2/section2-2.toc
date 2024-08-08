@@ -1,0 +1,8 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{What Is a Subspace}{2}{section*.1}%
+\contentsline {subsection}{Definition}{2}{subsection*.2}%
+\contentsline {subsection}{Important Examples: Set of Polynomials}{4}{subsection*.3}%
+\contentsline {section}{What does Span mean?}{5}{section*.4}%
+\contentsline {subsection}{Linear Combinations}{5}{subsection*.5}%
+\contentsline {subsection}{Spanning set}{6}{subsection*.6}%
+\contentsline {subsection}{Spanning a whole vector space}{7}{subsection*.7}%

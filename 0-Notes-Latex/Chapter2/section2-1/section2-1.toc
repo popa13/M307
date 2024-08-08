@@ -1,0 +1,13 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{Examples}{2}{section*.1}%
+\contentsline {subsection}{Solutions to System of Linear Equations}{2}{subsection*.2}%
+\contentsline {section}{What is a Vector Space?}{3}{section*.3}%
+\contentsline {subsection}{Precise Definition}{3}{subsection*.4}%
+\contentsline {subsection}{Column Vectors as a Vector space}{3}{subsection*.5}%
+\contentsline {subsection}{Matrices as a Vector Space}{5}{subsection*.6}%
+\contentsline {subsection}{Functions as a Vector Space}{5}{subsection*.7}%
+\contentsline {subsection}{A nonexample}{7}{subsection*.8}%
+\contentsline {section}{Simple Properties of Vector Spaces}{9}{section*.9}%
+\contentsline {subsection}{Uniqueness}{9}{subsection*.10}%
+\contentsline {subsection}{Multiplying by Zero}{9}{subsection*.11}%
+\contentsline {subsection}{Subtraction in Vector space}{9}{subsection*.12}%

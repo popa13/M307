@@ -1,0 +1,580 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{lmodern}
+
+\usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{multicol}
+
+\usepackage{comment}
+\usepackage{url}
+\usepackage{calc}
+\usepackage{subcaption}
+
+\usepackage{array}
+\usepackage{blkarray,booktabs, bigstrut}
+
+\pgfplotsset{compat=1.16}
+
+% MATH commands
+\newcommand{\ga}{\left\langle}
+\newcommand{\da}{\right\rangle}
+\newcommand{\oa}{\left\lbrace}
+\newcommand{\fa}{\right\rbrace}
+\newcommand{\oc}{\left[}
+\newcommand{\fc}{\right]}
+\newcommand{\op}{\left(}
+\newcommand{\fp}{\right)}
+
+\newcommand{\bi}{\mathbf{i}}
+\newcommand{\bj}{\mathbf{j}}
+\newcommand{\bk}{\mathbf{k}}
+\newcommand{\bF}{\mathbf{F}}
+
+\newcommand{\mR}{\mathbb{R}}
+
+\newcommand{\ra}{\rightarrow}
+\newcommand{\Ra}{\Rightarrow}
+
+\newcommand{\sech}{\mathrm{sech}\,}
+\newcommand{\csch}{\mathrm{csch}\,}
+\newcommand{\curl}{\mathrm{curl}\,}
+\newcommand{\dive}{\mathrm{div}\,}
+
+\newcommand{\ve}{\varepsilon}
+\newcommand{\spc}{\vspace*{0.5cm}}
+
+\DeclareMathOperator{\Ran}{Ran}
+\DeclareMathOperator{\Dom}{Dom}
+
+\newcommand{\exo}[3]{\noindent\textcolor{red}{\fbox{\textbf{Section {#1} | Problem {#2} | {#3} points}}}\\}
+
+\begin{document}
+	\noindent \hrulefill \\
+	MATH-307 \hfill Pierre-Olivier Paris{\'e}\\
+	Homework 6 Solutions \hfill Summer 2022\\\vspace*{-0.7cm}
+	
+	\noindent\hrulefill
+	
+	\spc
+	
+	\exo{5.4}{2}{5}
+	\\
+	The eigenvalues are the solutions to the equation
+		\begin{align*}
+		\det \left( \begin{bmatrix} \lambda & 0 \\ 0 & \lambda \end{bmatrix} - \begin{bmatrix} 4 & -4 \\ 1 & 0 \end{bmatrix} \right) = 0 .
+		\end{align*}
+	We have
+		\begin{align*}
+		\begin{bmatrix} \lambda & 0 \\ 0 & \lambda \end{bmatrix} - \begin{bmatrix} 4 & -4 \\ 1 & 0 \end{bmatrix} = \begin{bmatrix}
+		\lambda - 4 & 4 \\ -1 & \lambda
+		\end{bmatrix}
+		\end{align*}
+	and therefore
+		\begin{align*}
+		\det \left( \begin{bmatrix}
+		\lambda - 4 & 4 \\ -1 & \lambda
+		\end{bmatrix} \right) = \lambda^2 - 4\lambda + 4 = (\lambda - 2)^2 .
+		\end{align*}
+	The eigenvalue is $\lambda = 2$ with an algebraic multiplicity of $2$.
+	
+	The eigenspace $E_2$ is the nullspace (or kernel) of the matrix $2I - A$. We have
+		\begin{align*}
+		2I - A = \begin{bmatrix}
+		-2 & 4 \\ -1 & 2
+		\end{bmatrix} .
+		\end{align*}
+	We therefore have to solve the system
+		\begin{align*}
+		\begin{bmatrix}
+		-2 & 4 \\ -1 & 2
+		\end{bmatrix}
+		\begin{bmatrix}
+		x \\ y
+		\end{bmatrix} = 
+		\begin{bmatrix}
+		0 \\ 0
+		\end{bmatrix} .
+		\end{align*}
+	This corresponds to a system of linear equations. We solve it to find
+		\begin{align*}
+		\begin{bmatrix}
+		x \\ y
+		\end{bmatrix} = \begin{bmatrix}
+		2y \\ y
+		\end{bmatrix} = 
+		y \begin{bmatrix}
+		2 \\ 1
+		\end{bmatrix} .
+		\end{align*}
+	Therefore, a basis for the eigenspace $E_2$ is 
+		\begin{align*}
+		\begin{bmatrix}
+		2 \\ 1
+		\end{bmatrix}.
+		\end{align*}
+		
+	\newpage
+	
+	\exo{5.4}{10}{5}
+	\\
+	We have to find the eigenvalues first. Those are the solutions to the characteristic equation
+		\begin{align*}
+		\det \left( \lambda I - A \right) = 0
+		\end{align*}
+	with $A$ as in the problem. We have
+		\begin{align*}
+		\lambda I - A = \begin{bmatrix}
+		\lambda + 6 & 0 & 8 \\
+		4 & \lambda - 2 & 4 \\
+		-4 & 0 & \lambda - 6
+		\end{bmatrix}
+		\end{align*}
+	and therefore
+		\begin{align*}
+		\det (\lambda I - A) = \lambda^{3} - 2 \lambda^{2} - 4 \lambda + 8 = (\lambda - 2)^2 (\lambda + 2) .
+		\end{align*}
+	The eigenvalues are $\lambda_1 = 2$ (algebraic multiplicity $2$) and $\lambda_2 = -2$ (algebraic multiplicity $1$).
+	
+	\vspace*{16pt}
+	
+	We have to find a basis for each eigenspace.
+	\begin{enumerate}
+	\item[\underline{$E_{2}$}] We have to find all the solutions $v$ to $(2I - A)v = 0$. In matrix form, this is
+		\begin{align*}
+		(2 I - A) v = \begin{bmatrix}
+		8 & 0 & 8 \\
+		4 & 0 & 4 \\
+		-4 & 0 & -4
+		\end{bmatrix}
+		\begin{bmatrix}
+		x \\ y \\ z
+		\end{bmatrix} = 
+		\begin{bmatrix}
+		0 \\ 0 \\ 0
+		\end{bmatrix} .
+		\end{align*}
+	After solving the system, we see that
+		\begin{align*}
+		\begin{bmatrix}
+		x \\ y \\ z
+		\end{bmatrix} = \begin{bmatrix}
+		-z \\ y \\ z
+		\end{bmatrix} = y \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix} + z \begin{bmatrix} -1 \\ 0 \\ 1 \end{bmatrix} .
+		\end{align*}
+	Therefore a basis for the eigenspace $E_2$ is the following list:
+		\begin{align*}
+		\begin{bmatrix}
+		0 \\ 1 \\ 0
+		\end{bmatrix} ,\, 
+		\begin{bmatrix}
+		-1 \\ 0 \\ 1
+		\end{bmatrix} .
+		\end{align*}
+	\item[\underline{$E_{-2}$}] We have to find all the solutions $v$ to $(-2I - A ) v = 0$. In matrix form, this is
+		\begin{align*}
+		(-2 I - A) v = \begin{bmatrix}
+		4 & 0 & 8 \\
+		4 & -4 & 4 \\
+		-4 & 0 & -8
+		\end{bmatrix} \begin{bmatrix}
+		x \\ y \\ z
+		\end{bmatrix} = \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}
+		\end{align*}
+	After solving the system, we obtain $x = -2z$, $y = -z$ and $z$ is a free variable. Therefore, we obtain
+		\begin{align*}
+		\begin{bmatrix}
+		x \\ y \\ z
+		\end{bmatrix} = \begin{bmatrix}
+		-2z \\ -z \\ z
+		\end{bmatrix} = z \begin{bmatrix}
+		-2 \\ -1 \\ 1
+		\end{bmatrix} .
+		\end{align*}
+	Therefore, a basis for $E_{-2}$ is $\begin{bmatrix}
+	-2 & -1 & 1
+	\end{bmatrix}^\top$.
+	\end{enumerate}
+	
+	\newpage
+	
+	\exo{5.4}{16}{10}
+	\\
+	The first step is to find the eigenvalues. Those are the solution to the characteristic equation:
+		\begin{align*}
+		\det (\lambda I - A) = 0 .
+		\end{align*}
+	With the data from the problem, we obtain
+		\begin{align*}
+		\det (\lambda I - A) = \lambda^2 + 4 = 0 .
+		\end{align*}
+	We find the roots to be $\lambda = \pm 2 i$ where $i = \sqrt{-1}$, the imaginary unit in the complex numbers.
+	
+	The second step is to find bases for the eigenspaces.
+	\begin{enumerate}
+	\item[\underline{$E_{2i}$}] We have to find all the solutions to $(2iI - A)v = 0$. In matrix form, we have
+		\begin{align*}
+		(2iI - A)v = \begin{bmatrix}
+		4 + 2i & -5 \\ 4 & -4 + 2i
+		\end{bmatrix} \begin{bmatrix}
+		x \\ y
+		\end{bmatrix} = \begin{bmatrix}
+		0 \\ 0
+		\end{bmatrix} .
+		\end{align*}
+	We can solve this system by finding the RREF of the system:
+		\begin{align*}
+		\begin{bmatrix}
+		4 + 2i & -5 & 0 \\
+		4 & -4 + 2i & 0
+		\end{bmatrix} \sim 
+		\left[\begin{matrix}4 + 2 i & -5 & 0\\0 & 0 & 0\end{matrix}\right]
+		\end{align*}
+	We therefore find that $5y = (4 + 2i) x$ which gives
+		\begin{align*}
+		\begin{bmatrix}
+		x \\ y
+		\end{bmatrix} = \begin{bmatrix}
+		x \\ (4 + 2i)x/5
+		\end{bmatrix} = x/5 \begin{bmatrix}
+		5 \\ 4 + 2i
+		\end{bmatrix} .
+		\end{align*}
+	A basis for $E_{2i}$ is therefore 
+		\begin{align*}
+		\begin{bmatrix}
+		5 \\ 4 + 2i
+		\end{bmatrix} .
+		\end{align*}
+	Another possibility for the basis is the vector $\begin{bmatrix} 1 - i/2 & 1 \end{bmatrix}^{\top}$. The relation between the two vectors is
+		\begin{align*}
+		\begin{bmatrix}
+		5 \\ 4 + 2i
+		\end{bmatrix}
+		= (4 + 2i) \begin{bmatrix} 1 - i/2 \\ 1 \end{bmatrix} .
+		\end{align*}
+	\item[\underline{$E_{-2i}$}] We have to find all the solutions to $(-2iI - A)v = 0$. In matrix form, we have
+		\begin{align*}
+		(-2iI - A)v = 0 = \begin{bmatrix}
+		4 - 2i & -5 \\
+		4 & -4 - 2i
+		\end{bmatrix} \begin{bmatrix}
+		x \\ y
+		\end{bmatrix} = \begin{bmatrix}
+		0 \\ 0
+		\end{bmatrix} .
+		\end{align*}
+	We can see that the first row is a multiple of the second row, Therefore, the system has infinitely many solutions and we have, from the first equation,
+		\begin{align*}
+		(4-2i)x - 5y = 0 \quad \Ra \quad y = (4 - 2i)x/5 .
+		\end{align*}
+	Therefore, we obtain 
+		\begin{align*}
+		\begin{bmatrix}
+		x \\ y
+		\end{bmatrix} = \begin{bmatrix}
+		x \\ (4-2i)x/5
+		\end{bmatrix} = x/5 \begin{bmatrix}
+		5 \\ 4 - 2i
+		\end{bmatrix} .
+		\end{align*}
+	A basis for $E_{-2i}$ is $\begin{bmatrix} 5 & 4 - 2i \end{bmatrix}^{\top}$. Another possibility is the vector $\begin{bmatrix} 1 + i/2 & 1 \end{bmatrix}^{\top}$.
+	\end{enumerate}
+	
+	\newpage
+	
+	\exo{5.4}{25}{5}
+	\\
+	Suppose that $v$ is an eigenvector for the square matrix $A$ with the associated eigenvalue $\lambda = r$. We want to show that $v$ is also an eigenvector for $A^2$, but for the eigenvalue $\lambda = r^2$. Since $v$ is an eigenvector associated to $\lambda = r$, we have
+		\begin{align*}
+		Av = r v .
+		\end{align*}
+	If we apply a second time the matrix $A$ on the last equation, we get
+		\begin{align*}
+		A^2 v = A Av = A (r v) = r (Av)
+		\end{align*}
+	where the last equality comes from the associativity of the matrix multiplication and the scalar multiplication. Since $v$ is an eigenvector of $A$ associated to $\lambda = r$, we have
+		\begin{align*}
+		r (Av)= r (r v) = r^2 v .
+		\end{align*}
+	Therefore, we obtain
+		\begin{align*}
+		A^2 v = r^2 v .
+		\end{align*}
+	This is what we wanted to prove because it shows that $v$ is an eigenvector of $A^2$ with the eigenvalue $\lambda = r^2$.
+	
+	\newpage
+	
+	\exo{5.5}{2}{5}
+	\\
+	In Exercise 2, Section 5.4, the matrix $A$ was
+		\begin{align*}
+		A = \begin{bmatrix}
+		4 & -4 \\ 1 & 0
+		\end{bmatrix} .
+		\end{align*}
+	The number $\lambda = 2$ is the only eigenvalue of $A$. Also, we found that $\begin{bmatrix} 2 & 1 \end{bmatrix}^\top$ was a basis for the eigenspace $E_2$. We therefore have $\dim (E_2) = 1 \neq 2 = \dim (\mR^2 )$ and the matrix $A$ is not diagonalizable.
+	
+	\newpage
+	
+	\exo{5.5}{10}{10}
+	\\
+	The matrix in Exercise 10, Section 5.4 was
+		\begin{align*}
+		A = \begin{bmatrix}
+		-6 & 0 & -8 \\
+		-4 & 2 & -4 \\
+		4 & 0 & 6
+		\end{bmatrix} .
+		\end{align*}
+	We found that the numbers $\lambda_1 = 2$ and $\lambda_2 = -2$ were the eigenvalues of $A$. We also found that the vectors $\begin{bmatrix} 0 & 1 & 0 \end{bmatrix}^\top$, $\begin{bmatrix}
+	-1 & 0 & 1
+	\end{bmatrix}^\top$ form a basis for $E_2$ and the vector $\begin{bmatrix} -1/2 & 1 & 1 \end{bmatrix}^\top$ form a basis for $E_{-2}$. Therefore, we have
+		\begin{align*}
+		\dim (E_2) + \dim (E_{-2}) = 2 + 1 = 3 = \dim (\mR^3 ) .
+		\end{align*}
+	The condition is satisfied and the matrix $A$ is diagonalizable.
+	
+	To find $P$, we have to put the basis of the eigenspaces in a column. To ovoid fractions in the matrix $P$, we will scale by $2$ the vector $\begin{bmatrix} -1/2 & 1 & 1 \end{bmatrix}$. Therefore, we obtain
+		\begin{align*}
+		P = \begin{bmatrix}
+		0 & -1 & -1 \\
+		1 & 0 & 2 \\
+		0 & 1 & 2
+		\end{bmatrix} .
+		\end{align*}
+	Using Python, we compute the inverse $P^{-1}$:
+		\begin{align*}
+		P^{-1} = \left[\begin{matrix}-2 & 1 & -2\\-2 & 0 & -1\\1 & 0 & 1\end{matrix}\right] .
+		\end{align*}
+	The matrix $D$ similar to $A$ is
+		\begin{align*}
+		D = \begin{bmatrix}
+		2 & 0 & 0 \\
+		0 & 2 & 0 \\
+		0 & 0 & -2
+		\end{bmatrix} .
+		\end{align*}
+	We therefore have
+		\begin{align*}
+		A = P D P^{-1} .
+		\end{align*}
+		
+	\newpage
+	
+	\exo{5.5}{16}{10}
+	\\
+	From the work done in Exercise 16, Section 5.4, the eigenvalues of $A$ were $2i$ and $-2i$. We found that the vector $\begin{bmatrix} 5 & 4 + 2i \end{bmatrix}^\top$ forms a basis for $E_{2i}$ and the vector $\begin{bmatrix} 5 & 4 - 2i \end{bmatrix}^\top$ forms a basis for $E_{-2i}$. Therefore, we have
+		\begin{align*}
+		\dim (E_{2i}) + \dim (E_{-2i}) = 1 + 1 = \dim (\mathbb{C}^2 ) .
+		\end{align*}
+	The condition is satisfied and therefore the matrix $A$ is diagonalizable (over the complex numbers!).
+	
+	The matrix $P$ is obtained from joining the basis of $E_{2i}$ and $E_{-2i}$ in a matrix:
+		\begin{align*}
+		P = \begin{bmatrix}
+		5 & 5 \\
+		4 + 2i & 4 - 2i
+		\end{bmatrix} .
+		\end{align*}
+	The inverse $P^{-1}$ is computed with Python and the result is
+		\begin{align*}
+		P^{-1} = \left[\begin{matrix}\frac{1}{10} + \frac{i}{5} & - \frac{i}{4}\\\frac{1}{10} - \frac{i}{5} & \frac{i}{4}\end{matrix}\right] .
+		\end{align*}
+	The matrix $D$ similar to $A$ is
+		\begin{align*}
+		D = \begin{bmatrix}
+		2i & 0 \\
+		0 & -2i
+		\end{bmatrix} 
+		\end{align*}
+	and $A = P D P^{-1}$.
+	
+	\newpage
+	
+	\exo{5.5}{24}{5}
+	\\
+	The eigenvalues of the matrix are $\lambda_1 = 3$ and $\lambda_2 = -4$. Therefore, the canonical Jordan form is of the following shape:
+		\begin{align*}
+		D = \begin{bmatrix}
+		A_1 & 0 \\
+		0 & A_2
+		\end{bmatrix} .
+		\end{align*}
+	We now list the possibilities for $A_1$ and $A_2$ according to the geometric multiplicities of each eigenvalues.
+	\begin{enumerate}
+	\item The algebraic multiplicity of the eigen value $3$ is $2$ (because we have two times the factor $(\lambda - 3)$ in the characteristic polynomial). Therefore the matrix $A_1$ has dimension $2 \times 2$ with the number $3$ on the main diagonal.
+	
+	\underline{Geometric Multiplicity $= 1$.} In this case, we have
+		\begin{align*}
+		A_1 = \begin{bmatrix}
+		3 & 1 \\ 0 & 3
+		\end{bmatrix} .
+		\end{align*}
+	
+	\underline{Geometric Multiplicity $ = 2$.} In this case, we simply have a diagonal matrix:
+		\begin{align*}
+		A_1 = \begin{bmatrix}
+		3 & 0 \\ 0 & 3
+		\end{bmatrix} .
+		\end{align*}
+		
+	\item The algebraic multiplicity of the eigenvalue $-4$ is $4$ because the factor $(\lambda + 4)$ appears four times in the characteristic polynomial. Therefore the matrix $A_2$ has dimensions $4 \times 4$ with the number $-4$ on the main diagonal.
+	
+	\underline{Geometric Multiplicity $= 1$.} In this case, we have
+		\begin{align*}
+		A_2 = \begin{bmatrix}
+		-4 & 1 & 0 & 0 \\
+		0 & -4 & 1 & 0 \\
+		0 & 0 & -4 & 1 \\
+		0 & 0 & 0 & -4
+		\end{bmatrix} .
+		\end{align*}
+		
+	\underline{Geometric Multiplicity $=2$.} In this case, we have
+		\begin{align*}
+		A_2 = \begin{bmatrix}
+		-4 & 1 & 0 & 0 \\
+		0 & -4 & 1 & 0 \\
+		0 & 0 & -4 & 0 \\
+		0 & 0 & 0 & -4
+		\end{bmatrix} .
+		\end{align*}
+	\underline{Geometric Multiplicity $=3$.} In this case, we have
+		\begin{align*}
+		A_2 = \begin{bmatrix}
+		-4 & 1 & 0 & 0 \\
+		0 & -4 & 0 & 0 \\
+		0 & 0 & -4 & 0 \\
+		0 & 0 & 0 & -4
+		\end{bmatrix} .
+		\end{align*}
+	\underline{Geometric Multiplicity $=4$.} In this case, we simply obtain a diagonal matrix:
+		\begin{align*}
+		A_2 = \begin{bmatrix}
+		-4 & 0 & 0 & 0 \\
+		0 & -4 & 0 & 0 \\
+		0 & 0 & -4 & 0 \\
+		0 & 0 & 0 & -4
+		\end{bmatrix}
+		\end{align*} .
+	\end{enumerate}
+
+Therefore, there are $8$ possibilities for the Jordan Canonical Form:
+\begin{multicols}{2}
+	\begin{enumerate}
+	%Pos 1
+	\item[1.] $D = \begin{bmatrix}
+	3 & 1 & 0 & 0 & 0 & 0 \\
+	0 & 3 & 0 & 0 & 0 & 0 \\
+	0 & 0 & -4 & 1 & 0 & 0 \\
+	0 & 0 & 0 & -4 & 1 & 0 \\
+	0 & 0 & 0 & 0 & -4 & 1 \\
+	0 & 0 & 0 & 0 & 0 & -4
+	\end{bmatrix}$.
+	%Pos 2
+	\item[3.] $D = \begin{bmatrix}
+	3 & 1 & 0 & 0 & 0 & 0 \\
+	0 & 3 & 0 & 0 & 0 & 0 \\
+	0 & 0 & -4 & 1 & 0 & 0 \\
+	0 & 0 & 0 & -4 & 1 & 0 \\
+	0 & 0 & 0 & 0 & -4 & 0 \\
+	0 & 0 & 0 & 0 & 0 & -4
+	\end{bmatrix}$.
+	%Pos 3
+	\item[5.] $D = \begin{bmatrix}
+	3 & 1 & 0 & 0 & 0 & 0 \\
+	0 & 3 & 0 & 0 & 0 & 0 \\
+	0 & 0 & -4 & 1 & 0 & 0 \\
+	0 & 0 & 0 & -4 & 0 & 0 \\
+	0 & 0 & 0 & 0 & -4 & 0 \\
+	0 & 0 & 0 & 0 & 0 & -4
+	\end{bmatrix}$.
+	%Pos 4
+	\item[7.] $D = \begin{bmatrix}
+	3 & 1 & 0 & 0 & 0 & 0 \\
+	0 & 3 & 0 & 0 & 0 & 0 \\
+	0 & 0 & -4 & 0 & 0 & 0 \\
+	0 & 0 & 0 & -4 & 0 & 0 \\
+	0 & 0 & 0 & 0 & -4 & 0 \\
+	0 & 0 & 0 & 0 & 0 & -4
+	\end{bmatrix}$.
+	
+	%Pos 5
+	\item[2.] $D = \begin{bmatrix}
+	3 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 3 & 0 & 0 & 0 & 0 \\
+	0 & 0 & -4 & 1 & 0 & 0 \\
+	0 & 0 & 0 & -4 & 1 & 0 \\
+	0 & 0 & 0 & 0 & -4 & 1 \\
+	0 & 0 & 0 & 0 & 0 & -4
+	\end{bmatrix}$.
+	
+	%Pos 6
+	\item[4.] $D = \begin{bmatrix}
+	3 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 3 & 0 & 0 & 0 & 0 \\
+	0 & 0 & -4 & 1 & 0 & 0 \\
+	0 & 0 & 0 & -4 & 1 & 0 \\
+	0 & 0 & 0 & 0 & -4 & 0 \\
+	0 & 0 & 0 & 0 & 0 & -4
+	\end{bmatrix}$.
+	
+	%Pos 7
+	\item[6.] $D = \begin{bmatrix}
+	3 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 3 & 0 & 0 & 0 & 0 \\
+	0 & 0 & -4 & 1 & 0 & 0 \\
+	0 & 0 & 0 & -4 & 0 & 0 \\
+	0 & 0 & 0 & 0 & -4 & 0 \\
+	0 & 0 & 0 & 0 & 0 & -4
+	\end{bmatrix}$.
+	
+	%Pos 8
+	\item[8.] $D = \begin{bmatrix}
+	3 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 3 & 0 & 0 & 0 & 0 \\
+	0 & 0 & -4 & 0 & 0 & 0 \\
+	0 & 0 & 0 & -4 & 0 & 0 \\
+	0 & 0 & 0 & 0 & -4 & 0 \\
+	0 & 0 & 0 & 0 & 0 & -4
+	\end{bmatrix}$.
+	\end{enumerate}
+\end{multicols}
+
+	\newpage
+	
+	\exo{5.5}{32}{5}
+	\begin{enumerate}[label=\alph*)]
+	\item We have to find an invertible matrix $P$ such that $A = P AP^{-1}$. We can take $P = I$ where $I$ is the identity matrix. We therefore have $P^{-1} = I$ and $A = I A I$. So $A \sim A$.
+	\item Suppose that $A \sim B$. Then there is an invertible matrix $P$ such that $A = P B P^{-1}$. If we multiply by $P^{-1}$ on the left and by $P$ on the right, we obtain
+		\begin{align*}
+		P^{-1} A P = P^{-1} P B P^{-1} P = I B I = B .
+		\end{align*}
+	Therefore, using the matrix $P^{-1}$ in the definition of similarity between matrices, we see that $B \sim A$.
+	\item Suppose that $A \sim B$ and $B \sim C$. Therefore, there are invertible matrices $P$ and $Q$ such that
+		\begin{align*}
+		A = P B P^{-1} \quad \text{ and } \quad B = Q C Q^{-1} .
+		\end{align*}
+	We therefore have
+		\begin{align*}
+		A = P (Q C Q^{-1}) P^{-1} = P Q C Q^{-1} P^{-1} .
+		\end{align*}
+	Since $Q^{-1} P^{-1} = (PQ)^{-1}$, we can rewrite the previous equation as
+		\begin{align*}
+		PQ C Q^{-1} P^{-1} = PQ C (PQ)^{-1} .
+		\end{align*}
+	Since $P$ and $Q$ are invertible, then $PQ$ is an invertible matrix. Using $PQ$ as the matrix $P$ in the definition of similar matrices, we see that $A \sim C$. 
+	\end{enumerate}
+	
+	\vfill
+	
+	\hfill \textcolor{red}{\textsc{Total (Points): 60.}}
+	
+\end{document}

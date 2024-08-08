@@ -1,0 +1,44 @@
+Answers to Homework 8 questions.
+
+_____ Question 1 _____
+The solution is 
+ -1  
+ 0  
+ 2  
+Therefore, the answer is c).
+_______________________
+
+______ Question 2 ______
+The product is
+ 2  5  3  
+ 0  8  2  
+ 2  4  4  
+Therefore, the answer is c).
+_________________________
+
+______ Question 3 ______
+The eigenvalues are
+{2: 1, 2 - I: 1, 2 + I: 1}
+Therefore the answer is a).
+_________________________
+
+______ Question 4 ______
+The matrix A from the problem is
+ 8  -7/2  -3  
+ 12  -5  -6  
+ 8  -4  -2  
+The change of basis P is
+ 1  1  1  
+ 2  0  2  
+ 0  2  1  
+Therefore, the answer is c).
+_________________________
+
+_____ Question 5 _____
+The solution is
+y1 (t) = Eq(x(t), C1*exp(2*t) + C2*exp(4*t)/3 + C3*exp(6*t))
+y2 (t) = Eq(y(t), C1*exp(2*t) + 2*C2*exp(4*t)/3)
+y3 (t) = Eq(z(t), C1*exp(2*t) + C2*exp(4*t) + C3*exp(6*t))
+
+Therefore, the answer is b).
+_________________________

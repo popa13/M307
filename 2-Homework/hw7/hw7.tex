@@ -1,0 +1,426 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{lmodern}
+
+\usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{multicol}
+
+\usepackage{comment}
+\usepackage{url}
+\usepackage{calc}
+\usepackage{subcaption}
+
+\usepackage{array}
+\usepackage{blkarray,booktabs, bigstrut}
+
+\pgfplotsset{compat=1.16}
+
+% MATH commands
+\newcommand{\ga}{\left\langle}
+\newcommand{\da}{\right\rangle}
+\newcommand{\oa}{\left\lbrace}
+\newcommand{\fa}{\right\rbrace}
+\newcommand{\oc}{\left[}
+\newcommand{\fc}{\right]}
+\newcommand{\op}{\left(}
+\newcommand{\fp}{\right)}
+
+\newcommand{\bi}{\mathbf{i}}
+\newcommand{\bj}{\mathbf{j}}
+\newcommand{\bk}{\mathbf{k}}
+\newcommand{\bF}{\mathbf{F}}
+
+\newcommand{\mR}{\mathbb{R}}
+
+\newcommand{\ra}{\rightarrow}
+\newcommand{\Ra}{\Rightarrow}
+
+\newcommand{\sech}{\mathrm{sech}\,}
+\newcommand{\csch}{\mathrm{csch}\,}
+\newcommand{\curl}{\mathrm{curl}\,}
+\newcommand{\dive}{\mathrm{div}\,}
+
+\newcommand{\ve}{\varepsilon}
+\newcommand{\spc}{\vspace*{0.5cm}}
+
+\DeclareMathOperator{\Ran}{Ran}
+\DeclareMathOperator{\Dom}{Dom}
+
+\newcommand{\exo}[3]{\noindent\textcolor{red}{\fbox{\textbf{Section {#1} | Problem {#2} | {#3} points}}}\\}
+
+\begin{document}
+	\noindent \hrulefill \\
+	MATH-307 \hfill Pierre-Olivier Paris{\'e}\\
+	Homework 7 Solutions \hfill Summer 2022\\\vspace*{-0.7cm}
+	
+	\noindent\hrulefill
+	
+	\spc
+	
+	\exo{6.1}{2}{5}
+	\\
+	We have $Y_1 (x) = c_1 e^{2x} + c_2 e^{3x} - x/6 - 11/36$ and $Y_2(x) = 2c_1 e^{2x} + c_2 e^{3x} - 2x/3 - 1/18$. Therefore,
+		\begin{align*}
+		Y' = \begin{bmatrix}
+		Y_1' \\ Y_2'
+		\end{bmatrix} = \begin{bmatrix}
+		2c_1 e^{2x} + 3c_2 e^{3x} - 1/6 \\
+		4c_1 e^{2x} + 3c_2 e^{3x} - 2/3
+		\end{bmatrix} 
+		\end{align*}
+	and
+		\begin{align*}
+		A Y + \begin{bmatrix} 1 \\ x \end{bmatrix} &= \begin{bmatrix} 4 & -1 \\ 2 & 1 \end{bmatrix} \begin{bmatrix}
+		Y_1 \\ Y_2
+		\end{bmatrix} + \begin{bmatrix} 1 \\ x \end{bmatrix} \\
+		&= \begin{bmatrix}
+		2c_1 e^{2x} + 3c_2 e^{3x} - 1/6 \\
+		4c_1 e^{2x} + 3c_2 e^{3x} - 2/3
+		\end{bmatrix} .
+		\end{align*}
+	So $Y$ is a solution to the system of ODEs.
+	
+	\newpage
+	
+	\exo{6.1}{4}{5}
+	\\
+	We compute the Wronskien. We have
+		\begin{align*}
+		W (Y_1(x), Y_2(x) , Y_3(x) ) &= \begin{vmatrix}
+		e^{-2x} & 0 & 0 \\
+		0 & 3\cos 5x & \sin 5x \\
+		0 & -3\sin 5x & \cos 5x
+		\end{vmatrix} \\
+		&= e^{-2x} \begin{vmatrix}
+		3\cos 5x & \sin 5x \\
+		-3\sin 5x & \cos 5x
+		\end{vmatrix} \\
+		&= e^{-2x} (3 \cos^2 5x + 3 \sin^2 5x ) \\
+		&= 3e^{-2x}
+		\end{align*}
+	where in the last equality, we used the identity $\sin^2 (5x) + \cos^2 (5x) = 1$. Therefore, since the exponential function is never zero, this means that $3e^{-2x} \neq 0$ for at least one $x$. Therefore, the Wronskian is not zero for at least one $x$ and the vector of functions are linearly independent.
+	
+	\newpage
+	
+	\exo{6.1}{5}{5}
+	\\
+	The solution is
+		\begin{align*}
+		Y (x) = \begin{bmatrix}
+		c_1 e^{x} \\
+		c_2 e^{-2x}
+		\end{bmatrix} = c_1 \begin{bmatrix}
+		e^x \\ 0
+		\end{bmatrix} + c_2 \begin{bmatrix}
+		0 \\ e^{-2x}
+		\end{bmatrix} .
+		\end{align*}
+	A foundamental set of solutions for the system of ODEs is therefore
+		\begin{align*}
+		\begin{bmatrix}
+		e^x \\ 0
+		\end{bmatrix} , \, \begin{bmatrix} 0 \\ e^{-2x} \end{bmatrix} .
+		\end{align*}
+		
+	\newpage
+	
+	\exo{6.1}{11}{5}
+	\\
+	The general solution is
+		\begin{align*}
+		Y(x) = \begin{bmatrix}
+		c_1 e^{-x}\\
+		c_2 \\
+		c_3 e^{4x}
+		\end{bmatrix} .
+		\end{align*}
+	From the initial condition, we must have
+		\begin{align*}
+		\begin{bmatrix}
+		2 \\ 1 \\ 0
+		\end{bmatrix} = Y(0) = \begin{bmatrix}
+		c_1 \\ c_2 \\ c_3
+		\end{bmatrix}
+		\end{align*}
+	and therefore $c_1 = 2$, $c_2 = 1$ and $c_3 = 0$. The solution to the initial value problem is
+		\begin{align*}
+		Y(x) =  \begin{bmatrix}
+		2 e^{-x}  \\
+		1  \\
+		 0
+		\end{bmatrix} .
+		\end{align*}
+		
+	\newpage
+	
+	\exo{6.2}{2}{10}
+	\\
+	The system to solve is
+		\begin{align*}
+		Y' = \begin{bmatrix}
+		6 & -8 \\ 4 & -6
+		\end{bmatrix} Y
+		\end{align*}
+		
+	The eigenvalues of $A$ are $-2$ and $2$. The diagonal matrix similar to $A$ is
+		\begin{align*}
+		D = \left[\begin{matrix}-2 & 0\\0 & 2\end{matrix}\right]
+		\end{align*}
+	and the change of basis $P$ such that $D = P^{-1} A P$ is
+		\begin{align*}
+		P = \left[\begin{matrix}1 & 2\\1 & 1\end{matrix}\right]
+		\end{align*}
+	
+	\paragraph*{Solve the diagonal system.}
+	\phantom{2}
+	
+	\noindent The system $Y' = AY$ becomes $Y' = PDP^{-1} Y$ and multiplying by $P^{-1}$, we obtain the system 
+		\begin{align*}
+		P^{-1} Y' = D P^{-1} Y .
+		\end{align*}
+	By letting $Z = P^{-1} Y$, the diagonal system is then $Z' = D Z$. The solution is therefore
+		\begin{align*}
+		Z = \begin{bmatrix}
+		c_1 e^{-2x} \\ c_2 e^{2x}
+		\end{bmatrix}. 
+		\end{align*}
+		
+	\paragraph*{Solve the general system.}
+	\phantom{2}
+	
+	\noindent We know that $Z = P^{-1} Y$ and therefore $Y = P Z$. By multiplying $Z$ by $P$, we obtain
+		\begin{align*}
+		Y = \begin{bmatrix} 1 & 2 \\ 1 & 1 \end{bmatrix} \begin{bmatrix}
+		c_1 e^{-2x} \\ c_2 e^{2x}
+		\end{bmatrix} = \begin{bmatrix}
+		c_1 e^{-2x} + 2c_2 e^{2x} \\
+		c_1 e^{-2x} + c_2 e^{2x}
+		\end{bmatrix} .
+		\end{align*}
+		
+	\newpage
+	
+	\exo{6.2}{14}{5}
+	\\
+	 From the problem 2, the general solution is
+	 	\begin{align*}
+	 	Y = \begin{bmatrix}
+		c_1 e^{-2x} + 2c_2 e^{2x} \\
+		c_1 e^{-2x} + c_2 e^{2x}
+		\end{bmatrix} .
+	 	\end{align*}
+	 Therefore, we must have
+	 	\begin{align*}
+	 	\begin{bmatrix} 0 \\ -1 \end{bmatrix} = Y(0) = \begin{bmatrix}
+	 	c_1 + 2c_2 \\ c_1 + c_2
+	 	\end{bmatrix} .
+	 	\end{align*}
+	 This is a system of linear equations in the unknown $c_1$ and $c_2$. After solving it, we obtain $c_1 = -2$ and $c_2 = 1$. The solution to the initial value problem is
+	 	\begin{align*}
+	 	Y (x) = \begin{bmatrix}
+	 	-2 e^{-2x} + 2 e^{2x} \\
+	 	-2 e^{-2x} + e^{2x}
+	 	\end{bmatrix} .
+	 	\end{align*}
+	
+	
+	\newpage
+	
+	\exo{6.3}{2}{10}
+	\\
+	The system of ODEs is
+		\begin{align*}
+		Y' = \begin{bmatrix}
+		4 & -4 \\ 1 & 0
+		\end{bmatrix} Y .
+		\end{align*}
+	The eigenvalue of $A$ is $2$ with algebraic multiplicity two, but the matrix $A$ is not diagonalizable. Using Python, we obtain the Jordan Canonical Form and the change of basis:
+		\begin{align*}
+		B = \begin{bmatrix}
+		2 & 1 \\
+		0 & 2
+		\end{bmatrix} \quad \text{ and} \quad 
+		P = \begin{bmatrix}
+		2 & 1 \\ 1 & 0
+		\end{bmatrix}
+		\end{align*}
+		
+	\paragraph*{Solve the upper-triagular System.}
+	\phantom{2}
+	
+	\noindent Using the matrix $P$, we have to solve the system of ODEs
+		\begin{align*}
+		Z' = BZ = \begin{bmatrix}
+		2 & 1 \\ 0 & 2
+		\end{bmatrix} \begin{bmatrix} Z_1 \\ Z_2 \end{bmatrix} \quad \longleftrightarrow \quad 
+		\left\{ \begin{matrix}
+		Z_1' = 2Z_1 + Z_2 \\
+		Z_2' = 2Z_2
+		\end{matrix} \right.
+		\end{align*}
+	The solution to the second equation is $Z_2 (z) = c_2 e^{2x}$. We now have to solve $Z_1' = 2Z_1 + c_2 e^{2x}$. The solution to the homogeneous part is $Z_{1, H} (x) = c_1 e^{2x}$. The particular solution is
+		\begin{align*}
+		Z_{1, P} (x) = e^{2x} \int e^{-2x} c_2 e^{2x} \, dx = c_2 x e^{2x} .
+		\end{align*}
+	Therefore, we obtain
+		\begin{align*}
+		Z_1 = Z_{1, H} + Z_{1, P} = c_1 e^{2x} + c_2 x e^{2x} .
+		\end{align*}
+	So, we have
+		\begin{align*}
+		Z = \begin{bmatrix}
+		c_1 e^{2x} + c_2 xe^{2x} \\
+		c_2 e^{2x}
+		\end{bmatrix} .
+		\end{align*}
+		
+	\paragraph*{Solve the general System.}
+	\phantom{2}
+	
+	\noindent We know that $Z = P^{-1} Y$ and therefore
+		\begin{align*}
+		Y = PZ = \begin{bmatrix}
+		2 & 1 \\ 1 & 0
+		\end{bmatrix} \begin{bmatrix}
+		c_1 e^{2x} + c_2 xe^{2x} \\
+		c_2 e^{2x}
+		\end{bmatrix} = \begin{bmatrix}
+		2c_1 e^{2x} + c_2 (1 + 2x) e^{2x} \\
+		c_1 e^{2x} + c_2 x e^{2x}
+		\end{bmatrix} .
+		\end{align*}
+		
+	\newpage
+	
+	\exo{6.3}{10}{5}
+	\\
+	From the Problem 2, the general solution is
+		\begin{align*}
+		Y = \begin{bmatrix}
+		2c_1 e^{2x} + c_2 (1 + 2x) e^{2x} \\
+		c_1 e^{2x} + c_2 x e^{2x}
+		\end{bmatrix} .
+		\end{align*}
+	The initial condition is $Y(0) = \begin{bmatrix} 0 & -1 \end{bmatrix}^{\top}$ and this gives the following system for $c_1$ and $c_2$:
+		\begin{align*}
+		\begin{bmatrix}
+		2c_1 + c_2 \\
+		c_1
+		\end{bmatrix} = \begin{bmatrix}
+		0 \\ -1
+		\end{bmatrix} .
+		\end{align*}
+	We obtain $c_1 = -1$ and $c_2 = 2$ adn therefore
+		\begin{align*}
+		Y = \begin{bmatrix}
+		-2 e^{2x} + 2 (1 + 2x) e^{2x} \\
+		- e^{2x} + 2 x e^{2x}
+		\end{bmatrix} .
+		\end{align*}
+		
+	\vfill
+	
+	\hfill \textcolor{red}{\textsc{Total (Points): 50.}}
+	
+\end{document}
+
+\newpage
+	
+	\exo{6.4}{4}
+	\\
+	The system of ODEs is
+		\begin{align*}
+		Y' = \begin{bmatrix} -4 & 5 \\ -4 & 4 \end{bmatrix} Y + \begin{bmatrix} x \\ e^{2x} \end{bmatrix} .
+		\end{align*}
+	The diagonal form of $A$ and the change of basis are
+		\begin{align*}
+		D = \begin{bmatrix}
+		-2i & 0 \\
+		0 & 2i
+		\end{bmatrix} \quad \text{ and } \quad P = \begin{bmatrix}
+		1 + i/2 & 1 - i/2 \\
+		1 & 1
+		\end{bmatrix} .
+		\end{align*}
+		
+	\paragraph*{Solve the Homogeneous Part.}
+	\phantom{2}
+	
+	\noindent The diagonal system is
+		\begin{align*}
+		Z' = \begin{bmatrix} -2i & 0 \\ 0 & 2i \end{bmatrix} Z
+		\end{align*}
+	where $Z = P^{-1} Y$. The solution is
+		\begin{align*}
+		Z (x) = \begin{bmatrix}
+		c_1e^{-2ix} \\ c_2e^{2ix}
+		\end{bmatrix}
+		\end{align*}
+	Consider each entry individually:
+		\begin{itemize}
+		\item for $Z_1 = \begin{bmatrix} e^{-2ix} & 0 \end{bmatrix}^{\top}$, then
+			\begin{align*}
+			Y_1 = P Z_1 = \left[\begin{matrix}\left(1 + \frac{i}{2}\right) e^{- 2 ix}\\e^{- 2 ix}\end{matrix}\right] .
+			\end{align*}
+		Since $e^{-2ix} = \cos (2x ) - i \sin (2x)$, we obtain
+			\begin{align*}
+			Y_1(x) = \begin{bmatrix}
+			\cos (2x) + \frac{\sin (2x)}{2} \\
+			\cos (2x)
+			\end{bmatrix} + 
+			i \begin{bmatrix}
+			\frac{\cos (2x)}{2} - \sin (2x) \\
+			-\sin (2x) 
+			\end{bmatrix}
+			\end{align*}
+		\item We don't use the second entry because this is simply the conjugate and it won't give more information.
+		\end{itemize}
+	Therefore, the functions 
+		\begin{align*}
+		U(x) = \begin{bmatrix}
+			\cos (2x) + \frac{\sin (2x)}{2} \\
+			\cos (2x)
+			\end{bmatrix} \quad \text{ and } \quad
+		V(x) = \begin{bmatrix}
+			\frac{\cos (2x)}{2} - \sin (2x) \\
+			-\sin (2x) 
+			\end{bmatrix}
+		\end{align*}
+	is a foundamental set of solutions for the system of ODEs $Y' = AY$. Therefore, the general solution to the homogeneous part is
+		\begin{align*}
+		Y_H (x) = c_1 U(x) + c_2 V(x) = \begin{bmatrix}
+		(c_1 + c_2/2) \cos (2x) + (c_1/2 - c_2) \sin (2x) \\
+		c_1 \cos (2x) - c_2 \sin (2x) 
+		\end{bmatrix} .
+		\end{align*}
+		
+	\newpage
+		
+	\paragraph*{Find a particular Solution to the non-homogeneous part.}
+	\phantom{2}
+	
+	\noindent The fundamental matrix of solution is
+		\begin{align*}
+		M = \begin{bmatrix}
+		\cos (2x) + \frac{\sin (2x)}{2} & \frac{\cos (2x)}{2} - \sin (2x) \\
+			\cos (2x) & -\sin (2x)
+			\end{bmatrix}
+		\end{align*}
+	A particular solution is given by
+		\begin{align*}
+		Y_P (x) = M (x) \int M^{-1} (x) G(x) \, dx .
+		\end{align*}
+	The inverse of $M$ is
+		\begin{align*}
+		M^{-1} (x) = \begin{bmatrix}
+		\frac{\sin (2x)}{2} & - \frac{\sin (2x)}{2} + \frac{\cos (2x)}{4} \\
+		\frac{\cos (2x)}{2} & -\frac{\cos (2x)}{2} - \frac{\sin (2x)}{4}
+		\end{bmatrix} .
+		\end{align*}

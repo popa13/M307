@@ -1,0 +1,8 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{What is an Eigenvalue and an Eigenvector?}{2}{section*.1}%
+\contentsline {subsection}{Example: Markov Processes}{2}{subsection*.2}%
+\contentsline {subsection}{Definition}{3}{subsection*.3}%
+\contentsline {subsection}{Method to Find Eigenvalues}{4}{subsection*.4}%
+\contentsline {section}{When the Eigenvalues are Complex Numbers}{7}{section*.5}%
+\contentsline {subsection}{Complex numbers}{7}{subsection*.6}%
+\contentsline {subsection}{Complex Eigenvalues}{8}{subsection*.7}%

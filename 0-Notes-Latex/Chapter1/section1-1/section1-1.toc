@@ -1,0 +1,16 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{Why do we care about Systems of Linear Equations?}{2}{section*.1}%
+\contentsline {section}{Terminology}{3}{section*.2}%
+\contentsline {subsection}{Linear Equation}{3}{subsection*.3}%
+\contentsline {subsection}{Systems of Linear Equations}{3}{subsection*.4}%
+\contentsline {subsection}{Solution of a System of Linear Equations}{3}{subsection*.5}%
+\contentsline {section}{How do we solve systems of linear equations?}{4}{section*.6}%
+\contentsline {subsection}{Systems of two linear equations with two variables}{4}{subsection*.7}%
+\contentsline {subsection}{Gauss-Jordan Elimination}{4}{subsection*.8}%
+\contentsline {subsection}{Augmented Matrix}{6}{subsection*.9}%
+\contentsline {subsection}{Elementary operations revisited}{6}{subsection*.10}%
+\contentsline {section}{More Terminology}{9}{section*.11}%
+\contentsline {subsection}{Reduced row-echelon form}{9}{subsection*.12}%
+\contentsline {subsection}{Consistent Systems vs Inconsistent Systems}{9}{subsection*.13}%
+\contentsline {subsection}{Homogeneous System}{9}{subsection*.14}%
+\contentsline {section}{Gaussian Elimination}{10}{section*.15}%

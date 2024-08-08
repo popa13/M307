@@ -1,0 +1,582 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{environ}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[colorlinks = true, linkcolor = black]{hyperref}
+\usepackage{xparse}
+\usepackage{enumerate}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{multicol}
+
+\newcommand{\spaceP}{\vspace*{0.5cm}}
+
+%% Redefining sections
+\newcommand{\sectionformat}[1]{%
+    \begin{tikzpicture}[baseline=(title.base)]
+        \node[rectangle, draw] (title) {#1};
+    \end{tikzpicture}
+    
+    \noindent\hrulefill
+}
+
+% default values copied from titlesec documentation page 23
+% parameters of \titleformat command are explained on page 4
+\titleformat%
+    {\section}% <command> is the sectioning command to be redefined, i. e., \part, \chapter, \section, \subsection, \subsubsection, \paragraph or \subparagraph.
+    {\normalfont\large\scshape}% <format>
+    {}% <label> the number
+    {0em}% <sep> length. horizontal separation between label and title body
+    {\centering\sectionformat}% code preceding the title body  (title body is taken as argument)
+
+%% Set counters for sections to none
+\setcounter{secnumdepth}{0}
+
+%% Set the footer/headers
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{2pt}
+\lfoot{P.-O. Paris{\'e}}
+\cfoot{MATH 307}
+\rfoot{Page \thepage}
+
+%% Defining example environment
+\newcounter{example}[section]
+\NewEnviron{example}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{red}{Example~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+% Theorem environment
+\NewEnviron{theorem}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{blue}{Theorem~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+%% Commands for matrix of dimensions m x n
+%\newcommand{\matMN}[1]{%
+%	\begin{bmatrix}
+%	#1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+%	#1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+%	#1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+%	\vdots & \vdots & \vdots & \ddots & \vdots \\
+%	#1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+%	\end{bmatrix}		
+%	}
+	
+\NewDocumentCommand{\matMN}{mg}{%
+	\IfNoValueTF{#2}
+		{%
+		  \begin{bmatrix}
+		   #1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+	       #1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+		   #1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+		   \end{bmatrix}	%
+		}
+		{%
+		   \begin{bmatrix}
+		   #1_{11} + #2_{11} & #1_{12} + #2_{12} & \cdots & #1_{1n} + #2_{2n} \\
+		   #1_{21} + #2_{21} & #1_{22} + #2_{22} & \cdots & #1_{2n} + #2_{2n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} + #2_{m1} & #1_{m2} + #2_{m2} & \cdots & #1_{mn} + #2_{mn}
+		   \end{bmatrix}
+		}%
+}
+
+%%%%
+
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+\vspace*{2.5cm}
+
+{\Huge \textsc{Math 307}}
+
+\vspace*{2cm}
+
+{\LARGE \textsc{Chapter 1}} 
+
+\vspace*{0.75cm}
+
+\noindent\textsc{Section 1.2: Matrices and Matrix Operations}
+
+\vspace*{0.75cm}
+
+\tableofcontents
+
+\vfill
+
+\noindent \textsc{Created by: Pierre-Olivier Paris{\'e}} \\
+\textsc{Summer 2022}
+\end{center}
+
+\newpage
+
+\section{What are Matrices?}
+
+\subsection{Definition}
+A matrix is a bunch of numbers arranged in $m$ rows and $n$ columns like an array:
+	\begin{align*}
+	A = \begin{bmatrix}
+	a_{11} & a_{12} & a_{13} & \cdots & a_{1n} \\
+	a_{21} & a_{22} & a_{23} & \cdots & a_{2n} \\
+	a_{31} & a_{32} & a_{33} & \cdots & a_{3n} \\
+	\vdots & \vdots & \vdots & \ddots & \vdots \\
+	a_{m1} & a_{m2} & a_{m3} & \cdots & a_{mn}
+	\end{bmatrix} .
+	\end{align*}
+
+\begin{multicols}{2}
+\begin{itemize}
+\item $a_{ij}$ are the elements/entries of the matrix. Here are some notations to describe the entries of a matrix:
+	\begin{itemize}
+	\item $\mathrm{ent}_{ij} (A)$.
+	\item $A = [a_{ij}]$.
+	\end{itemize}
+\item The dimensions of a matrix is the number of rows ($m$) and of columns ($n$). To specify the dimensions, we say \textit{an $m \times n$ matrix $A$}.
+\item The set of all matrices of dimensions $m \times n$ is denoted by $M_{m \times n} (\mathbb{R})$.
+\end{itemize}
+\end{multicols}
+
+\vspace*{12pt}
+
+\begin{example}
+Here are some examples of matrices:
+	\begin{align*}
+	A = \begin{bmatrix}
+	1 & 2 & 3 \\
+	4 & 5 & 6 
+	\end{bmatrix} ,
+	\quad
+	B = \begin{bmatrix}
+	1 & 2 & 3 \\
+	4 & 5 & 6 \\
+	7 & 8 & 9
+	\end{bmatrix} ,
+	\quad
+	C = \begin{bmatrix}
+	1 \\ -2 \\ 4 \\ 0 
+	\end{bmatrix} , 
+	\quad
+	D = \begin{bmatrix}
+	-1 & 3 & 0 & 0.5 & \pi 
+	\end{bmatrix} .
+	\end{align*}
+\end{example}
+
+\subsection{Some Types of Matrices}
+
+\begin{itemize}
+\item A row matrix is a matrix a dimensions $1 \times n$.
+	\begin{itemize}
+	\item \underline{Remark}: row matrices are models for row vectors.
+	\end{itemize}
+\item A column matrix is a matrix of dimensions $m \times 1$. 
+	\begin{itemize}
+	\item \underline{Remark}: column matrices are models for column vectors.
+	\end{itemize}
+\item Square matrices are matrices of dimensions $n \times n$ (same number of rows and number of columns). 
+	\begin{itemize}
+	\item The elements $a_{11}$, $a_{22}$, $\ldots$, $a_{nn}$ of a square matrix are called diagonal entries.
+	\end{itemize}
+\end{itemize}
+
+\begin{example}
+For each matrix in Example 1,
+	\begin{multicols}{2}
+	\begin{enumerate}
+	\item Give the dimensions;
+	\item If possible, give the type of the matrix.
+	\end{enumerate}
+	\end{multicols}
+\end{example}
+
+\newpage
+
+\section{Arithmetic with Matrices}
+
+\subsection{Equality}
+Two matrices $A = [a_{ij}]$ and $B = [b_{ij}]$ are equal, written $A = B$, if 
+	\begin{itemize}
+	\item they have the same dimensions and;
+	\item they have the same entries, that is $a_{ij} = b_{ij}$ for all indices $i$, $j$.
+	\end{itemize}
+	
+	\begin{example}
+	Determine if the matrices $A$ and $B$ are equal.
+		\begin{multicols}{2}
+		\begin{enumerate}
+		\item $A = \begin{bmatrix}
+		-1 & 2 \\ 1 & 12
+		\end{bmatrix}$ and $B = \begin{bmatrix}
+		5 & 2 \\ 1 & 12
+		\end{bmatrix}$.
+		\item $A = \begin{bmatrix}
+		1 \\ 2
+		\end{bmatrix}$ and $B = \begin{bmatrix}
+		1 & 2
+		\end{bmatrix}$.
+		\end{enumerate}
+		\end{multicols}
+	\end{example}
+	
+	\vspace*{2cm}
+
+\subsection{Addition}
+A matrix $A = [a_{ij}]_{m \times n}$ is added to another matrix $B = [b_{ij}]_{m \times n}$ in the following way:
+
+\begin{footnotesize}
+	\begin{align*}
+	\matMN{a} + \matMN{b} := \matMN{a}{b}
+	\end{align*}
+\end{footnotesize}
+
+\vspace*{8pt}
+
+\noindent\underline{Remark:} To add two matrices together, they must have the same dimensions! Otherwise, it doesn't make sense!
+
+\vspace*{16pt}
+	
+	\begin{example}
+	Add together the given matrices, if possible.
+	\begin{multicols}{2}
+		\begin{enumerate}[a)]
+		\item $A = \begin{bmatrix}
+		1 & 2 \\ 3 & 4 \\ 5 & 6
+		\end{bmatrix}$ and
+		$B = \begin{bmatrix}
+		8 & 9 \\
+		10 & 11 \\
+		12 & 13
+		\end{bmatrix}$.
+		\item $A = \begin{bmatrix}
+		-2 & 5 \\ 3 & 1
+		\end{bmatrix}$ and
+		$B = \begin{bmatrix}
+		3 & 0 & -2
+		\end{bmatrix}$.
+		\end{enumerate}
+	\end{multicols}
+	\end{example}
+
+\newpage
+
+\subsection{Scalar Multiplication}
+We can multiply a matrix by a number. Given a number $t$, we define 
+	\begin{align*}
+	t \matMN{a} := \matMN{t a} .
+	\end{align*}
+
+\noindent\underline{Remark}: A number will be called, in many circumstances, a scalar.
+
+\vspace*{16pt}
+	
+	\begin{example}
+	Give the resulting matrix after performing the following operations:
+		\begin{align*}
+		2 \begin{bmatrix}
+		1 & 2 \\ 3 & 4
+		\end{bmatrix} - \begin{bmatrix}
+		-1 & -2 \\ 1 & 2
+		\end{bmatrix} .
+		\end{align*}
+	\end{example}
+	
+	\vfill
+	
+	\noindent\underline{Remarks}:
+		\begin{itemize}
+		\item In general, the operation $A - B$ is defined by $A + (-B)$ where $-B$ is $B$ multiplied by the scalar $-1$.
+		\item The zero matrix $O_{m \times n}$ of dimensions $m \times n$ is the matrix containing only zeros:
+			\begin{align*}
+			O_{2 \times 3} = \begin{bmatrix}
+			0 & 0 & 0 \\ 0 & 0 & 0
+			\end{bmatrix}
+			\quad O_{3 \times 1} = \begin{bmatrix}
+			0 \\ 0 \\ 0
+			\end{bmatrix} .
+			\end{align*}
+		\item Adding the zero matrix doesn't change anything: $O_{m \times n} + A = A + O_{m \times n} = A$.
+		\item Multiplying by the number $0$ changes all the entries of the matrix $A$: $0 A = O_{m \times n}$.
+		\item Here are basic arithmetic with the addition and scalar multiplication: If $A$, $B$, and $C$ are matrices of the same size and if $s$ and $t$ are numbers, then
+		\begin{multicols}{2}
+			\begin{enumerate}
+			\item $A + B = B + A$.
+			\item $A + (B + C) = (A + B) + C$ .
+			\item $s (tA) = (st) A$.
+			\item $s (A + B) = sA + sB$.
+			\item $(s + t) A = sA + tA$.
+			\end{enumerate}
+		\end{multicols}
+	\end{itemize}
+
+\newpage
+
+\subsection{Matrix Multiplication}
+
+	\noindent\underline{\textbf{Row Matrix times a Column Vector}}
+	
+	\vspace*{12pt}
+	
+	\begin{example}
+	In a hale'kū'ai, there are selling oranges, pineaples, and mangos. A pound of oranges cost \$$2$, a pound of pineaples is \$$3$, and a pound of mangos is \$$4$. You buy $2$ pounds of oranges, $3$ pounds of pineaples, and $2$ pounds of mangos. What is the total cost of your purchase?
+	\end{example}
+	
+	\vfill
+	
+	\noindent\underline{In General}: Given a row vector $v = \begin{bmatrix} a_1 & a_2 & \cdots & a_n \end{bmatrix}$ and a column vector
+		\begin{align*}
+		u = \begin{bmatrix}
+		b_1 \\ b_2 \\ \vdots \\ b_n
+		\end{bmatrix} ,
+		\end{align*}
+	we define the product $v u$ by
+		\begin{align*}
+		v u := a_1 b_1 + a_2 b_2 + \cdots + a_n b_n .
+		\end{align*}
+		
+	\noindent\underline{Remark}: 
+		\begin{itemize}
+		\item We see that multiplying a matrix of dimensions $1 \times n$ with a matrix of dimensions $n \times 1$ gives a matrix of dimensions $1 \times 1$ (a number).
+		\item If the number of elements in the vector $v$ would be different from the number of elements in the vector $u$, then the product $vu$ doesn't make sense. In this case, we can't perform the operation!
+		\end{itemize}
+		
+
+\newpage
+
+	\noindent\underline{\textbf{Matrix times a Column Vector}}
+	
+	\vspace*{12pt}
+	
+	\begin{example}
+	Your friend and you are in the same hale'kū'ai. You decide to buy $5$ pounds of oranges, $2$ pounds of pineaples and $1$ pound mangos. Your friend, prefering mangos over the other fruits, buys $2$ pounds of oranges, $2$ pounds of pineaples, and $10$ pounds of mangos. How much did it cost to you and your friend?
+	\end{example}
+	
+	\vfill
+	
+	\noindent\underline{In General}: Given a $m \times n$ matrix $A$ and a $n \times 1$ column vector $u$, the product $Au$ is the new matrix $C = [c_j]_{1 \leq j \leq m}$ of dimensions $m \times 1$ where
+		\begin{align*}
+		c_1 &= a_{11} b_1 + a_{12} b_2 + \cdots + a_{1n} b_n \\
+		c_2 &= a_{21} b_1 + a_{22} b_2 + \cdots + a_{2n} b_n \\
+		& \qquad \vdots \\
+		c_m &= a_{m1} b_1 + a_{m2} b_2 + \cdots + a_{mn} b_n .
+		\end{align*}
+		
+	\noindent\underline{Remarks}:
+		\begin{itemize}
+		\item Multiplying a matrix of dimensions $m \times n$ with a matrix of dimensions $n \times 1$ results in a matrix of dimensions $m \times 1$.
+		\item To multiplying a matrix with a column vector, the number of columns in the matrix must be the same as the number of elements in the column vector.
+		\end{itemize}
+	
+\newpage
+
+	\noindent\underline{\textbf{Matrix times a Matrix}}
+	
+	\vspace*{12pt}
+	
+	\noindent Let $A$ and $B$ be two matrices
+		\begin{align*}
+		A = \begin{bmatrix}
+		a_{11} & a_{12} & a_{13} & \cdots & a_{1n} \\
+		a_{21} & a_{22} & a_{23} & \cdots & a_{2n} \\
+		a_{31} & a_{32} & a_{33} & \cdots & a_{3n} \\
+		\vdots & \vdots & \vdots & \ddots & \vdots \\
+		a_{m1} & a_{m2} & a_{m3} & \cdots & a_{mn}
+		\end{bmatrix} 
+		\quad \text{ and } \quad
+		B = \begin{bmatrix}
+		b_{11} & b_{12} & b_{13} & \cdots & b_{1k} \\
+		b_{21} & b_{22} & b_{23} & \cdots & b_{2k} \\
+		b_{31} & b_{32} & b_{33} & \cdots & b_{3k} \\
+		\vdots & \vdots & \vdots & \ddots & \vdots \\
+		b_{n1} & b_{n2} & b_{n3} & \cdots & b_{nk}
+		\end{bmatrix} .
+		\end{align*}
+		
+	\noindent We will adopt the following notation
+		\begin{align*}
+		B = \begin{bmatrix}
+		B_1 & B_2 & B_3 & \cdots & B_k
+		\end{bmatrix}
+		\end{align*}
+	where $B_1$, $B_2$, $\ldots$, $B_k$ are the columns of $B$:
+		\begin{align*}
+		B_1 = \begin{bmatrix}
+		b_{11} \\ b_{21} \\ \vdots \\ b_{m1}
+		\end{bmatrix} , \quad
+		B_2 = \begin{bmatrix}
+		b_{21} \\ b_{22} \\ \vdots \\ b_{m2}
+		\end{bmatrix} , \quad \cdots , \quad
+		B_k = \begin{bmatrix}
+		b_{1k} \\ b_{2k} \\ \vdots \\ b_{mk}
+		\end{bmatrix} .
+		\end{align*}
+	
+	
+	\vspace*{16pt}
+	
+	\noindent The multiplication of $A$ with $B$ is defined as the new matrix $C$ of dimensions $m \times k$:
+		\begin{align*}
+		C = \begin{bmatrix}
+		A B_1 & A B_2 & A B_3 & \cdots & A B_k
+		\end{bmatrix} .
+		\end{align*}
+	In other words, the columns $C_1$, $C_2$, $\ldots$, $C_k$ of the matrix $C$ is the column vectors $AB_1$, $AB_2$, $\ldots$, $AB_k$.
+	
+	\vspace*{16pt}
+	
+	\noindent\underline{Remarks}:
+	\begin{itemize}
+	\item To multiply a matrix $A$ with a matrix $B$, the number of columns of $A$ must agree with the number of rows of $B$. If this is not satisfied, the product $AB$ is not defined!
+	\item The identity matrix is the square matrix $I_n$ with all $1$ on the diagonal and zeros elsewhere:
+		\begin{align*}
+		I_2 = \begin{bmatrix}
+		1 & 0 \\ 0 & 1
+		\end{bmatrix} , \quad
+		I_3 = \begin{bmatrix}
+		1 & 0 & 0 \\
+		0 & 1 & 0 \\
+		0 & 0 & 1
+		\end{bmatrix} \quad \text{ and } \quad
+		I_4 = \begin{bmatrix}
+		1 & 0 & 0 & 0 \\
+		0 & 1 & 0 & 0 \\
+		0 & 0 & 1 & 0 \\
+		0 & 0 & 0 & 1
+		\end{bmatrix} .
+		\end{align*}
+	\item The identity matrix is such that $I_m A = A$ and $A I_n = A$ for any matrix $A$ of dimensions $m \times n$.
+	\item We can multiply several times the same matrix with itself. This is the \textit{powers of a matrix}. If $A$ is a square matrix, then
+		\begin{align*}
+		A^1 = A , \quad A^2 = AA , \quad A^3 = A^2 A = AAA , \cdots \quad A^n = A^{n-1} A = \underbrace{AA \cdots A}_{n \text{ times}}
+		\end{align*}
+	\item Here are some basic arithmetic with the matrix multiplication:
+		\begin{enumerate}
+		\item $A (BC) = (AB)C$;
+		\item $A (B + C) = AB + AC$;
+		\item $(A + B)C = AC + BC$;
+		\item $\lambda (AB) = (\lambda A) B = A (\lambda B)$.
+		\end{enumerate}
+	\end{itemize}
+	
+\newpage
+	
+	\begin{example}
+	If possible, compute the products $AB$ and $BA$ where
+		\begin{align*}
+		A = \begin{bmatrix}
+		1 & 2 & -1 \\
+		1 & -3 & 1 \\
+		-2 & 2 & 1
+		\end{bmatrix}
+		\quad \text{and} \quad
+		B = \begin{bmatrix}
+		0 & 0 \\
+		1 & 0 \\
+		0 & 1 
+		\end{bmatrix} .
+		\end{align*}
+	\end{example}
+	
+\newpage
+
+	\begin{example}
+	If possible, compute the products $AB$ and $BA$ where
+		\begin{align*}
+		A = \begin{bmatrix}
+		1 & 2 & 3 \\
+		2 & 4 & 6 \\
+		-1 & -2 & -3
+		\end{bmatrix}
+		\quad \text{and} \quad
+		B = \begin{bmatrix}
+		0 & 0 & 1 \\
+		1 & 0 & 0 \\
+		0 & 1 & 0
+		\end{bmatrix} .
+		\end{align*}
+	\end{example}
+	
+	\vfill
+	
+	\noindent\underline{Remark}:
+	
+	\vspace*{2cm}
+	
+\newpage
+	
+\section{Connection with System of Linear Equations}
+Consider
+	\begin{align*}
+	a_{11} x_1 + a_{12} x_2 + \cdots + a_{1n} x_n = b_1 \\
+	a_{21} x_1 + a_{22} x_2 + \cdots + a_{2n} x_n = b_2 \\
+	\vdots \phantom{aaaaaaaaaaaaa} \\
+	a_{m1} x_1 + a_{m2} x_2 + \cdots + a_{mn} x_n = b_m  .
+	\end{align*}
+	
+\subsection{Augmented Matrix Notation}
+	
+	\begin{align*}
+	\begin{bmatrix}
+	a_{11} & a_{12} & \cdots & a_{1n} & b_1 \\
+	a_{21} & a_{22} & \cdots & a_{2n} & b_2 \\
+	\vdots & \vdots & \vdots & \vdots & \vdots \\
+	a_{m1} & a_{m2} & \cdots & a_{mn} & b_m
+	\end{bmatrix}
+	\end{align*}
+	
+One side of the coin!
+
+\subsection{Rewriting a System in Matrix form}
+Letting
+	\begin{align*}
+	A = \matMN{a} , \quad X = \begin{bmatrix}
+	x_1 \\ x_2 \\ x_3 \\ \vdots \\ x_n
+	\end{bmatrix}
+	\quad \text{ and } \quad B = \begin{bmatrix}
+	b_1 \\ b_2 \\ b_3 \\ \vdots \\ b_m 
+	\end{bmatrix}
+	\end{align*}
+we can rewrite the system as	
+	\begin{align*}
+	AX = B	.
+	\end{align*}
+	
+\begin{example}
+Rewrite the following system in its matrix form:
+	\begin{align*}
+	3x_1 + 4x_2 - 5x_3 = 1 \\
+	5x_1 + 5x_2 - 3x_3 = 2 \\
+	-2 x_1 - 5x_2 + 0.5 x_3 = 3 .
+	\end{align*}
+\end{example}
+
+
+\end{document}

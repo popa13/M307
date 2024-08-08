@@ -1,0 +1,302 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{environ}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[colorlinks = true, linkcolor = black]{hyperref}
+\usepackage{xparse}
+\usepackage{enumerate}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{multicol}
+
+\newcommand{\spaceP}{\vspace*{0.5cm}}
+
+%% Redefining sections
+\newcommand{\sectionformat}[1]{%
+    \begin{tikzpicture}[baseline=(title.base)]
+        \node[rectangle, draw] (title) {#1};
+    \end{tikzpicture}
+    
+    \noindent\hrulefill
+}
+
+% default values copied from titlesec documentation page 23
+% parameters of \titleformat command are explained on page 4
+\titleformat%
+    {\section}% <command> is the sectioning command to be redefined, i. e., \part, \chapter, \section, \subsection, \subsubsection, \paragraph or \subparagraph.
+    {\normalfont\large\scshape}% <format>
+    {}% <label> the number
+    {0em}% <sep> length. horizontal separation between label and title body
+    {\centering\sectionformat}% code preceding the title body  (title body is taken as argument)
+
+%% Set counters for sections to none
+\setcounter{secnumdepth}{0}
+
+%% Set the footer/headers
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{2pt}
+\lfoot{P.-O. Paris{\'e}}
+\cfoot{MATH 307}
+\rfoot{Page \thepage}
+
+%% Defining example environment
+\newcounter{example}[section]
+\NewEnviron{example}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{red}{Example~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+% Theorem environment
+\NewEnviron{theorem}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{blue}{Theorem~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+%% Commands for matrix of dimensions m x n
+%\newcommand{\matMN}[1]{%
+%	\begin{bmatrix}
+%	#1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+%	#1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+%	#1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+%	\vdots & \vdots & \vdots & \ddots & \vdots \\
+%	#1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+%	\end{bmatrix}		
+%	}
+	
+\NewDocumentCommand{\matMN}{mg}{%
+	\IfNoValueTF{#2}
+		{%
+		  \begin{bmatrix}
+		   #1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+	       #1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+		   #1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+		   \end{bmatrix}	%
+		}
+		{%
+		   \begin{bmatrix}
+		   #1_{11} + #2_{11} & #1_{12} + #2_{12} & \cdots & #1_{1n} + #2_{2n} \\
+		   #1_{21} + #2_{21} & #1_{22} + #2_{22} & \cdots & #1_{2n} + #2_{2n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} + #2_{m1} & #1_{m2} + #2_{m2} & \cdots & #1_{mn} + #2_{mn}
+		   \end{bmatrix}
+		}%
+}
+
+%%%%
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+\vspace*{2.5cm}
+
+{\Huge \textsc{Math 307}}
+
+\vspace*{2cm}
+
+{\LARGE \textsc{Chapter 1}} 
+
+\vspace*{0.75cm}
+
+\noindent\textsc{Section 1.6: Further Properties of Determinants}
+
+\vspace*{0.75cm}
+
+\tableofcontents
+
+\vfill
+
+\noindent \textsc{Created by: Pierre-Olivier Paris{\'e}} \\
+\textsc{Summer 2022}
+\end{center}
+
+\newpage
+
+\section{Determinants and Algebraic Operations}
+
+	\subsection{Invertibility}
+	
+	A square matrix $A$ is invertible if and only if $\det (A) \neq 0$.
+	
+	\vspace*{16pt}
+	
+	\noindent\underline{Remark}: 
+	\begin{itemize}
+	\item If $A$ is an invertible matrix, then $\det (A^{-1}) = 1/\det (A)$.
+	\item Determinant can help to determine if a system of linear equations has a solution or not.
+	\end{itemize}
+	
+	\vspace*{16pt}
+	
+	\begin{example}
+	Which of the following matrices are invertible:
+		\begin{align*}
+		A = \begin{bmatrix}
+		1 & 2 \\
+		2 & 3 
+		\end{bmatrix}, 
+		\quad
+		B = \begin{bmatrix}
+		1 & 2 & 3 & 4 \\
+		-4 & -3 & -2 & 1 \\
+		0 & 0 & 0 & 0 \\
+		1 & 4 & 5 & 9
+		\end{bmatrix}
+		\quad \text{ and } \quad
+		C = \begin{bmatrix}
+		1 & 2 & -1 \\
+		0 & 3 & -1 \\
+		0 & 0 & 4
+		\end{bmatrix} .
+		\end{align*}
+	\end{example}
+	
+	\newpage
+	
+	\subsection{Matrix Multiplication}
+	
+	If $A$ and $B$ are two $n \times n$ matrices, then
+		\begin{align*}
+		\det (AB ) = \det (A) \det (B) .
+		\end{align*}
+	
+	\begin{example}
+	Knowing that $\det (A) = 2$ and $\det (AB ) = 32$, find the determinant of the matrix $B$.
+	\end{example}
+	
+	\vspace*{10cm}
+	
+	\subsection{Transpose}
+	If $A$ is a square matrix, then $\det (A^\top ) = \det (A)$.
+	
+	\vspace*{16pt}
+	
+	\begin{example}
+	If $A$ is the matrix
+		\begin{align*}
+		A = \begin{bmatrix}
+		1 & 2 & 3 \\
+		0 & 5 & -2 \\
+		0 & 0 & 1
+		\end{bmatrix}, 
+		\end{align*}
+	then find the determinant of $AA^{\top}$.
+	\end{example}
+	
+\newpage
+
+\section{Ajoint of a Matrix}
+
+	\subsection{Matrix of Cofactors}
+	
+	The cofactor matrix is the matrix $C$ of all the cofactors of a given matrix $A$. If $A$ has dimensions $n \times n$, then
+		\begin{align*}
+		C = \begin{bmatrix}
+		C_{11} & C_{12} & \cdots & C_{1n} \\
+		C_{21} & C_{22} & \cdots & C_{2n} \\
+		\vdots & \vdots & \ddots & \vdots \\
+		C_{n1} & C_{n2} & \cdots & C_{nn} 
+		\end{bmatrix} 
+		\end{align*}
+	where each $C_{ij}$ is the cofactor obtained from $A$.
+	
+	\vspace*{16pt}
+	
+	\begin{example}\label{Example:CofactorMatrix}
+	Find the matrix of cofactors of the following matrix
+		\begin{align*}
+		A = \begin{bmatrix}
+		-2 & 3 & 0 \\
+		4 & 10 & 2 \\
+		-5 & 7 & 0
+		\end{bmatrix} .
+		\end{align*}
+	\end{example}
+	
+	\newpage
+	
+	\subsection{Definition of the Adjoint}
+	The adjoint of a matrix $A$ of dimensions $n \times n$ is the transpose of the cofactor matrix. 
+	
+	\vspace*{16pt}
+	
+	\noindent Explicitly, we denote the adjoint of $A$ by $\mathrm{adj}\, (A)$ and its expression is
+	\begin{align*}
+	\mathrm{adj} (A) = C^{\top} = \begin{bmatrix}
+		C_{11} & C_{21} & \cdots & C_{n1} \\
+		C_{12} & C_{22} & \cdots & C_{n2} \\
+		\vdots & \vdots & \ddots & \vdots \\
+		C_{1n} & C_{2n} & \cdots & C_{nn} 
+		\end{bmatrix}  .
+	\end{align*}
+	
+	\begin{example}
+	Find the adjoint of the matrix in Example \ref{Example:CofactorMatrix}.
+	\end{example}
+	
+	\vfill
+	
+	\subsection{Another Way to Find the Inverse}
+	If $A$ is an invertible matrix, then	
+		\begin{align*}
+		A^{-1} = \frac{1}{\det (A)} \mathrm{adj} \, (A) .
+		\end{align*}
+	
+	\begin{example}
+	Find the inverse of the matrix in Example \ref{Example:CofactorMatrix}.
+	\end{example}
+	
+	\vfill
+	
+\newpage
+
+\section{Cramer's Rule}
+	
+	Suppose that $AX = B$ is a system of $n$ linear equations in $n$ unknowns such that $\det (A) \neq 0$. Let 
+		\begin{itemize}
+		\item $A_1$ be the matrix obtained from $A$ by replacing the first column of $A$ by $B$;
+		\item $A_2$ be the matrix obtained from $A$ by replacing the second column of $A$ by $B$.
+		\item etc.
+		\end{itemize}
+	Then the solutions to the system are
+		\begin{align*}
+		x_1 = \frac{\det (A_1)}{\det (A)} , \quad x_2 = \frac{\det (A_2)}{\det (A)} , \quad \ldots , \quad x_n = \frac{\det (A_n)}{\det (A)} .
+		\end{align*}
+
+	
+	\begin{example}
+	Use Cramer's rule to solve the system
+		\begin{align*}
+		-2x + 3y \phantom{+ 2z} = 2 \\
+		4x + 10y + 2z = 3 \\
+		-5x + 7y \phantom{+ 2z} = 1 .
+		\end{align*}
+	\end{example}
+
+\end{document}

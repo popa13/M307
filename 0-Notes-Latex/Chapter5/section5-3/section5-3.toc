@@ -1,0 +1,7 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{Linear Transformation as A Matrix}{2}{section*.1}%
+\contentsline {section}{Matrix of the Composition}{5}{section*.2}%
+\contentsline {section}{Matrix and Evaluation of Transformations}{6}{section*.3}%
+\contentsline {section}{Change of Basis}{7}{section*.4}%
+\contentsline {subsection}{Matrix of a Change of Basis}{7}{subsection*.5}%
+\contentsline {subsection}{Consequence on the Matrix of a Linear Transformation}{9}{subsection*.6}%

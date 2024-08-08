@@ -1,0 +1,5 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{Operations on Linear Transformations}{2}{section*.1}%
+\contentsline {subsection}{Addition}{2}{subsection*.2}%
+\contentsline {subsection}{Scalar Multiplication}{2}{subsection*.3}%
+\contentsline {subsection}{Composition or Multiplication of Operators}{3}{subsection*.4}%

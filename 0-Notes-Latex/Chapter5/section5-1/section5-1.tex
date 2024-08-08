@@ -1,0 +1,355 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{environ}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[colorlinks = true, linkcolor = black]{hyperref}
+\usepackage{xparse}
+\usepackage{enumerate}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{multicol}
+\usepackage[indent=0pt]{parskip}
+
+\newcommand{\spaceP}{\vspace*{0.5cm}}
+\newcommand{\Span}{\mathrm{Span}\,}
+\newcommand{\range}{\mathrm{range}\,}
+
+%% Redefining sections
+\newcommand{\sectionformat}[1]{%
+    \begin{tikzpicture}[baseline=(title.base)]
+        \node[rectangle, draw] (title) {#1};
+    \end{tikzpicture}
+    
+    \noindent\hrulefill
+}
+
+% default values copied from titlesec documentation page 23
+% parameters of \titleformat command are explained on page 4
+\titleformat%
+    {\section}% <command> is the sectioning command to be redefined, i. e., \part, \chapter, \section, \subsection, \subsubsection, \paragraph or \subparagraph.
+    {\normalfont\large\scshape}% <format>
+    {}% <label> the number
+    {0em}% <sep> length. horizontal separation between label and title body
+    {\centering\sectionformat}% code preceding the title body  (title body is taken as argument)
+
+%% Set counters for sections to none
+\setcounter{secnumdepth}{0}
+
+%% Set the footer/headers
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{2pt}
+\lfoot{P.-O. Paris{\'e}}
+\cfoot{MATH 307}
+\rfoot{Page \thepage}
+
+%% Defining example environment
+\newcounter{example}[section]
+\NewEnviron{example}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{red}{Example~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+% Theorem environment
+\NewEnviron{theorem}%
+	{%
+	\noindent\refstepcounter{example}\fcolorbox{gray!40}{gray!40}{\textsc{\textcolor{blue}{Theorem~\theexample.}}}%
+	%\fcolorbox{black}{white}%
+		{  %\parbox{0.95\textwidth}%
+			{
+			\BODY
+			}%
+		}%
+	}
+
+%% Commands for matrix of dimensions m x n
+%\newcommand{\matMN}[1]{%
+%	\begin{bmatrix}
+%	#1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+%	#1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+%	#1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+%	\vdots & \vdots & \vdots & \ddots & \vdots \\
+%	#1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+%	\end{bmatrix}		
+%	}
+	
+\NewDocumentCommand{\matMN}{mg}{%
+	\IfNoValueTF{#2}
+		{%
+		  \begin{bmatrix}
+		   #1_{11} & #1_{12} & #1_{13} & \cdots & #1_{1n} \\
+	       #1_{21} & #1_{22} & #1_{23} & \cdots & #1_{2n} \\
+		   #1_{31} & #1_{32} & #1_{33} & \cdots & #1_{3n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} & #1_{m2} & #1_{m3} & \cdots & #1_{mn}
+		   \end{bmatrix}	%
+		}
+		{%
+		   \begin{bmatrix}
+		   #1_{11} + #2_{11} & #1_{12} + #2_{12} & \cdots & #1_{1n} + #2_{2n} \\
+		   #1_{21} + #2_{21} & #1_{22} + #2_{22} & \cdots & #1_{2n} + #2_{2n} \\
+		   \vdots & \vdots & \vdots & \ddots & \vdots \\
+		   #1_{m1} + #2_{m1} & #1_{m2} + #2_{m2} & \cdots & #1_{mn} + #2_{mn}
+		   \end{bmatrix}
+		}%
+}
+
+%%%%
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+\vspace*{2.5cm}
+
+{\Huge \textsc{Math 307}}
+
+\vspace*{2cm}
+
+{\LARGE \textsc{Chapter 5}} 
+
+\vspace*{0.75cm}
+
+\noindent\textsc{Section 5.1: Linear Transformations}
+
+\vspace*{0.75cm}
+
+\tableofcontents
+
+\vfill
+
+\noindent \textsc{Created by: Pierre-Olivier Paris{\'e}} \\
+\textsc{Summer 2022}
+\end{center}
+
+\newpage
+
+\section{What is a Linear Transformation?}
+\underline{Convention}:
+
+The addition and scalar multiplication on the set of column vectors $\mathbb{R}^n$ are the usual ones that make $\mathbb{R}^n$ a vector space. If the addition is changed, it will be mentioned explicitly in the text.
+
+	\subsection{Definition}
+	If $V$ and $W$ are vector spaces, a function $T : V \rightarrow W$ is called a \textbf{linear transformation} if, for all vectors $u$ and $v$ in $V$ and all scalars $c$, the following two properties are satisfied:
+		\begin{enumerate}
+		\item $T (u + v) = T(u) + T(v)$;
+		\item $T(cv) = c T(v)$.
+		\end{enumerate}
+		
+	\vspace*{12pt}
+
+	\begin{example}
+	Let $A$ be an $m \times n$ matrix. We define $T : \mathbb{R}^n \rightarrow \mathbb{R}^m$ by
+		\begin{align*}
+		T (X) := A X
+		\end{align*}
+	where $X$ is an $n \times 1$ column vector. Verify that the function $T$ is a linear transformation.
+	\end{example}
+	
+	\newpage
+	
+	\begin{example}
+	Verify if the given function $T : \mathbb{R}^3 \rightarrow \mathbb{R}^2$ defined by
+		\begin{align*}
+		T \left( \begin{bmatrix}
+		x \\ y \\ z
+		\end{bmatrix} \right) = \begin{bmatrix}
+		x + y - z \\ x + 2y + z
+		\end{bmatrix}
+		\end{align*}
+	is a linear transformation.
+	\end{example}
+	
+	\newpage
+	
+	\begin{example}
+	Let $D(a, b)$ be the subspace of $F(a, b)$ of differentiable function on the interval $(a, b)$. Define the function $T : D (a, b) \rightarrow F (a, b)$ by
+		\begin{align*}
+		T (f) := f'
+		\end{align*}
+	meaning that $T (f) (x) = f'(x)$ for every $x$ in $(a, b)$. Verify that $T$ is a linear transformation.
+	\end{example}
+	
+	\vfill
+	
+	\underline{Remark}: The linear transformation in the previous example is called a differential operator and is quite useful in the theory of ODE and PDE.
+	
+	\newpage
+	
+	\section{Basic Properties}
+	If $T : V \rightarrow W$ is a linear transformation, then we can prove that
+		\begin{itemize}
+		\item $T(0) = 0$;
+		\item $T(-v) = -T(v)$ for any vector $v$ in $V$;
+		\item $T(u - v) = T(u) - T(v)$ for any vector $u$, $v$ in $V$.
+		\end{itemize}
+		
+	There is another important property of a linear transformation which we shall illustrate by an example.
+	
+	\begin{example}
+	Suppose that $T : \mathbb{R}^3 \rightarrow \mathbb{R}^2$ is a linear transformation so that
+		\begin{align*}
+		T \left( \begin{bmatrix}
+		1 \\ 1 \\ 0
+		\end{bmatrix} \right) = \begin{bmatrix}
+		2 \\ 3
+		\end{bmatrix}
+		\text{, } \quad
+		T \left( \begin{bmatrix}
+		0 \\ 1 \\ 1
+		\end{bmatrix} \right) = \begin{bmatrix}
+		0 \\ 3
+		\end{bmatrix}
+		\quad \text{ and } \quad
+		T \left( \begin{bmatrix}
+		1 \\ 0 \\ 1
+		\end{bmatrix} \right) = \begin{bmatrix}
+		0 \\ 2
+		\end{bmatrix} .
+		\end{align*}
+	Find the value of $T \left( \begin{bmatrix}
+		1 \\ 3 \\ 0
+		\end{bmatrix} \right) $. 
+	\end{example}
+	
+	\vfill
+	
+	\underline{Fact}: If $v_1$, $v_2$, $\ldots$, $v_n$ form a basis, then the values of a linear transformation $T$ is determined by its value on $v_1$, $v_2$, $\ldots$, $v_n$ because for any $v \in V$, we have
+		\begin{align*}
+		T(v) = T(c_1 v_1 + c_2 v_2 + \cdots + c_n v_n) = c_1 T(v_1 ) + c_2 T(v_2) + \cdots + c_n T(v_n) .
+		\end{align*}
+		
+	\newpage
+		
+	\section{Subspaces of a Linear Transformation}
+	
+	\subsection{Kernel}
+	If $T : V \rightarrow W$ is a linear transformation, then the \textbf{kernel} of $T$ is the set of all vectors $v$ in $V$ such that $T(v) = 0$. In set notation:
+		\begin{align*}
+		\ker (T) = \{ v \in V \, : \, T(v) = 0 \} .
+		\end{align*}
+		
+	This is in general a subspace of $V$.
+		
+	\begin{example}\label{Ex:kernelBasis}
+	Find a basis for the kernel of the linear transformation
+		\begin{align*}
+		T \left( \begin{bmatrix}
+		x \\ y \\ z
+		\end{bmatrix} \right) = \begin{bmatrix}
+		x + y - z \\ x + 2y + z
+		\end{bmatrix} .
+		\end{align*}
+	\end{example}
+	
+	\vfill
+	
+	\underline{Remark}: The kernel of a transformation is related to the solutions of the system of linear equations $AX = 0$ when $T (X) = AX$ with $A$ an $m \times n$ matrix. In this particular situation, the kernel $\ker (T)$ is called the \textbf{null space} of $A$ also denoted by $NS (A)$. In other words, we have
+		\begin{align*}
+		NS (A) = \ker (T) .
+		\end{align*}
+		
+	\newpage
+	
+	\subsection{Range}
+	If $T : V \rightarrow W$ is a linear transformation, then the \textbf{range} of $T$ is the set of all vectors $T(v)$ where $v$ is in $V$. In set notation:
+		\begin{align*}
+		\range (T) = \{  T(v) \, : \, v \in V \} .
+		\end{align*}
+	
+	This is in general a subspace of $W$.
+	
+	\underline{Facts}: 
+		\begin{itemize}
+		\item Finding a basis for the range of a tranformation $T$ given by $T(X) = AX$ where $A$ is an $m \times n$ matrix is equivalent to finding a basis for the spanning set of the columns of the matrix $A$.
+		\item The subspace spans by the column of a matrix $A$ is called the \textbf{column space} and is denoted by $CS (A)$.
+		\end{itemize}
+		
+	\begin{example}\label{Ex:RangeBasis}
+	Find a basis for the range of the linear transformation of Example \ref{Ex:kernelBasis} using the column space of a certain matrix.
+	\end{example}
+	
+	\newpage
+	
+	In summary, to find $\range (T)$ or $CS (A)$ for a linear transformation of the form $T(X) = AX$, we follow these steps:
+		\begin{itemize}
+		\item express $T(v)$ as a linear combination of column vectors $v_1$, $v_2$, $\ldots$, $v_n$.
+		\item Write each vector in a matrix $A = \begin{bmatrix} v_1 & v_2 & \cdots & v_n \end{bmatrix}$.
+		\item Find the RREF of $A$.
+		\item The column with the first $1$ in a row will be a pivot and the vector corresponding to the column will be part of the basis.
+		\end{itemize}
+	
+	\underline{Fact}: We call $\dim (CS (A)) = \dim (\range (T))$ the \textbf{rank} of the matrix $A$ or transformation $T$.
+	
+	\subsection{Rank-Nullity Identity}
+	We define
+		\begin{itemize}
+		\item the \textbf{nullity} of a linear transformation $T$ as the dimension of $\ker (T)$.
+		\item the \textbf{rank} of a linear transformation $T$ as the dimension of $\range (T)$.
+		\end{itemize}
+	 
+	 Here is an important identity relating the rank and the nullity of a linear transformation.
+	 
+	 \vspace*{10pt}
+	 
+	 \begin{theorem}
+	 If $T : V \rightarrow W$ is a linear transformation, then
+	 	\begin{align*}
+	 	\dim (\ker (T)) + \dim (\range (T)) = \dim (V) .
+	 	\end{align*}
+	 \end{theorem}
+	 
+	 \underline{Remark}: For an $m \times n$ matrix, we obtain
+	 	\begin{align*}
+	 	\dim (NS (A)) + \dim (CS (A)) = n .
+	 	\end{align*}
+	 
+	 \vspace*{14pt}
+	 
+	 \begin{example}
+	 Verify the Rank-Nullity Identity for the matrix in Example \ref{Ex:kernelBasis} and Example \ref{Ex:RangeBasis}.
+	 \end{example}
+
+\end{document}
+
+
+\subsection{Row Subspace of a Matrix}
+	Given an $m \times n$ matrix $A$, the subspace spanned by the rows of $A$ is called the \textbf{row space} of $A$ and is denoted by
+		\begin{align*}
+		RS (A) .
+		\end{align*}
+		
+	\vspace*{12pt}
+	
+	We will say that a matrix $A$ is row equivalent to a matrix $B$ if we can obtain $B$ from $A$ by a sequence of row operations on $A$.
+	
+	\vspace*{12pt}
+	
+	\begin{theorem}
+	If $A$ is row equivalent to $B$, then $RS (A) = RS (B)$.
+	\end{theorem}
+	
+	\vspace*{12pt}
+	
+	\begin{example}
+	Use the last Theorem to find a basis for the row space of the matrix in Example \ref{Ex:kernelBasis}.
+	\end{example}
+	
+	\newpage
