@@ -44,7 +44,7 @@ I used Python regularly outside and during lectures. You can see in the table in
 I hope this will help you plan you class. 
 
 # Final remarks
-All the pictures used in the lecture notes are from the main textbook used at UH Manoa *Calculus* by James Stuart. 
+The content in the lecture notes was taken from the textbook Linear Algebra and Differential Equations, by Gary L. Peterson and James S. Sochacki.
 
 If you want to download all the files from this repository as a .zip on your computer, follow the steps illustrated in the picutre below.
 
